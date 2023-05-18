@@ -32,10 +32,16 @@ export interface AppState {
     account: string | null;
     chain: Network;
     balance: number;
+    composantSniper: number[];
 }
 
 export interface Routers {
     [key: string]: {
         address: string;
     };
+}
+
+export interface ParamsSniper {
+    blockchain: string;
+    routerAdress: string;
 }

@@ -45,3 +45,15 @@ export const balanceReducer = (
             return state;
     }
 };
+
+export const composantSniperReducer = (
+    state = initialState.composantSniper,
+    action: AnyAction
+) => {
+    switch (action.type) {
+        case "composantSniper":
+            return [...state, action.value];
+        default:
+            return state;
+    }
+};
