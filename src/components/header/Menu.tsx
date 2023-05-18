@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function Menu() {
-    const [params, setParams] = useState();
     const dispatch = useDispatch();
 
     function addComposantSnipe() {

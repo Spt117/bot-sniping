@@ -27,17 +27,23 @@ export interface Request {
     body: string;
 }
 
+export interface ObjetSniper {
+    blockchain: string;
+    routerAdress: string;
+}
+
 export interface AppState {
     isConnect: boolean;
     account: string | null;
     chain: Network;
     balance: number;
-    composantSniper: number[];
+    composantSniper: ObjetSniper[];
 }
 
 export interface Routers {
     [key: string]: {
         address: string;
+        networks: string[];
     };
 }
 

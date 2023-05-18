@@ -13,11 +13,7 @@ if (typeof window !== "undefined") {
 }
 
 const networks: Networks = {
-    goerli: {
-        name: "Testnet Goerli",
-        logo: ethImage,
-        symbol: "ETH",
-    },
+    goerli: { name: "Testnet Goerli", logo: ethImage, symbol: "ETH" },
     sepolia: { name: "Testnet Sepolia", logo: ethImage, symbol: "ETH" },
     mainnet: { name: "Ethereum", logo: ethImage, symbol: "ETH" },
     matic: { name: "Polygon", logo: ethImage, symbol: "MATIC" },
@@ -25,10 +21,12 @@ const networks: Networks = {
 };
 
 const routers: Routers = {
-    uniswapV3: {
+    UniswapV3: {
         address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
+        networks: ["mainnet", "goerli", "matic", "bnb"],
     },
-    pancakeSwap: {
+    PancakeSwap: {
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
+        networks: ["bnb", "mainnet"],
     },
 };
