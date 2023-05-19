@@ -4,10 +4,11 @@ import ParamSnipe from "./ParamSnipe";
 
 export default function Generator() {
     const snipe = useSelector((state: any) => state.composantSniper);
+    const bool = useSelector((state: any) => state.addASniper);
 
     return (
         <>
-            <ParamSnipe />
+            {bool && <ParamSnipe />}
             {snipe.map((sniper: any, index: number) => (
                 <Snipe key={index} sniper={sniper} />
             ))}

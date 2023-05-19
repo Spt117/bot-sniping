@@ -2,7 +2,7 @@ import { networks, routers } from "@/library/constantes";
 import { ParamsSniper } from "@/library/interfaces";
 import { useDispatch } from "react-redux";
 import React from "react";
-import { myComposantSniper } from "@/redux/actions";
+import { myAddASniper, myComposantSniper } from "@/redux/actions";
 import { useState } from "react";
 
 export default function ParamSnipe() {
@@ -18,6 +18,7 @@ export default function ParamSnipe() {
 
     function addComposantSnipe() {
         dispatch(myComposantSniper(params));
+        dispatch(myAddASniper(false));
     }
 
     return (

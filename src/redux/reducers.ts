@@ -46,6 +46,18 @@ export const balanceReducer = (
     }
 };
 
+export const isAddASniperReducer = (
+    state = initialState.addASniper,
+    action: AnyAction
+) => {
+    switch (action.type) {
+        case "addASniper":
+            return action.value;
+        default:
+            return state;
+    }
+};
+
 export const composantSniperReducer = (
     state = initialState.composantSniper,
     action: AnyAction

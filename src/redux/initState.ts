@@ -5,5 +5,6 @@ export const initialState: AppState = {
     account: "",
     chain: { name: "Non-connecté", id: null },
     balance: 0,
+    addASniper: false,
     composantSniper: [],
 };

@@ -20,6 +20,11 @@ export const myBalance = (balance: number) => ({
     value: balance,
 });
 
+export const myAddASniper = (addASniper: boolean) => ({
+    type: "addASniper",
+    value: addASniper,
+});
+
 export const myComposantSniper = (composant: any) => ({
     type: "composantSniper",
     value: composant,

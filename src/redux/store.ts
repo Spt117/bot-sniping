@@ -4,6 +4,7 @@ import {
     balanceReducer,
     chainReducer,
     composantSniperReducer,
+    isAddASniperReducer,
     isConnectReducer,
 } from "./reducers";
 
@@ -13,6 +14,7 @@ export const store = configureStore({
         isConnect: isConnectReducer,
         chain: chainReducer,
         balance: balanceReducer,
+        addASniper: isAddASniperReducer,
         composantSniper: composantSniperReducer,
     },
 });

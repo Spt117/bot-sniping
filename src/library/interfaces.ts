@@ -37,6 +37,7 @@ export interface AppState {
     account: string | null;
     chain: Network;
     balance: number;
+    addASniper: boolean;
     composantSniper: ObjetSniper[];
 }
 
