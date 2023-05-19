@@ -58,7 +58,7 @@ export default function Header() {
     return (
         <>
             <header>
-                <Menu />
+                {boolIsConnect && <Menu />}
                 <div className="containerHeader">
                     {boolIsConnect && (
                         <>
