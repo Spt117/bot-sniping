@@ -2,8 +2,8 @@
 const nextConfig = {
     reactStrictMode: true,
     env: {
-        infura: process.env.INFURA,
-        privateKey: process.env.PRIVATE_KEY,
+        infura: process.env.infura,
+        privateKey: process.env.privateKey,
     },
 };
 
