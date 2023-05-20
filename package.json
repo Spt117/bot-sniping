@@ -13,6 +13,8 @@
     "@types/node": "20.1.7",
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
+    "@uniswap/sdk-core": "^3.2.2",
+    "@uniswap/v3-sdk": "^3.9.0",
     "dotenv": "^16.0.3",
     "ethers": "^6.3.0",
     "mongoose": "^7.1.1",
@@ -21,5 +23,8 @@
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "hardhat": "^2.0.0"
   }
 }
