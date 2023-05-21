@@ -13,8 +13,8 @@ if (typeof window !== "undefined") {
 }
 
 const networks: Networks = {
-    goerli: { name: "Testnet Goerli", logo: ethImage, symbol: "ETH" },
-    sepolia: { name: "Testnet Sepolia", logo: ethImage, symbol: "ETH" },
+    goerli: { name: "Goerli Testnet", logo: ethImage, symbol: "ETH" },
+    sepolia: { name: "Sepolia Testnet", logo: ethImage, symbol: "ETH" },
     mainnet: { name: "Ethereum", logo: ethImage, symbol: "ETH" },
     matic: { name: "Polygon", logo: ethImage, symbol: "MATIC" },
     bnb: { name: "Binance Smart Chain", logo: ethImage, symbol: "BNB" },

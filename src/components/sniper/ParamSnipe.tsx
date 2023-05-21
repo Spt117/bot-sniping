@@ -36,7 +36,7 @@ export default function ParamSnipe() {
     return (
         <div id="paramSnipe">
             <Close functionClose={() => dispatch(myAddASniper(false))} />
-            <label htmlFor="Blockchain">Blockchain </label>
+            <h4>Blockchain</h4>
             <select
                 name="Blockchain"
                 id="Blockchain"
@@ -55,7 +55,8 @@ export default function ParamSnipe() {
             <br />
             {params.blockchain !== "" && params.blockchain !== "sepolia" && (
                 <>
-                    <label htmlFor="Router">DEX </label>
+                    <h4>Exchange</h4>
+                    {/* <label htmlFor="Router">DEX </label> */}
                     <select
                         name="router"
                         id="router"
@@ -66,7 +67,11 @@ export default function ParamSnipe() {
                             })
                         }
                     >
-                        <option value="">--Please choose an exchange--</option>
+                        {!params.router.name && (
+                            <option value="">
+                                --Please choose an exchange--
+                            </option>
+                        )}
                         {Object.keys(routers).map((router) => (
                             <React.Fragment key={router}>
                                 {isRouter(router) && (
@@ -82,7 +87,7 @@ export default function ParamSnipe() {
                     </select>
                 </>
             )}
-            {params.router && (
+            {params.router.name && (
                 <>
                     <br />
                     <br />

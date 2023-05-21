@@ -3,11 +3,11 @@ import { useState } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
 import { myDisableSniper } from "@/redux/actions";
+import { networks } from "@/library/constantes";
 
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const [params, setParams] = useState<string[]>();
     const dispatch = useDispatch();
-    console.log(sniper);
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));
@@ -25,12 +25,11 @@ export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     };
 
     return (
-        <div className="sniper">
-            <div className="closed">
-                <Close functionClose={disableSniper} />
+        <div className="contain-close">
+            <Close functionClose={disableSniper} />
+            <div>
                 <input type="file" onChange={handleFileChange} />
-
-                <div>Blockchain: {sniper.blockchain}</div>
+                <div>Blockchain: {networks[sniper.blockchain].name}</div>
                 <div>Router: {sniper.router.name}</div>
             </div>
         </div>

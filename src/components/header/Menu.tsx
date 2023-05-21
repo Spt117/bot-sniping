@@ -12,8 +12,8 @@ export default function Menu() {
     }
 
     return (
-        <>
-            <button onClick={addComposantSnipe}>Sniper</button>
-        </>
+        <button id="newSnipe" onClick={addComposantSnipe}>
+            Sniper
+        </button>
     );
 }

@@ -1,12 +1,40 @@
+html {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-image: url("../assets/sniper.jpg");
+    min-height: 100vh;
+    color: aliceblue;
+    text-align: center;
+}
 body {
     text-align: center;
-    background-color: cornflowerblue;
     margin: 0;
     padding: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    min-height: 100vh;
+}
+
+#newSnipe {
+    border-radius: 20px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #000000;
+    min-height: 10%;
+    background-color: rgb(142, 197, 252, 0.5);
+    cursor: pointer;
+    border: none;
+    transition: background-color 3s ease;
+    transition: box-shadow 3s ease;
+    font-weight: bold;
+}
+#newSnipe:hover {
+    background-color: rgb(65, 62, 62, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+    color: rgb(255, 255, 255);
 }
 
 #paramSnipe {
-    background-color: red;
     position: absolute;
     top: 30%;
     left: 50%;
@@ -15,23 +43,57 @@ body {
     background-color: rgba(196, 248, 255, 0.6);
     text-align: center;
     color: #ffffff;
-    padding: 1em;
-    /* height: 30%; */
+    padding: 2rem;
+    min-height: 15%;
+    background-color: rgb(142, 197, 252, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+}
+#paramSnipe h4 {
+    /* all: unset; */
+    margin: 0;
+    margin-bottom: 0.5rem;
+    padding: 0;
 }
 
+.contain-param {
+    background-color: rgb(252, 255, 83);
+    margin: 0.5rem;
+    color: black;
+}
+
+#container-snipers {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.closed {
+    position: relative;
+}
+.contain-close {
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.12), 0 1px 20px rgba(0, 0, 0, 0.8);
+    background-color: rgba(44, 107, 179, 0.5);
+    border-radius: 10px;
+    margin: 1rem;
+    padding: 0.5rem;
+    width: 20%;
+    position: relative;
+}
 .close-button {
     position: absolute;
     top: 0;
     right: 0;
+    background: none;
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    color: rgb(184, 184, 184);
+    border-radius: 10px;
+    transition: background-color 3s ease;
+    transition: box-shadow 3s ease;
 }
-.closed {
-    background-color: rosybrown;
-    position: relative;
-}
-
-#container-snipers {
-    background-color: rgb(231, 141, 77);
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+.close-button:hover {
+    background-color: rgb(65, 62, 62, 0.5);
+    color: white;
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
 }
