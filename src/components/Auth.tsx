@@ -1,12 +1,12 @@
+// import { AppState } from "@/library/interfaces";
 // import { myIsConnect } from "@/redux/actions";
-// // import { State } from "@/redux/initState";
 // import { useState } from "react";
 // import { useDispatch, useSelector } from "react-redux";
-// // import Web3 from "web3";
+// import Web3 from "web3";
 
 // export default function CryptoMeta() {
 //     const [message, setMessage] = useState({ message: "", crypté: "" });
-//     // const address = useSelector((state: State) => state.account);
+//     const address = useSelector((state: AppState) => state.account);
 //     const dispatch = useDispatch();
 
 //     async function signer() {
@@ -20,7 +20,7 @@
 //                 params: [data, address],
 //             });
 //             const signer = await web3.eth.personal.ecRecover(data, signature);
-//             if (signer.toLowerCase() === address.toLowerCase()) {
+//             if (signer.toLowerCase() === address!.toLowerCase()) {
 //                 console.log("La signature est valide !");
 //                 dispatch(myIsConnect(true));
 //             } else {

@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { request } from "../library/class";
 import { getData } from "@/library/fonctions";
 import { useSelector } from "react-redux";
-import { State } from "@/redux/initState";
+import { AppState } from "@/library/interfaces";
 
 export default function SetData() {
-    const address = useSelector((state: State) => state.account);
+    const address = useSelector((state: AppState) => state.account);
     const [newData, setNewData] = useState({
         address: "",
         data: "",
