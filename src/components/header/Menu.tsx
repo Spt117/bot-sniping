@@ -1,11 +1,14 @@
+import { AppState } from "@/library/interfaces";
 import { myAddASniper } from "@/redux/actions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function Menu() {
     const dispatch = useDispatch();
+    const bool = useSelector((state: AppState) => state.addASniper);
 
     function addComposantSnipe() {
-        dispatch(myAddASniper(true));
+        if (bool) dispatch(myAddASniper(false));
+        else dispatch(myAddASniper(true));
     }
 
     return (

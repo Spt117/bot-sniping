@@ -65,6 +65,18 @@ export const composantSniperReducer = (
     switch (action.type) {
         case "composantSniper":
             return [...state, action.value];
+        case "disableSniper": {
+            const index = state.findIndex((obj) => {
+                return obj.id === action.value.id;
+            });
+            if (index !== -1) {
+                let newState = [...state];
+                let newObj = { ...newState[index] };
+                newObj.disable = true;
+                newState[index] = newObj;
+                return newState;
+            }
+        }
         default:
             return state;
     }

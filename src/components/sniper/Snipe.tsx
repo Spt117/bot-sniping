@@ -1,11 +1,17 @@
-import { ObjetSniper } from "@/library/interfaces";
-import { useEffect, useState } from "react";
+import { ParamsSniper } from "@/library/interfaces";
+import { useState } from "react";
+import Close from "../Close";
+import { useDispatch } from "react-redux";
+import { myDisableSniper } from "@/redux/actions";
 
-export default function Snipe({ sniper }: { sniper: ObjetSniper }) {
+export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const [params, setParams] = useState<string[]>();
-    useEffect(() => {
-        console.log(params);
-    }, [params]);
+    const dispatch = useDispatch();
+    console.log(sniper);
+
+    function disableSniper() {
+        dispatch(myDisableSniper(sniper));
+    }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files![0];
@@ -19,10 +25,14 @@ export default function Snipe({ sniper }: { sniper: ObjetSniper }) {
     };
 
     return (
-        <>
-            <input type="file" onChange={handleFileChange} />
+        <div className="sniper">
+            <div className="closed">
+                <Close functionClose={disableSniper} />
+                <input type="file" onChange={handleFileChange} />
 
-            <div>{sniper.routerAdress}</div>
-        </>
+                <div>Blockchain: {sniper.blockchain}</div>
+                <div>Router: {sniper.router.name}</div>
+            </div>
+        </div>
     );
 }

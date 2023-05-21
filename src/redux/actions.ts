@@ -1,4 +1,4 @@
-import { Network } from "@/library/interfaces";
+import { Network, ParamsSniper } from "@/library/interfaces";
 
 export const myAccount = (account: string) => ({
     type: "account",
@@ -25,7 +25,12 @@ export const myAddASniper = (addASniper: boolean) => ({
     value: addASniper,
 });
 
-export const myComposantSniper = (composant: any) => ({
+export const myComposantSniper = (composant: ParamsSniper) => ({
     type: "composantSniper",
     value: composant,
+});
+
+export const myDisableSniper = (disableSniper: ParamsSniper) => ({
+    type: "disableSniper",
+    value: disableSniper,
 });

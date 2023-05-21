@@ -27,9 +27,11 @@ export interface Request {
     body: string;
 }
 
-export interface ObjetSniper {
+export interface ParamsSniper {
     blockchain: string;
-    routerAdress: string;
+    router: RouterDetails;
+    id: number;
+    disable: boolean;
 }
 
 export interface AppState {
@@ -38,17 +40,14 @@ export interface AppState {
     chain: Network;
     balance: number;
     addASniper: boolean;
-    composantSniper: ObjetSniper[];
+    composantSniper: ParamsSniper[];
+}
+interface RouterDetails {
+    name: string;
+    address: string;
+    networks: string[];
 }
 
 export interface Routers {
-    [key: string]: {
-        address: string;
-        networks: string[];
-    };
-}
-
-export interface ParamsSniper {
-    blockchain: string;
-    routerAdress: string;
+    [key: string]: RouterDetails;
 }

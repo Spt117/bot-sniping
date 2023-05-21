@@ -1,6 +1,8 @@
 import { useSelector } from "react-redux";
 import Snipe from "./Snipe";
 import ParamSnipe from "./ParamSnipe";
+import { ParamsSniper } from "@/library/interfaces";
+import React from "react";
 
 export default function Generator() {
     const snipe = useSelector((state: any) => state.composantSniper);
@@ -9,9 +11,13 @@ export default function Generator() {
     return (
         <>
             {bool && <ParamSnipe />}
-            {snipe.map((sniper: any, index: number) => (
-                <Snipe key={index} sniper={sniper} />
-            ))}
+            <div id="container-snipers">
+                {snipe.map((sniper: ParamsSniper, index: number) => (
+                    <React.Fragment key={index}>
+                        {!sniper.disable && <Snipe sniper={sniper} />}
+                    </React.Fragment>
+                ))}
+            </div>
         </>
     );
 }

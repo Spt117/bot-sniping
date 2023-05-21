@@ -21,11 +21,13 @@ const networks: Networks = {
 };
 
 const routers: Routers = {
-    UniswapV3: {
+    "Uniswap V3": {
+        name: "Uniswap V3",
         address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
         networks: ["mainnet", "goerli", "matic", "bnb"],
     },
     PancakeSwap: {
+        name: "PancakeSwap",
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
         networks: ["bnb", "mainnet"],
     },

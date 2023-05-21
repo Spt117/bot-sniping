@@ -1,16 +1,28 @@
 import { networks, routers } from "@/library/constantes";
 import { ParamsSniper } from "@/library/interfaces";
-import { useDispatch } from "react-redux";
-import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
 import { myAddASniper, myComposantSniper } from "@/redux/actions";
 import { useState } from "react";
+import Close from "../Close";
 
 export default function ParamSnipe() {
     const dispatch = useDispatch();
+    const id = useSelector((state: any) => state.composantSniper.length);
     const [params, setParams] = useState<ParamsSniper>({
         blockchain: "",
-        routerAdress: "",
+        router: {
+            name: "",
+            address: "",
+            networks: [],
+        },
+        id: 0,
+        disable: false,
     });
+
+    useEffect(() => {
+        setParams({ ...params, id: id });
+    }, [id]);
 
     function isRouter(router: string): boolean {
         return routers[router].networks.includes(params.blockchain);
@@ -22,7 +34,8 @@ export default function ParamSnipe() {
     }
 
     return (
-        <>
+        <div id="paramSnipe">
+            <Close functionClose={() => dispatch(myAddASniper(false))} />
             <label htmlFor="Blockchain">Blockchain </label>
             <select
                 name="Blockchain"
@@ -39,16 +52,17 @@ export default function ParamSnipe() {
                 ))}
             </select>
             <br />
+            <br />
             {params.blockchain !== "" && params.blockchain !== "sepolia" && (
                 <>
-                    <label htmlFor="RouterAdress">DEX </label>
+                    <label htmlFor="Router">DEX </label>
                     <select
-                        name="routerAdress"
-                        id="routerAdress"
+                        name="router"
+                        id="router"
                         onChange={(e) =>
                             setParams({
                                 ...params,
-                                routerAdress: e.target.value,
+                                router: routers[e.target.value],
                             })
                         }
                     >
@@ -58,7 +72,7 @@ export default function ParamSnipe() {
                                 {isRouter(router) && (
                                     <option
                                         key={router}
-                                        value={routers[router].address}
+                                        value={routers[router].name}
                                     >
                                         {router}
                                     </option>
@@ -68,12 +82,13 @@ export default function ParamSnipe() {
                     </select>
                 </>
             )}
-            {params.routerAdress && (
+            {params.router && (
                 <>
+                    <br />
                     <br />
                     <button onClick={addComposantSnipe}>Valider</button>
                 </>
             )}
-        </>
+        </div>
     );
 }

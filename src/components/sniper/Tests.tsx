@@ -5,8 +5,7 @@ export default function Tests() {
     const [amount, setAmount] = useState<number>(0);
 
     useEffect(() => {
-        console.log(amount);
-        getTokenBalance();
+        // getTokenBalance();
     }, [amount]);
 
     return (

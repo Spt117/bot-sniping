@@ -4,3 +4,34 @@ body {
     margin: 0;
     padding: 0;
 }
+
+#paramSnipe {
+    background-color: red;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #ffffff;
+    padding: 1em;
+    /* height: 30%; */
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.closed {
+    background-color: rosybrown;
+    position: relative;
+}
+
+#container-snipers {
+    background-color: rgb(231, 141, 77);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
