@@ -18,12 +18,12 @@ p {
     flex-wrap: wrap;
     background-color: rgb(70, 70, 100);
     padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
+    padding-bottom: 0.25rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
     border-radius: 1rem;
     margin-right: 1rem;
-    margin-top: 0.1rem;
+    margin-top: 0.25rem;
 }
 .imgHeader {
     width: 2rem;
@@ -36,4 +36,5 @@ p {
 .containerHeader {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
 }
