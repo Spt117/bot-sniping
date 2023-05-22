@@ -7,10 +7,11 @@ import Connect from "./Connect";
 import Menu from "./Menu";
 import Network from "./Network";
 import Balance from "./Balance";
+import { AppState } from "@/library/interfaces";
 
 export default function Header() {
     const dispatch = useDispatch();
-    const boolIsConnect = useSelector((state: any) => state.isConnect);
+    const boolIsConnect = useSelector((state: AppState) => state.isConnect);
 
     async function events(e: string) {
         try {

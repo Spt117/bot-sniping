@@ -1,3 +1,6 @@
+import { routers } from "./constantes";
+import { ParamsSniper } from "./interfaces";
+
 export async function getData() {
     const response = await fetch("api/data");
     const data = await response.json();
@@ -20,4 +23,8 @@ export function eventMetamask(callBack: any) {
     );
     return () =>
         events.forEach((e) => window.ethereum.removeListener(e, callBack(e)));
+}
+
+export function isRouter(router: string, params: ParamsSniper): boolean {
+    return routers[router].networks.includes(params.blockchain.name);
 }

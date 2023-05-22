@@ -1,11 +1,10 @@
 import { useSelector } from "react-redux";
 import Snipe from "./Snipe";
-import ParamSnipe from "./ParamSnipe";
-import { ParamsSniper } from "@/library/interfaces";
+import { AppState, ParamsSniper } from "@/library/interfaces";
 import React from "react";
 
 export default function Generator() {
-    const snipe = useSelector((state: any) => state.composantSniper);
+    const snipe = useSelector((state: AppState) => state.composantSniper);
 
     return (
         <>

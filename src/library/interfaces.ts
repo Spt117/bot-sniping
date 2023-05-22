@@ -13,8 +13,9 @@ export interface Network {
 
 interface NetworkInfo {
     name: string;
-    logo: StaticImageData;
+    logo?: StaticImageData;
     symbol: string;
+    connection: string;
 }
 
 export interface Networks {
@@ -28,7 +29,7 @@ export interface Request {
 }
 
 export interface ParamsSniper {
-    blockchain: string;
+    blockchain: NetworkInfo;
     router: RouterDetails;
     id: number;
     disable: boolean;
@@ -50,4 +51,29 @@ interface RouterDetails {
 
 export interface Routers {
     [key: string]: RouterDetails;
+}
+
+export interface Keys {
+    private: string;
+    public: string;
+}
+export interface Gas {
+    gaslimit: number;
+    maxFeePerGas: number;
+    maxPriorityFeePerGas: number;
+}
+
+export interface ParamsTransaction {
+    private: string;
+    public: string;
+    gaslimit: number;
+    maxFeePerGas: number;
+    maxPriorityFeePerGas: number;
+    amountIsToken: boolean;
+    slippagePercent: number;
+    amount: number;
+    repeat: number;
+    secondsDelay?: number;
+    useContract: boolean;
+    contractAddress?: string;
 }

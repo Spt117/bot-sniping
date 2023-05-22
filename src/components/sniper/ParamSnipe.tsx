@@ -1,16 +1,21 @@
 import { networks, routers } from "@/library/constantes";
-import { ParamsSniper } from "@/library/interfaces";
+import { AppState, ParamsSniper } from "@/library/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { myAddASniper, myComposantSniper } from "@/redux/actions";
 import { useState } from "react";
 import Close from "../Close";
+import { isRouter } from "@/library/fonctions";
 
 export default function ParamSnipe() {
     const dispatch = useDispatch();
-    const id = useSelector((state: any) => state.composantSniper.length);
+    const id = useSelector((state: AppState) => state.composantSniper.length);
     const [params, setParams] = useState<ParamsSniper>({
-        blockchain: "",
+        blockchain: {
+            name: "",
+            symbol: "",
+            connection: "",
+        },
         router: {
             name: "",
             address: "",
@@ -23,10 +28,6 @@ export default function ParamSnipe() {
     useEffect(() => {
         setParams({ ...params, id: id });
     }, [id]);
-
-    function isRouter(router: string): boolean {
-        return routers[router].networks.includes(params.blockchain);
-    }
 
     function addComposantSnipe() {
         dispatch(myComposantSniper(params));
@@ -43,7 +44,10 @@ export default function ParamSnipe() {
                     name="Blockchain"
                     id="Blockchain"
                     onChange={(e) =>
-                        setParams({ ...params, blockchain: e.target.value })
+                        setParams({
+                            ...params,
+                            blockchain: networks[e.target.value],
+                        })
                     }
                 >
                     <option value="">--Please choose a Blockchain--</option>
@@ -55,11 +59,10 @@ export default function ParamSnipe() {
                 </select>
                 <br />
                 <br />
-                {params.blockchain !== "" &&
-                    params.blockchain !== "sepolia" && (
+                {params.blockchain.connection !== "" &&
+                    params.blockchain.connection !== "sepolia" && (
                         <>
                             <h4>Exchange</h4>
-                            {/* <label htmlFor="Router">DEX </label> */}
                             <select
                                 name="router"
                                 id="router"
@@ -77,7 +80,7 @@ export default function ParamSnipe() {
                                 )}
                                 {Object.keys(routers).map((router) => (
                                     <React.Fragment key={router}>
-                                        {isRouter(router) && (
+                                        {isRouter(router, params) && (
                                             <option
                                                 key={router}
                                                 value={routers[router].name}

@@ -14,7 +14,6 @@ export default function Home() {
             {bool && <ParamSnipe />}
             <Header />
             <Generator />
-            <Tests />
         </>
     );
 }

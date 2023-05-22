@@ -3,7 +3,6 @@ import { truncateAddr } from "@/library/fonctions";
 import { myIsConnect } from "@/redux/actions";
 import Image from "next/image";
 import walletImage from "../../assets/wallet.png";
-
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "@/library/interfaces";
 
