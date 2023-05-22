@@ -34,33 +34,6 @@ body {
     color: rgb(255, 255, 255);
 }
 
-#paramSnipe {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background-color: rgba(196, 248, 255, 0.6);
-    text-align: center;
-    color: #ffffff;
-    padding: 2rem;
-    min-height: 15%;
-    background-color: rgb(142, 197, 252, 0.5);
-    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
-}
-#paramSnipe h4 {
-    /* all: unset; */
-    margin: 0;
-    margin-bottom: 0.5rem;
-    padding: 0;
-}
-
-.contain-param {
-    background-color: rgb(252, 255, 83);
-    margin: 0.5rem;
-    color: black;
-}
-
 #container-snipers {
     display: flex;
     flex-wrap: wrap;
@@ -96,4 +69,44 @@ body {
     background-color: rgb(65, 62, 62, 0.5);
     color: white;
     box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+}
+
+#paramSnipe {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #ffffff;
+    padding: 2rem;
+    min-height: 15%;
+    background-color: rgb(142, 197, 252, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+    z-index: 5;
+}
+#paramSnipe h4 {
+    /* all: unset; */
+    margin: 0;
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+
+.contain-param {
+    background-color: rgb(252, 255, 83);
+    margin: 0.5rem;
+    color: black;
+}
+.overlay {
+    position: fixed; /* Position fixe pour qu'elle reste en place lors du scroll */
+    top: 0; /* Elle commence en haut de la page */
+    left: 0; /* Et à gauche de la page */
+    width: 100%; /* Elle prend toute la largeur */
+    height: 100%; /* Et toute la hauteur */
+    background-color: rgba(0, 0, 0, 0.7); /* Fond noir semi-transparent */
+    z-index: 3; /* Une grande valeur pour qu'elle soit au-dessus du reste du contenu */
+}
+#paramSnipe ~ .overlay {
+    display: block;
 }
