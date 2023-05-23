@@ -33,13 +33,13 @@ const networks: Networks = {
     },
     matic: {
         name: "Polygon",
-        logo: ethImage,
+        // logo: ethImage,
         symbol: "MATIC",
         connection: `https://polygon-mainnet.infura.io/v3/${process.env.infura}`,
     },
     bnb: {
         name: "Binance Smart Chain",
-        logo: ethImage,
+        // logo: ethImage,
         symbol: "BNB",
         connection: "",
     },
