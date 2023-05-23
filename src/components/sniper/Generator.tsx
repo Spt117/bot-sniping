@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Snipe from "./Snipe";
 import { AppState, ParamsSniper } from "@/library/interfaces";
 import React from "react";
-import { BooleanProvider } from "@/components/Context";
+import { BooleanProvider } from "@/context/Context";
 
 export default function Generator() {
     const snipe = useSelector((state: AppState) => state.composantSniper);

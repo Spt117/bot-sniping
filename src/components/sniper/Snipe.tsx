@@ -5,16 +5,16 @@ import { useDispatch } from "react-redux";
 import { myDisableSniper } from "@/redux/actions";
 import AddTransaction from "./AddTransaction";
 import { getTokenBalance } from "@/library/sniper";
-import { useBooleanContext } from "@/components/Context";
+import { useBooleanContext } from "@/context/Context";
 
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const dispatch = useDispatch();
     const [params, setParams] = useState<ParamsTransaction[]>([]);
-    const { state, setState } = useBooleanContext();
+    const { boolState, setBoolState } = useBooleanContext();
 
     useEffect(() => {
-        console.log(state);
-        setState(true);
+        console.log(boolState);
+        setBoolState(true);
     }, [params]);
 
     function disableSniper() {

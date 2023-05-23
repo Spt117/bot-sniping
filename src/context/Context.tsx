@@ -2,12 +2,12 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
 interface IBooleanContext {
-    state: boolean;
-    setState: React.Dispatch<React.SetStateAction<boolean>>;
+    boolState: boolean;
+    setBoolState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const BooleanContext = createContext<IBooleanContext>({
-    state: false,
-    setState: () => {},
+    boolState: false,
+    setBoolState: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -16,10 +16,10 @@ interface BooleanProviderProps {
 }
 
 export const BooleanProvider = ({ children }: BooleanProviderProps) => {
-    const [state, setState] = useState<boolean>(false);
+    const [boolState, setBoolState] = useState<boolean>(false);
 
     return (
-        <BooleanContext.Provider value={{ state, setState }}>
+        <BooleanContext.Provider value={{ boolState, setBoolState }}>
             {children}
         </BooleanContext.Provider>
     );
