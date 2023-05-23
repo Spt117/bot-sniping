@@ -9,7 +9,6 @@ import AddTransaction from "./AddTransaction";
 
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const dispatch = useDispatch();
-
     const [params, setParams] = useState<ParamsTransaction[]>([]);
 
     useEffect(() => {
@@ -50,7 +49,7 @@ export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
                 <button onClick={getTokenBalance}>Clic</button>
-                <AddTransaction setParams={setParams} params={params} />
+                <AddTransaction setParams={setParams} />
             </div>
         </div>
     );

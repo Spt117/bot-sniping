@@ -1,8 +1,13 @@
 import { ethers } from "ethers";
 import { Wallet } from "./class";
 import ethImage from "../assets/ethereum.png";
-import { Networks, Routers } from "./interfaces";
-export { wallet, networks, routers };
+import {
+    Networks,
+    ParamsSniper,
+    ParamsTransaction,
+    Routers,
+} from "./interfaces";
+export { wallet };
 
 let theWallet: ethers.Eip1193Provider;
 
@@ -12,7 +17,7 @@ if (typeof window !== "undefined") {
     wallet = new Wallet(theWallet);
 }
 
-const networks: Networks = {
+export const networks: Networks = {
     goerli: {
         name: "Goerli Testnet",
         logo: ethImage,
@@ -43,7 +48,7 @@ const networks: Networks = {
     },
 };
 
-const routers: Routers = {
+export const routers: Routers = {
     "Uniswap V3": {
         name: "Uniswap V3",
         address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
@@ -59,4 +64,32 @@ const routers: Routers = {
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
         networks: ["Binance Smart Chain", "Ethereum"],
     },
+};
+
+export const paramTransaction: ParamsTransaction = {
+    public: "",
+    private: "",
+    gaslimit: 27000,
+    maxFeePerGas: 22000000000,
+    maxPriorityFeePerGas: 1000000000,
+    amountIsToken: false,
+    slippagePercent: 20,
+    amount: 0.01,
+    repeat: 1,
+    useContract: false,
+};
+
+export const paramSniper: ParamsSniper = {
+    blockchain: {
+        name: "",
+        symbol: "",
+        connection: "",
+    },
+    router: {
+        name: "",
+        address: "",
+        networks: [],
+    },
+    id: 0,
+    disable: false,
 };

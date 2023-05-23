@@ -1,25 +1,10 @@
+import { paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
-export default function AddTransaction({
-    setParams,
-    params,
-}: {
-    setParams: Function;
-    params: ParamsTransaction[];
-}) {
-    const [newTransaction, setNewTransaction] = useState<ParamsTransaction>({
-        public: "",
-        private: "",
-        gaslimit: 0,
-        maxFeePerGas: 0,
-        maxPriorityFeePerGas: 0,
-        amountIsToken: false,
-        slippagePercent: 20,
-        amount: 0.01,
-        repeat: 1,
-        useContract: false,
-    });
+export default function AddTransaction({ setParams }: { setParams: Function }) {
+    const [newTransaction, setNewTransaction] =
+        useState<ParamsTransaction>(paramTransaction);
 
     function addItem(newItem: ParamsTransaction) {
         setParams((oldParams: ParamsTransaction[]) => [...oldParams, newItem]);

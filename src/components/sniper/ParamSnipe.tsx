@@ -1,4 +1,4 @@
-import { networks, routers } from "@/library/constantes";
+import { networks, paramSniper, routers } from "@/library/constantes";
 import { AppState, ParamsSniper } from "@/library/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
@@ -10,20 +10,7 @@ import { isRouter } from "@/library/fonctions";
 export default function ParamSnipe() {
     const dispatch = useDispatch();
     const id = useSelector((state: AppState) => state.composantSniper.length);
-    const [params, setParams] = useState<ParamsSniper>({
-        blockchain: {
-            name: "",
-            symbol: "",
-            connection: "",
-        },
-        router: {
-            name: "",
-            address: "",
-            networks: [],
-        },
-        id: 0,
-        disable: false,
-    });
+    const [params, setParams] = useState<ParamsSniper>(paramSniper);
 
     useEffect(() => {
         setParams({ ...params, id: id });
@@ -60,7 +47,7 @@ export default function ParamSnipe() {
                 <br />
                 <br />
                 {params.blockchain.connection !== "" &&
-                    params.blockchain.connection !== "sepolia" && (
+                    params.blockchain.name !== "Sepolia Testnet" && (
                         <>
                             <h4>Exchange</h4>
                             <select
