@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Image from "next/image";
 import { AppState, Network } from "@/library/interfaces";
 import { networks } from "@/library/constantes";
-import defaultImage from "@/assets/images/ethereum.png";
+import defaultImage from "@/assets/ethereum.png";
 
 export default function Network() {
     const network = useSelector((state: AppState) => state.chain);
