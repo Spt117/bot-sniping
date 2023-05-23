@@ -25,6 +25,18 @@ export const isConnectReducer = (
     }
 };
 
+export const overlayReducer = (
+    state = initialState.overlay,
+    action: AnyAction
+) => {
+    switch (action.type) {
+        case "overlay":
+            return action.value;
+        default:
+            return state;
+    }
+};
+
 export const chainReducer = (state = initialState.chain, action: AnyAction) => {
     switch (action.type) {
         case "chain":

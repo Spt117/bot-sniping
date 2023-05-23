@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 export default function Tests() {
     const [amount, setAmount] = useState<number>(0);
 
-    useEffect(() => {}, [amount]);
+    useEffect(() => {
+        // getTokenBalance();
+    }, [amount]);
 
     return (
         <>

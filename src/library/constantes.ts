@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Wallet } from "./class";
+import { Gas, Wallet } from "./class";
 import ethImage from "../assets/ethereum.png";
 import {
     Networks,
@@ -69,9 +69,11 @@ export const routers: Routers = {
 export const paramTransaction: ParamsTransaction = {
     public: "",
     private: "",
-    gaslimit: 27000,
-    maxFeePerGas: 22000000000,
-    maxPriorityFeePerGas: 1000000000,
+    gas: new Gas({
+        gasLimit: 27000,
+        maxFeePerGas: 22000000000,
+        maxPriorityFeePerGas: 1000000000,
+    }),
     amountIsToken: false,
     slippagePercent: 20,
     amount: 0.01,

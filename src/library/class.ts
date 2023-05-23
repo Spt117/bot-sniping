@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { Request } from "./interfaces";
+import { ParamsSniper, ParamsTransaction, Request } from "./interfaces";
 
 export class request implements Request {
     method: string;
@@ -81,5 +81,36 @@ export class Wallet {
             console.log(e);
             return false;
         }
+    }
+}
+
+export class Gas {
+    gasLimit: number;
+    maxFeePerGas: number;
+    maxPriorityFeePerGas: number;
+    constructor(gas: Gas) {
+        this.gasLimit = gas.gasLimit;
+        this.maxFeePerGas = gas.maxFeePerGas;
+        this.maxPriorityFeePerGas = gas.maxPriorityFeePerGas;
+    }
+}
+
+export class GetTransaction {
+    transaction: ParamsTransaction;
+    blockchainRouter: ParamsSniper;
+    constructor(
+        transaction: ParamsTransaction,
+        blockchainRouter: ParamsSniper
+    ) {
+        this.transaction = transaction;
+        this.blockchainRouter = blockchainRouter;
+    }
+
+    getWallet() {
+        const provider = new ethers.JsonRpcProvider(
+            this.blockchainRouter.blockchain.connection
+        );
+        const wallet = new ethers.Wallet(this.transaction.private, provider);
+        return wallet;
     }
 }

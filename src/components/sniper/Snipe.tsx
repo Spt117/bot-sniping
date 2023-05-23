@@ -3,28 +3,19 @@ import { useEffect, useState } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
 import { myDisableSniper } from "@/redux/actions";
-import { ethers } from "ethers";
-import ABI from "../../abi/testAbi.json";
 import AddTransaction from "./AddTransaction";
+import { getTokenBalance } from "@/library/sniper";
+import { useBooleanContext } from "@/components/Context";
 
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const dispatch = useDispatch();
     const [params, setParams] = useState<ParamsTransaction[]>([]);
+    const { state, setState } = useBooleanContext();
 
     useEffect(() => {
-        console.log(params);
+        console.log(state);
+        setState(true);
     }, [params]);
-
-    async function getTokenBalance() {
-        const provider = new ethers.JsonRpcProvider(
-            sniper.blockchain.connection
-        );
-        const contrat = "0x138c1366D3A60D3AECdA306A5caE077158839E9b";
-        const wallet = new ethers.Wallet(process.env.privateKey!, provider);
-        const contract = new ethers.Contract(contrat, ABI, wallet);
-        const result = await contract.retrieve();
-        console.log(Number(result));
-    }
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));
@@ -48,8 +39,10 @@ export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
                 {/* <input type="file" onChange={handleFileChange} /> */}
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
-                <button onClick={getTokenBalance}>Clic</button>
                 <AddTransaction setParams={setParams} />
+                <button onClick={() => getTokenBalance(params[0], sniper)}>
+                    Clic
+                </button>
             </div>
         </div>
     );

@@ -2,7 +2,7 @@ import { networks, paramSniper, routers } from "@/library/constantes";
 import { AppState, ParamsSniper } from "@/library/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { myAddASniper, myComposantSniper } from "@/redux/actions";
+import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import Close from "../Close";
 import { isRouter } from "@/library/fonctions";
@@ -16,16 +16,20 @@ export default function ParamSnipe() {
         setParams({ ...params, id: id });
     }, [id]);
 
+    function reset() {
+        dispatch(myAddASniper(false));
+        dispatch(myOverlay(false));
+    }
+
     function addComposantSnipe() {
         dispatch(myComposantSniper(params));
-        dispatch(myAddASniper(false));
+        reset();
     }
 
     return (
         <>
-            <div className="overlay"></div>
             <div id="paramSnipe">
-                <Close functionClose={() => dispatch(myAddASniper(false))} />
+                <Close functionClose={reset} />
                 <h4>Blockchain</h4>
                 <select
                     name="Blockchain"

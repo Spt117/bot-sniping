@@ -10,6 +10,16 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
         setParams((oldParams: ParamsTransaction[]) => [...oldParams, newItem]);
     }
 
+    function setGas(property: string, value: number) {
+        setNewTransaction({
+            ...newTransaction,
+            gas: {
+                ...newTransaction.gas,
+                [property]: Number(value),
+            },
+        });
+    }
+
     return (
         <>
             <h4>Add transaction</h4>
@@ -42,12 +52,7 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     type="number"
                     name="gaslimit"
                     placeholder="Gaslimit"
-                    onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
-                            gaslimit: Number(e.target.value),
-                        })
-                    }
+                    onChange={(e) => setGas("gasLimit", Number(e.target.value))}
                 />{" "}
                 <br />
                 <input
@@ -55,10 +60,7 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     name="maxFeePerGas"
                     placeholder="MaxFeePerGas"
                     onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
-                            maxFeePerGas: Number(e.target.value),
-                        })
+                        setGas("maxFeePerGas", Number(e.target.value))
                     }
                 />{" "}
                 <br />
@@ -67,12 +69,10 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     name="maxPriorityFeePerGas"
                     placeholder="MaxPriorityFeePerGas"
                     onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
-                            maxPriorityFeePerGas: Number(e.target.value),
-                        })
+                        setGas("maxPriorityFeePerGas", Number(e.target.value))
                     }
-                />
+                />{" "}
+                <br />
                 <button onClick={() => addItem(newTransaction)}>Add</button>
             </div>
         </>

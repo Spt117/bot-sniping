@@ -37,6 +37,7 @@ export interface ParamsSniper {
 
 export interface AppState {
     isConnect: boolean;
+    overlay: boolean;
     account: string | null;
     chain: Network;
     balance: number;
@@ -58,7 +59,7 @@ export interface Keys {
     public: string;
 }
 export interface Gas {
-    gaslimit: number;
+    gasLimit: number;
     maxFeePerGas: number;
     maxPriorityFeePerGas: number;
 }
@@ -66,9 +67,7 @@ export interface Gas {
 export interface ParamsTransaction {
     private: string;
     public: string;
-    gaslimit: number;
-    maxFeePerGas: number;
-    maxPriorityFeePerGas: number;
+    gas: Gas;
     amountIsToken: boolean;
     slippagePercent: number;
     amount: number;

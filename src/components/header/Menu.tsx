@@ -1,4 +1,4 @@
-import { myAddASniper } from "@/redux/actions";
+import { myAddASniper, myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 
 export default function Menu() {
@@ -6,6 +6,7 @@ export default function Menu() {
 
     function addComposantSnipe() {
         dispatch(myAddASniper(true));
+        dispatch(myOverlay(true));
     }
 
     return (

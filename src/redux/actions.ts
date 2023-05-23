@@ -10,6 +10,11 @@ export const myIsConnect = (isConnect: boolean) => ({
     value: isConnect,
 });
 
+export const myOverlay = (overlay: boolean) => ({
+    type: "overlay",
+    value: overlay,
+});
+
 export const myChain = (chain: Network) => ({
     type: "chain",
     value: chain,
