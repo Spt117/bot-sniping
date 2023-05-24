@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Snipe from "./Snipe";
 import { AppState, ParamsSniper } from "@/library/interfaces";
 import React from "react";
-import { BooleanProvider } from "@/context/Context";
+import { MyStateProvider } from "@/context/Context";
 
 export default function Generator() {
     const snipe = useSelector((state: AppState) => state.composantSniper);
@@ -13,9 +13,9 @@ export default function Generator() {
                 {snipe.map((sniper: ParamsSniper, index: number) => (
                     <React.Fragment key={index}>
                         {!sniper.disable && (
-                            <BooleanProvider>
+                            <MyStateProvider>
                                 <Snipe sniper={sniper} />
-                            </BooleanProvider>
+                            </MyStateProvider>
                         )}
                     </React.Fragment>
                 ))}

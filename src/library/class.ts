@@ -106,11 +106,15 @@ export class GetTransaction {
         this.blockchainRouter = blockchainRouter;
     }
 
-    getWallet() {
+    getWallet(): ethers.Wallet | undefined {
+        // try {
         const provider = new ethers.JsonRpcProvider(
             this.blockchainRouter.blockchain.connection
         );
         const wallet = new ethers.Wallet(this.transaction.private, provider);
         return wallet;
+        // } catch (e) {
+        // console.log(e);
+        // }
     }
 }

@@ -112,4 +112,40 @@ body {
 }
 
 .addTransaction {
+    position: absolute;
+    /* top: 30%; */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #ffffff;
+    padding: 1rem;
+    background-color: rgb(142, 197, 252, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+    z-index: 5;
+}
+
+.addTransaction h4 {
+    /* all: unset; */
+    margin: 0;
+    margin-bottom: 0.5rem;
+    padding: 0;
+}
+.listTransactions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem;
+    background-color: aqua;
+}
+.itemsTransactions {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #ffffff;
+    background-color: rgb(142, 197, 252, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
 }

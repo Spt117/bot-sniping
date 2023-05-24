@@ -57,19 +57,17 @@ export default function Header() {
     }, [boolIsConnect]);
 
     return (
-        <>
-            <header>
-                {boolIsConnect && <Menu />}
-                <div className="containerHeader">
-                    {boolIsConnect && (
-                        <>
-                            <Network />
-                            <Balance />
-                        </>
-                    )}
-                    <Connect />
-                </div>
-            </header>
-        </>
+        <header>
+            <Menu />
+            <div className="containerHeader">
+                {boolIsConnect && (
+                    <>
+                        <Network />
+                        <Balance />
+                    </>
+                )}
+                <Connect />
+            </div>
+        </header>
     );
 }

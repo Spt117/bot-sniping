@@ -16,6 +16,7 @@ export default function Network() {
                         src={networks[networkName].logo || defaultImage}
                         alt="eth"
                         className="imgHeader"
+                        priority={true}
                     />
                     <p className="center">{networks[networkName].name}</p>
                 </>

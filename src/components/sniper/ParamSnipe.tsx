@@ -27,71 +27,69 @@ export default function ParamSnipe() {
     }
 
     return (
-        <>
-            <div id="paramSnipe">
-                <Close functionClose={reset} />
-                <h4>Blockchain</h4>
-                <select
-                    name="Blockchain"
-                    id="Blockchain"
-                    onChange={(e) =>
-                        setParams({
-                            ...params,
-                            blockchain: networks[e.target.value],
-                        })
-                    }
-                >
-                    <option value="">--Please choose a Blockchain--</option>
-                    {Object.keys(networks).map((network) => (
-                        <option key={network} value={network}>
-                            {networks[network].name}
-                        </option>
-                    ))}
-                </select>
-                <br />
-                <br />
-                {params.blockchain.connection !== "" &&
-                    params.blockchain.name !== "Sepolia Testnet" && (
-                        <>
-                            <h4>Exchange</h4>
-                            <select
-                                name="router"
-                                id="router"
-                                onChange={(e) =>
-                                    setParams({
-                                        ...params,
-                                        router: routers[e.target.value],
-                                    })
-                                }
-                            >
-                                {!params.router.name && (
-                                    <option value="">
-                                        --Please choose an exchange--
-                                    </option>
-                                )}
-                                {Object.keys(routers).map((router) => (
-                                    <React.Fragment key={router}>
-                                        {isRouter(router, params) && (
-                                            <option
-                                                key={router}
-                                                value={routers[router].name}
-                                            >
-                                                {router}
-                                            </option>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </select>
-                        </>
-                    )}
-                {params.router.name && (
+        <div id="paramSnipe">
+            <Close functionClose={reset} />
+            <h4>Blockchain</h4>
+            <select
+                name="Blockchain"
+                id="Blockchain"
+                onChange={(e) =>
+                    setParams({
+                        ...params,
+                        blockchain: networks[e.target.value],
+                    })
+                }
+            >
+                <option value="">--Please choose a Blockchain--</option>
+                {Object.keys(networks).map((network) => (
+                    <option key={network} value={network}>
+                        {networks[network].name}
+                    </option>
+                ))}
+            </select>
+            <br />
+            <br />
+            {params.blockchain.connection !== "" &&
+                params.blockchain.name !== "Sepolia Testnet" && (
                     <>
-                        <br />
-                        <br />
-                        <button onClick={addComposantSnipe}>Valider</button>
+                        <h4>Exchange</h4>
+                        <select
+                            name="router"
+                            id="router"
+                            onChange={(e) =>
+                                setParams({
+                                    ...params,
+                                    router: routers[e.target.value],
+                                })
+                            }
+                        >
+                            {!params.router.name && (
+                                <option value="">
+                                    --Please choose an exchange--
+                                </option>
+                            )}
+                            {Object.keys(routers).map((router) => (
+                                <React.Fragment key={router}>
+                                    {isRouter(router, params) && (
+                                        <option
+                                            key={router}
+                                            value={routers[router].name}
+                                        >
+                                            {router}
+                                        </option>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                        </select>
                     </>
                 )}
-            </div>
-        </>
+            {params.router.name && (
+                <>
+                    <br />
+                    <br />
+                    <button onClick={addComposantSnipe}>Valider</button>
+                </>
+            )}
+        </div>
     );
 }

@@ -2,23 +2,28 @@ import { ParamsSniper, ParamsTransaction } from "@/library/interfaces";
 import { useEffect, useState } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
-import { myDisableSniper } from "@/redux/actions";
+import { myDisableSniper, myOverlay } from "@/redux/actions";
 import AddTransaction from "./AddTransaction";
 import { getTokenBalance } from "@/library/sniper";
-import { useBooleanContext } from "@/context/Context";
+import { useMyState } from "@/context/Context";
+import { GeneratorTransaction } from "./GeneratorTransaction";
 
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const dispatch = useDispatch();
     const [params, setParams] = useState<ParamsTransaction[]>([]);
-    const { boolState, setBoolState } = useBooleanContext();
+    const { myState, setMyState } = useMyState();
 
     useEffect(() => {
-        console.log(boolState);
-        setBoolState(true);
-    }, [params]);
+        // dispatch(myOverlay(false));
+    }, [myState]);
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));
+    }
+
+    function activeParam() {
+        setMyState(1);
+        dispatch(myOverlay(true));
     }
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,16 +38,19 @@ export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     };
 
     return (
-        <div className="contain-close">
-            <Close functionClose={disableSniper} />
-            <div>
+        <div className="contain-snipe">
+            <div className="contain-close">
+                <Close functionClose={disableSniper} />
                 {/* <input type="file" onChange={handleFileChange} /> */}
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
-                <AddTransaction setParams={setParams} />
-                <button onClick={() => getTokenBalance(params[0], sniper)}>
+                {myState === 1 && <AddTransaction setParams={setParams} />}
+
+                {/* <button onClick={() => getTokenBalance(params[0], sniper)}>
                     Clic
-                </button>
+                </button> */}
+                <button onClick={activeParam}>Add Transaction</button>
+                <GeneratorTransaction params={params} setParams={setParams} />
             </div>
         </div>
     );
