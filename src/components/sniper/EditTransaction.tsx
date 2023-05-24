@@ -2,6 +2,7 @@ import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import Close from "../Close";
 
 export default function EditTransaction({
     addressPublic,
@@ -23,6 +24,11 @@ export default function EditTransaction({
         newArray[index]
     );
 
+    function closeEdit() {
+        setBool(false);
+        dispatch(myOverlay(false));
+    }
+
     function setGas(property: string, value: number) {
         setNewTransaction({
             ...newTransaction,
@@ -38,13 +44,13 @@ export default function EditTransaction({
             ...newArray[index],
             ...newTransaction,
         };
-        setBool(false);
         setParams(newArray);
-        dispatch(myOverlay(false));
+        closeEdit();
     }
 
     return (
         <div className="addTransaction">
+            <Close functionClose={closeEdit} />
             <input
                 type="text"
                 name="addressPublic"

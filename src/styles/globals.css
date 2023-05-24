@@ -113,7 +113,6 @@ body {
 
 .addTransaction {
     position: absolute;
-    /* top: 30%; */
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
@@ -136,6 +135,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: wrap;
     margin: 0.5rem;
     background-color: aqua;
 }
