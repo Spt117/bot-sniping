@@ -44,7 +44,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 {/* <input type="file" onChange={handleFileChange} /> */}
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
-                {myState === 1 && <AddTransaction setParams={setParams} />}
+                {myState === 1 && (
+                    <AddTransaction setParams={setParams} params={params} />
+                )}
 
                 {/* <button onClick={() => getTokenBalance(params[0], sniper)}>
                     Clic

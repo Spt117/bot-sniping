@@ -122,7 +122,7 @@ body {
     background-color: rgb(142, 197, 252, 0.5);
     box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
     z-index: 5;
-    margin-top: 2rem;
+    margin-top: 3rem;
 }
 
 .addTransaction h4 {
@@ -154,6 +154,21 @@ body {
     cursor: pointer;
     font-weight: bold;
     margin: 0.25rem;
+}
+.button:hover {
+    background-color: rgb(65, 62, 62, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+    color: rgb(255, 255, 255);
+}
+
+.divButtonsTransaction {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.divButtonsTransaction button {
+    min-width: 5rem;
 }
 
 .labelChekbox {

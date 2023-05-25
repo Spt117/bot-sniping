@@ -32,6 +32,15 @@ export function Transaction({
         dispatch(myOverlay(true));
     }
 
+    function deleteTransaction() {
+        const newArray = [...params];
+        const index = newArray.findIndex(
+            (transaction) => transaction.public === param.public
+        );
+        newArray.splice(index, 1);
+        setParams(newArray);
+    }
+
     return (
         <>
             <div className="listTransactions">
@@ -44,6 +53,10 @@ export function Transaction({
                     <output>
                         {param.amount} {mySymbol}
                     </output>
+                </div>
+                <div className="itemsTransactions">
+                    <div>Slippage</div>
+                    <output>{param.slippagePercent}%</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Repeat</div>
@@ -61,19 +74,22 @@ export function Transaction({
                     <div>maxPriorityFeePerGas</div>
                     <output>{param.gas.maxPriorityFeePerGas}</output>
                 </div>
-                <div>
+                <div className="divButtonsTransaction">
                     <button className="button" onClick={activeEdit}>
                         Edit
                     </button>
-                    {bool && (
-                        <EditTransaction
-                            setParams={setParams}
-                            transactionsArray={params}
-                            addressPublic={param.public}
-                            setBool={setBool}
-                        />
-                    )}
+                    <button onClick={deleteTransaction} className="button">
+                        Remove
+                    </button>
                 </div>
+                {bool && (
+                    <EditTransaction
+                        setParams={setParams}
+                        transactionsArray={params}
+                        addressPublic={param.public}
+                        setBool={setBool}
+                    />
+                )}
             </div>
         </>
     );

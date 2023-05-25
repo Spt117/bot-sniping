@@ -2,12 +2,19 @@ import { useMyState } from "@/context/Context";
 import { paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
 import ParamTransaction from "./ParamTransaction";
+import { isEthereumAddress } from "@/library/fonctions";
 
-export default function AddTransaction({ setParams }: { setParams: Function }) {
+export default function AddTransaction({
+    setParams,
+    params,
+}: {
+    setParams: Function;
+    params: ParamsTransaction[];
+}) {
     const { setMyState } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] =
@@ -21,6 +28,15 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
     function addItem(newItem: ParamsTransaction) {
         setParams((oldParams: ParamsTransaction[]) => [...oldParams, newItem]);
         close();
+    }
+
+    useEffect(() => {
+        checkAdress();
+        console.log(newTransaction);
+    }, [newTransaction]);
+
+    function checkAdress() {
+        isEthereumAddress(newTransaction, params);
     }
 
     return (
@@ -52,6 +68,7 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     }
                 />
                 <br />
+                <br />
 
                 <ParamTransaction
                     newTransaction={newTransaction}
@@ -59,6 +76,7 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                 />
                 <br />
                 <button
+                    id="newTransactionButton"
                     className="button"
                     onClick={() => addItem(newTransaction)}
                 >

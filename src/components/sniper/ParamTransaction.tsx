@@ -74,6 +74,18 @@ export default function ParamTransaction({
             <br />
             <input
                 type="number"
+                name="slippage"
+                placeholder="Slippage %"
+                onChange={(e) =>
+                    setNewTransaction({
+                        ...newTransaction,
+                        slippagePercent: Number(e.target.value),
+                    })
+                }
+            />
+            <br />
+            <input
+                type="number"
                 name="repeat"
                 placeholder="Repeat"
                 onChange={(e) =>

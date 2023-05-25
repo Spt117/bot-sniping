@@ -1,5 +1,5 @@
 import { networks, paramSniper, routers } from "@/library/constantes";
-import { AppState, ParamsSniper } from "@/library/interfaces";
+import { AppState, IParamsSniper } from "@/library/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
 import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
@@ -10,7 +10,7 @@ import { isRouter } from "@/library/fonctions";
 export default function ParamSnipe() {
     const dispatch = useDispatch();
     const id = useSelector((state: AppState) => state.composantSniper.length);
-    const [params, setParams] = useState<ParamsSniper>(paramSniper);
+    const [params, setParams] = useState<IParamsSniper>(paramSniper);
 
     useEffect(() => {
         setParams({ ...params, id: id });
@@ -41,11 +41,13 @@ export default function ParamSnipe() {
                 }
             >
                 <option value="">--Please choose a Blockchain--</option>
-                {Object.keys(networks).map((network) => (
-                    <option key={network} value={network}>
-                        {networks[network].name}
-                    </option>
-                ))}
+                {Object.keys(networks)
+                    .sort()
+                    .map((network) => (
+                        <option key={network} value={network}>
+                            {networks[network].name}
+                        </option>
+                    ))}
             </select>
             <br />
             <br />
@@ -68,18 +70,20 @@ export default function ParamSnipe() {
                                     --Please choose an exchange--
                                 </option>
                             )}
-                            {Object.keys(routers).map((router) => (
-                                <React.Fragment key={router}>
-                                    {isRouter(router, params) && (
-                                        <option
-                                            key={router}
-                                            value={routers[router].name}
-                                        >
-                                            {router}
-                                        </option>
-                                    )}
-                                </React.Fragment>
-                            ))}
+                            {Object.keys(routers)
+                                .sort()
+                                .map((router) => (
+                                    <React.Fragment key={router}>
+                                        {isRouter(router, params) && (
+                                            <option
+                                                key={router}
+                                                value={routers[router].name}
+                                            >
+                                                {router}
+                                            </option>
+                                        )}
+                                    </React.Fragment>
+                                ))}
                         </select>
                     </>
                 )}

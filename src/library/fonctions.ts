@@ -1,5 +1,5 @@
 import { routers } from "./constantes";
-import { ParamsSniper } from "./interfaces";
+import { IParamsSniper, ParamsTransaction } from "./interfaces";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -25,6 +25,34 @@ export function eventMetamask(callBack: any) {
         events.forEach((e) => window.ethereum.removeListener(e, callBack(e)));
 }
 
-export function isRouter(router: string, params: ParamsSniper): boolean {
+export function isRouter(router: string, params: IParamsSniper): boolean {
     return routers[router].networks.includes(params.blockchain.name);
+}
+
+export function isEthereumAddress(
+    address: ParamsTransaction,
+    array: ParamsTransaction[]
+) {
+    const findAdress = checkIfAdressPublicIsInArray(array, address);
+    console.log("findAdress", findAdress);
+
+    const button = document.getElementById("newTransactionButton");
+    const ethereumPublicAddressRegex = /^(0x){1}[0-9a-fA-F]{40}$/i;
+    const ethereumPrivateAddressRegex = /^(0x){1}[0-9a-fA-F]{64}$/i;
+    if (
+        ethereumPublicAddressRegex.test(address.public) &&
+        ethereumPrivateAddressRegex.test(address.private) &&
+        !findAdress
+    ) {
+        button?.removeAttribute("disabled");
+    } else {
+        button?.setAttribute("disabled", "true");
+    }
+}
+
+function checkIfAdressPublicIsInArray(
+    array: ParamsTransaction[],
+    transaction: ParamsTransaction
+) {
+    return array.find((e) => e.public === transaction.public) ? true : false;
 }
