@@ -7,17 +7,9 @@ import { useEffect, useState } from "react";
 import { useMySymbol } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
 
-export function Transaction({
-    params,
-    setParams,
-    param,
-}: {
-    params: ParamsTransaction[];
-    setParams: Function;
-    param: ParamsTransaction;
-}) {
+export function Transaction({ param }: { param: ParamsTransaction }) {
     const { mySymbol, setMySymbol } = useMySymbol();
-    const { paramsSniper } = useMyState();
+    const { paramsSniper, myTransactions, setMyTransactions } = useMyState();
 
     useEffect(() => {
         if (!param.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
@@ -33,12 +25,12 @@ export function Transaction({
     }
 
     function deleteTransaction() {
-        const newArray = [...params];
+        const newArray = [...myTransactions];
         const index = newArray.findIndex(
             (transaction) => transaction.public === param.public
         );
         newArray.splice(index, 1);
-        setParams(newArray);
+        setMyTransactions(newArray);
     }
 
     return (
@@ -84,8 +76,6 @@ export function Transaction({
                 </div>
                 {bool && (
                     <EditTransaction
-                        setParams={setParams}
-                        transactionsArray={params}
                         addressPublic={param.public}
                         setBool={setBool}
                     />

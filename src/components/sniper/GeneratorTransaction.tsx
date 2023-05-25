@@ -1,24 +1,16 @@
 import { ParamsTransaction } from "@/library/interfaces";
 import { Transaction } from "./Transaction";
 import { MySymbolProvider } from "@/context/ContextTransaction";
+import { useMyState } from "@/context/Context";
 
-export function GeneratorTransaction({
-    params,
-    setParams,
-}: {
-    params: ParamsTransaction[];
-    setParams: Function;
-}) {
+export function GeneratorTransaction() {
+    const { myTransactions } = useMyState();
     return (
         <>
-            {params.length > 0 && <h4>Transactions</h4>}
-            {params.map((param, index) => (
+            {myTransactions.length > 0 && <h4>Transactions</h4>}
+            {myTransactions.map((param, index) => (
                 <MySymbolProvider key={index}>
-                    <Transaction
-                        setParams={setParams}
-                        params={params}
-                        param={param}
-                    />
+                    <Transaction param={param} />
                 </MySymbolProvider>
             ))}
         </>

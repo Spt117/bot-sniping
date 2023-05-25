@@ -4,20 +4,20 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
 import ParamTransaction from "./ParamTransaction";
+import { useMyState } from "@/context/Context";
 
 export default function EditTransaction({
     addressPublic,
-    transactionsArray,
-    setParams,
+
     setBool,
 }: {
     addressPublic: string;
-    transactionsArray: ParamsTransaction[];
-    setParams: Function;
+
     setBool: Function;
 }) {
+    const { myTransactions, setMyTransactions } = useMyState();
     const dispatch = useDispatch();
-    const newArray = [...transactionsArray];
+    const newArray = [...myTransactions];
     const index = newArray.findIndex(
         (transaction) => transaction.public === addressPublic
     );
@@ -35,7 +35,7 @@ export default function EditTransaction({
             ...newArray[index],
             ...newTransaction,
         };
-        setParams(newArray);
+        setMyTransactions(newArray);
         closeEdit();
     }
 

@@ -8,14 +8,8 @@ import Close from "../Close";
 import ParamTransaction from "./ParamTransaction";
 import { isEthereumAddress } from "@/library/fonctions";
 
-export default function AddTransaction({
-    setParams,
-    params,
-}: {
-    setParams: Function;
-    params: ParamsTransaction[];
-}) {
-    const { setMyState } = useMyState();
+export default function AddTransaction() {
+    const { setMyState, myTransactions, setMyTransactions } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] =
         useState<ParamsTransaction>(paramTransaction);
@@ -26,7 +20,10 @@ export default function AddTransaction({
     }
 
     function addItem(newItem: ParamsTransaction) {
-        setParams((oldParams: ParamsTransaction[]) => [...oldParams, newItem]);
+        setMyTransactions((oldParams: ParamsTransaction[]) => [
+            ...oldParams,
+            newItem,
+        ]);
         close();
     }
 
@@ -35,7 +32,7 @@ export default function AddTransaction({
     }, [newTransaction]);
 
     function checkAdress() {
-        isEthereumAddress(newTransaction, params);
+        isEthereumAddress(newTransaction, myTransactions);
     }
 
     return (
