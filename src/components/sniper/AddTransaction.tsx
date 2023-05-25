@@ -32,7 +32,6 @@ export default function AddTransaction({
 
     useEffect(() => {
         checkAdress();
-        console.log(newTransaction);
     }, [newTransaction]);
 
     function checkAdress() {

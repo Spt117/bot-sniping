@@ -1,11 +1,11 @@
 import { ethers } from "ethers";
 import { GetTransaction } from "./class";
-import { ParamsSniper, ParamsTransaction } from "./interfaces";
+import { IParamsSniper, ParamsTransaction } from "./interfaces";
 import ABI from "../abi/testAbi.json";
 
 export async function getTokenBalance(
     params: ParamsTransaction,
-    sniper: ParamsSniper
+    sniper: IParamsSniper
 ) {
     try {
         const transactions = new GetTransaction(params, sniper);

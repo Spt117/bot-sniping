@@ -1,10 +1,8 @@
 import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
-import { useMyState } from "@/context/Context";
-import { useMySymbol } from "@/context/ContextTransaction";
 import ParamTransaction from "./ParamTransaction";
 
 export default function EditTransaction({
@@ -18,8 +16,6 @@ export default function EditTransaction({
     setParams: Function;
     setBool: Function;
 }) {
-    const { paramsSniper } = useMyState();
-    const { setMySymbol } = useMySymbol();
     const dispatch = useDispatch();
     const newArray = [...transactionsArray];
     const index = newArray.findIndex(

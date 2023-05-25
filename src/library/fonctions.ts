@@ -34,8 +34,6 @@ export function isEthereumAddress(
     array: ParamsTransaction[]
 ) {
     const findAdress = checkIfAdressPublicIsInArray(array, address);
-    console.log("findAdress", findAdress);
-
     const button = document.getElementById("newTransactionButton");
     const ethereumPublicAddressRegex = /^(0x){1}[0-9a-fA-F]{40}$/i;
     const ethereumPrivateAddressRegex = /^(0x){1}[0-9a-fA-F]{64}$/i;

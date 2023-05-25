@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { request } from "../library/class";
 import { getData } from "@/library/fonctions";
 import { useSelector } from "react-redux";

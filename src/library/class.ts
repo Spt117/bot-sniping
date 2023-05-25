@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { ParamsSniper, ParamsTransaction, Request } from "./interfaces";
+import { IParamsSniper, ParamsTransaction, Request } from "./interfaces";
 
 export class request implements Request {
     method: string;
@@ -97,10 +97,10 @@ export class Gas {
 
 export class GetTransaction {
     transaction: ParamsTransaction;
-    blockchainRouter: ParamsSniper;
+    blockchainRouter: IParamsSniper;
     constructor(
         transaction: ParamsTransaction,
-        blockchainRouter: ParamsSniper
+        blockchainRouter: IParamsSniper
     ) {
         this.transaction = transaction;
         this.blockchainRouter = blockchainRouter;
