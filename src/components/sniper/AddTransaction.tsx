@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import Close from "../Close";
 
 export default function AddTransaction({ setParams }: { setParams: Function }) {
-    const { setMyState } = useMyState();
+    const { setMyState, mySymbol } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] =
         useState<ParamsTransaction>(paramTransaction);
@@ -63,6 +63,30 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                 <br />
                 <input
                     type="number"
+                    name="amount"
+                    placeholder={`Amount in ${mySymbol}`}
+                    onChange={(e) =>
+                        setNewTransaction({
+                            ...newTransaction,
+                            amount: Number(e.target.value),
+                        })
+                    }
+                />
+                <br />
+                <input
+                    type="number"
+                    name="repeat"
+                    placeholder="Repeat"
+                    onChange={(e) =>
+                        setNewTransaction({
+                            ...newTransaction,
+                            repeat: Number(e.target.value),
+                        })
+                    }
+                />
+                <br />
+                <input
+                    type="number"
                     name="gaslimit"
                     placeholder="Gaslimit"
                     onChange={(e) => setGas("gasLimit", Number(e.target.value))}
@@ -86,7 +110,12 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     }
                 />
                 <br />
-                <button onClick={() => addItem(newTransaction)}>Add</button>
+                <button
+                    className="button"
+                    onClick={() => addItem(newTransaction)}
+                >
+                    Add
+                </button>
             </div>
         </div>
     );

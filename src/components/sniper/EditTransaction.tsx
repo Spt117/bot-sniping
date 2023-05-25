@@ -3,6 +3,7 @@ import { myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
+import { useMyState } from "@/context/Context";
 
 export default function EditTransaction({
     addressPublic,
@@ -15,6 +16,7 @@ export default function EditTransaction({
     setParams: Function;
     setBool: Function;
 }) {
+    const { mySymbol } = useMyState();
     const dispatch = useDispatch();
     const newArray = [...transactionsArray];
     const index = newArray.findIndex(
@@ -73,6 +75,30 @@ export default function EditTransaction({
                         private: e.target.value,
                     })
                 }
+            />{" "}
+            <br />
+            <input
+                type="number"
+                name="amount"
+                placeholder={`Amount in ${mySymbol}`}
+                onChange={(e) =>
+                    setNewTransaction({
+                        ...newTransaction,
+                        amount: Number(e.target.value),
+                    })
+                }
+            />
+            <br />
+            <input
+                type="number"
+                name="repeat"
+                placeholder="Repeat"
+                onChange={(e) =>
+                    setNewTransaction({
+                        ...newTransaction,
+                        repeat: Number(e.target.value),
+                    })
+                }
             />
             <br />
             <input
@@ -98,7 +124,9 @@ export default function EditTransaction({
                 }
             />
             <br />
-            <button onClick={EditTransaction}>Set Transaction</button>
+            <button className="button" onClick={EditTransaction}>
+                Set Transaction
+            </button>
         </div>
     );
 }

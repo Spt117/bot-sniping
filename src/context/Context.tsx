@@ -4,10 +4,14 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface IMyStateContext {
     myState: number;
     setMyState: React.Dispatch<React.SetStateAction<number>>;
+    mySymbol: string;
+    setMySymbol: React.Dispatch<React.SetStateAction<string>>;
 }
 const MyState = createContext<IMyStateContext>({
     myState: 0,
     setMyState: () => {},
+    mySymbol: "",
+    setMySymbol: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -17,9 +21,12 @@ interface myStateProviderProps {
 
 export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [myState, setMyState] = useState<number>(0);
+    const [mySymbol, setMySymbol] = useState<string>("");
 
     return (
-        <MyState.Provider value={{ myState, setMyState }}>
+        <MyState.Provider
+            value={{ myState, setMyState, mySymbol, setMySymbol }}
+        >
             {children}
         </MyState.Provider>
     );

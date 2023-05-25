@@ -4,6 +4,7 @@ import { myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import EditTransaction from "./EditTransaction";
 import { useState } from "react";
+import { useMyState } from "@/context/Context";
 
 export function Transaction({
     params,
@@ -14,6 +15,8 @@ export function Transaction({
     setParams: Function;
     param: ParamsTransaction;
 }) {
+    const { mySymbol } = useMyState();
+
     const [bool, setBool] = useState(false);
     const dispatch = useDispatch();
 
@@ -30,8 +33,14 @@ export function Transaction({
                     <output name="adress">{truncateAddr(param.public)}</output>
                 </div>
                 <div className="itemsTransactions">
-                    <div>Amout</div>
-                    <output>{param.amount}</output>
+                    <div>Amount</div>
+                    <output>
+                        {param.amount} {mySymbol}
+                    </output>
+                </div>
+                <div className="itemsTransactions">
+                    <div>Repeat</div>
+                    <output>{param.repeat}</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>gasLimit</div>
@@ -46,7 +55,9 @@ export function Transaction({
                     <output>{param.gas.maxPriorityFeePerGas}</output>
                 </div>
                 <div>
-                    <button onClick={activeEdit}>Edit</button>
+                    <button className="button" onClick={activeEdit}>
+                        Edit
+                    </button>
                     {bool && (
                         <EditTransaction
                             setParams={setParams}

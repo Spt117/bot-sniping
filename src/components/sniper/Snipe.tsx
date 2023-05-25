@@ -11,10 +11,10 @@ import { GeneratorTransaction } from "./GeneratorTransaction";
 export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
     const dispatch = useDispatch();
     const [params, setParams] = useState<ParamsTransaction[]>([]);
-    const { myState, setMyState } = useMyState();
+    const { myState, setMyState, setMySymbol } = useMyState();
 
     useEffect(() => {
-        // dispatch(myOverlay(false));
+        setMySymbol(sniper.blockchain.symbol);
     }, [myState]);
 
     function disableSniper() {
@@ -49,7 +49,9 @@ export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
                 {/* <button onClick={() => getTokenBalance(params[0], sniper)}>
                     Clic
                 </button> */}
-                <button onClick={activeParam}>Add Transaction</button>
+                <button className="button" onClick={activeParam}>
+                    Add Transaction
+                </button>
                 <GeneratorTransaction params={params} setParams={setParams} />
             </div>
         </div>
