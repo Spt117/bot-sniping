@@ -10,7 +10,7 @@ export function GeneratorTransaction({
 }) {
     return (
         <>
-            <h4>Transactions</h4>
+            {params.length > 0 && <h4>Transactions</h4>}
             {params.map((param, index) => (
                 <Transaction
                     key={index}
