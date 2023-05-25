@@ -1,17 +1,19 @@
+import { paramSniper } from "@/library/constantes";
+import { IParamsSniper } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
 interface IMyStateContext {
+    paramsSniper: IParamsSniper;
+    setMyParamSniper: React.Dispatch<React.SetStateAction<IParamsSniper>>;
     myState: number;
     setMyState: React.Dispatch<React.SetStateAction<number>>;
-    mySymbol: string;
-    setMySymbol: React.Dispatch<React.SetStateAction<string>>;
 }
 const MyState = createContext<IMyStateContext>({
+    paramsSniper: paramSniper,
+    setMyParamSniper: () => {},
     myState: 0,
     setMyState: () => {},
-    mySymbol: "",
-    setMySymbol: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -21,11 +23,17 @@ interface myStateProviderProps {
 
 export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [myState, setMyState] = useState<number>(0);
-    const [mySymbol, setMySymbol] = useState<string>("");
+    const [paramsSniper, setMyParamSniper] =
+        useState<IParamsSniper>(paramSniper);
 
     return (
         <MyState.Provider
-            value={{ myState, setMyState, mySymbol, setMySymbol }}
+            value={{
+                myState,
+                setMyState,
+                paramsSniper,
+                setMyParamSniper,
+            }}
         >
             {children}
         </MyState.Provider>

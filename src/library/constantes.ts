@@ -3,7 +3,7 @@ import { Gas, Wallet } from "./class";
 import ethImage from "../assets/ethereum.png";
 import {
     Networks,
-    ParamsSniper,
+    IParamsSniper,
     ParamsTransaction,
     Routers,
 } from "./interfaces";
@@ -81,7 +81,7 @@ export const paramTransaction: ParamsTransaction = {
     useContract: false,
 };
 
-export const paramSniper: ParamsSniper = {
+export const paramSniper: IParamsSniper = {
     blockchain: {
         name: "",
         symbol: "",

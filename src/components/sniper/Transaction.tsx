@@ -3,7 +3,8 @@ import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import EditTransaction from "./EditTransaction";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useMySymbol } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
 
 export function Transaction({
@@ -15,7 +16,13 @@ export function Transaction({
     setParams: Function;
     param: ParamsTransaction;
 }) {
-    const { mySymbol } = useMyState();
+    const { mySymbol, setMySymbol } = useMySymbol();
+    const { paramsSniper } = useMyState();
+
+    useEffect(() => {
+        if (!param.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
+        else setMySymbol("tokens");
+    }, []);
 
     const [bool, setBool] = useState(false);
     const dispatch = useDispatch();

@@ -1,4 +1,4 @@
-import { ParamsSniper, ParamsTransaction } from "@/library/interfaces";
+import { IParamsSniper, ParamsTransaction } from "@/library/interfaces";
 import { useEffect, useState } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
@@ -8,14 +8,14 @@ import { getTokenBalance } from "@/library/sniper";
 import { useMyState } from "@/context/Context";
 import { GeneratorTransaction } from "./GeneratorTransaction";
 
-export default function Snipe({ sniper }: { sniper: ParamsSniper }) {
+export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
     const [params, setParams] = useState<ParamsTransaction[]>([]);
-    const { myState, setMyState, setMySymbol } = useMyState();
+    const { myState, setMyState, setMyParamSniper } = useMyState();
 
     useEffect(() => {
-        setMySymbol(sniper.blockchain.symbol);
-    }, [myState]);
+        setMyParamSniper(sniper);
+    }, []);
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));

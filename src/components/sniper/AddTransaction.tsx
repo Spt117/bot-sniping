@@ -5,9 +5,10 @@ import { myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
+import ParamTransaction from "./ParamTransaction";
 
 export default function AddTransaction({ setParams }: { setParams: Function }) {
-    const { setMyState, mySymbol } = useMyState();
+    const { setMyState } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] =
         useState<ParamsTransaction>(paramTransaction);
@@ -22,20 +23,10 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
         close();
     }
 
-    function setGas(property: string, value: number) {
-        setNewTransaction({
-            ...newTransaction,
-            gas: {
-                ...newTransaction.gas,
-                [property]: Number(value),
-            },
-        });
-    }
-
     return (
         <div className="addTransaction">
             <Close functionClose={close} />
-            <h4>Add a transaction</h4>
+            <h4>Add your account</h4>
             <div>
                 <input
                     type="text"
@@ -61,53 +52,10 @@ export default function AddTransaction({ setParams }: { setParams: Function }) {
                     }
                 />
                 <br />
-                <input
-                    type="number"
-                    name="amount"
-                    placeholder={`Amount in ${mySymbol}`}
-                    onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
-                            amount: Number(e.target.value),
-                        })
-                    }
-                />
-                <br />
-                <input
-                    type="number"
-                    name="repeat"
-                    placeholder="Repeat"
-                    onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
-                            repeat: Number(e.target.value),
-                        })
-                    }
-                />
-                <br />
-                <input
-                    type="number"
-                    name="gaslimit"
-                    placeholder="Gaslimit"
-                    onChange={(e) => setGas("gasLimit", Number(e.target.value))}
-                />
-                <br />
-                <input
-                    type="number"
-                    name="maxFeePerGas"
-                    placeholder="MaxFeePerGas"
-                    onChange={(e) =>
-                        setGas("maxFeePerGas", Number(e.target.value))
-                    }
-                />
-                <br />
-                <input
-                    type="number"
-                    name="maxPriorityFeePerGas"
-                    placeholder="MaxPriorityFeePerGas"
-                    onChange={(e) =>
-                        setGas("maxPriorityFeePerGas", Number(e.target.value))
-                    }
+
+                <ParamTransaction
+                    newTransaction={newTransaction}
+                    setNewTransaction={setNewTransaction}
                 />
                 <br />
                 <button
