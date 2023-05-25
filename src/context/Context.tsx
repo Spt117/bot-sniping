@@ -12,6 +12,8 @@ interface IMyStateContext {
     setMyTransactions: React.Dispatch<
         React.SetStateAction<ParamsTransaction[]>
     >;
+    boolTransactions: boolean;
+    setBoolTransactions: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const MyState = createContext<IMyStateContext>({
     paramsSniper: paramSniper,
@@ -20,6 +22,8 @@ const MyState = createContext<IMyStateContext>({
     setMyState: () => {},
     myTransactions: [],
     setMyTransactions: () => {},
+    boolTransactions: true,
+    setBoolTransactions: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -34,6 +38,7 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [myTransactions, setMyTransactions] = useState<ParamsTransaction[]>(
         []
     );
+    const [boolTransactions, setBoolTransactions] = useState<boolean>(true);
 
     return (
         <MyState.Provider
@@ -44,6 +49,8 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setMyParamSniper,
                 myTransactions,
                 setMyTransactions,
+                boolTransactions,
+                setBoolTransactions,
             }}
         >
             {children}

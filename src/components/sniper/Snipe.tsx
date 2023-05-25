@@ -9,8 +9,14 @@ import { GeneratorTransaction } from "./GeneratorTransaction";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
-    const { myState, setMyState, setMyParamSniper, myTransactions } =
-        useMyState();
+    const {
+        myState,
+        setMyState,
+        setMyParamSniper,
+        myTransactions,
+        boolTransactions,
+        setBoolTransactions,
+    } = useMyState();
 
     useEffect(() => {
         setMyParamSniper(sniper);
@@ -24,8 +30,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         dispatch(myDisableSniper(sniper));
     }
 
-    function activeParam() {
-        setMyState(1);
+    function setComponent(number: number) {
+        setMyState(number);
         dispatch(myOverlay(true));
     }
 
@@ -37,10 +43,19 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 <div>{sniper.router.name}</div>
                 {myState === 1 && <AddTransaction />}
 
-                <button className="button" onClick={activeParam}>
+                <button className="button" onClick={() => setComponent(1)}>
                     Add Transaction
                 </button>
-                <GeneratorTransaction />
+                {myTransactions.length > 0 && (
+                    <>
+                        {boolTransactions && <GeneratorTransaction />}
+                        {!boolTransactions && (
+                            <button onClick={() => setBoolTransactions(true)}>
+                                Show Transactions
+                            </button>
+                        )}
+                    </>
+                )}
             </div>
         </div>
     );

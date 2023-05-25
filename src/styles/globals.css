@@ -15,6 +15,18 @@ body {
     min-height: 100vh;
 }
 
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 #newSnipe {
     border-radius: 20px;
     background-color: rgba(196, 248, 255, 0.6);

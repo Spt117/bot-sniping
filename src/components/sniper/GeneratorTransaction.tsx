@@ -3,7 +3,7 @@ import { MySymbolProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
 
 export function GeneratorTransaction() {
-    const { myTransactions } = useMyState();
+    const { myTransactions, setBoolTransactions } = useMyState();
     return (
         <>
             {myTransactions.length > 0 && <h4>Transactions</h4>}
@@ -12,6 +12,9 @@ export function GeneratorTransaction() {
                     <Transaction param={param} />
                 </MySymbolProvider>
             ))}
+            <button onClick={() => setBoolTransactions(false)}>
+                Hide transactions
+            </button>
         </>
     );
 }
