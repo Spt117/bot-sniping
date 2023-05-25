@@ -46,7 +46,6 @@ export default function EditTransaction({
                 newTransaction={newTransaction}
                 setNewTransaction={setNewTransaction}
             />
-
             <br />
             <button className="button" onClick={EditTransaction}>
                 Set Transaction

@@ -1,5 +1,5 @@
-import { IParamsSniper, ParamsTransaction } from "@/library/interfaces";
-import { useEffect, useState } from "react";
+import { IParamsSniper } from "@/library/interfaces";
+import { useEffect } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
@@ -9,13 +9,8 @@ import { GeneratorTransaction } from "./GeneratorTransaction";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
-    const {
-        myState,
-        setMyState,
-        setMyParamSniper,
-        paramsSniper,
-        myTransactions,
-    } = useMyState();
+    const { myState, setMyState, setMyParamSniper, myTransactions } =
+        useMyState();
 
     useEffect(() => {
         setMyParamSniper(sniper);

@@ -1,4 +1,3 @@
-import { ParamsTransaction } from "@/library/interfaces";
 import { Transaction } from "./Transaction";
 import { MySymbolProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
