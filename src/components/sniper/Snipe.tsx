@@ -6,6 +6,7 @@ import { myDisableSniper, myOverlay } from "@/redux/actions";
 import AddTransaction from "./AddTransaction";
 import { useMyState } from "@/context/Context";
 import { GeneratorTransaction } from "./GeneratorTransaction";
+import { getSnipers, multipleSniper } from "@/library/sniper";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -57,6 +58,20 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                     </>
                 )}
             </div>
+            <button
+                onClick={() =>
+                    multipleSniper(
+                        sniper,
+                        myTransactions,
+                        "0xc7bFD302CFDa2cbA31A9eDb2818C9E8E268F24B8"
+                    )
+                }
+            >
+                Go
+            </button>
+            <button onClick={() => getSnipers(myTransactions, sniper)}>
+                Get
+            </button>
         </div>
     );
 }

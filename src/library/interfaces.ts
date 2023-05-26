@@ -62,6 +62,7 @@ export interface Gas {
     gasLimit: number;
     maxFeePerGas: number;
     maxPriorityFeePerGas: number;
+    nonce?: number;
 }
 
 export interface ParamsTransaction {

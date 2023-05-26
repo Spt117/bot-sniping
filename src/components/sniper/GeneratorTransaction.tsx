@@ -6,7 +6,7 @@ export function GeneratorTransaction() {
     const { myTransactions, setBoolTransactions } = useMyState();
     return (
         <>
-            {myTransactions.length > 0 && <h4>Transactions</h4>}
+            <h4>Transactions</h4>
             {myTransactions.map((param, index) => (
                 <MySymbolProvider key={index}>
                     <Transaction param={param} />

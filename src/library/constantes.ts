@@ -70,7 +70,7 @@ export const paramTransaction: ParamsTransaction = {
     public: "",
     private: "",
     gas: new Gas({
-        gasLimit: 27000,
+        gasLimit: 500000,
         maxFeePerGas: 22000000000,
         maxPriorityFeePerGas: 1000000000,
     }),
