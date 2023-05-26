@@ -16,6 +16,7 @@ interface NetworkInfo {
     logo?: StaticImageData;
     symbol: string;
     connection: string;
+    chainId?: number;
 }
 
 export interface Networks {

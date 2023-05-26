@@ -23,6 +23,7 @@ export const networks: Networks = {
         logo: ethImage,
         symbol: "ETH",
         connection: `https://goerli.infura.io/v3/${process.env.infura}`,
+        chainId: 5,
     },
     sepolia: {
         name: "Sepolia Testnet",

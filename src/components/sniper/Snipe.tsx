@@ -7,6 +7,9 @@ import AddTransaction from "./AddTransaction";
 import { useMyState } from "@/context/Context";
 import { GeneratorTransaction } from "./GeneratorTransaction";
 import { getSnipers, multipleSniper } from "@/library/sniper";
+import { GetTransaction } from "@/library/class";
+import { networks } from "@/library/constantes";
+import { test } from "@/library/uniswapTests";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -34,6 +37,11 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     function setComponent(number: number) {
         setMyState(number);
         dispatch(myOverlay(true));
+    }
+
+    async function test2() {
+        const wallet = new GetTransaction(myTransactions[0], sniper);
+        test("0x395c6a5f1BFdF072163174e7F169B90D26bD0e93", wallet);
     }
 
     return (
@@ -69,9 +77,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             >
                 Go
             </button>
-            <button onClick={() => getSnipers(myTransactions, sniper)}>
-                Get
-            </button>
+            <button onClick={test2}>Get</button>
         </div>
     );
 }

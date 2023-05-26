@@ -16,6 +16,12 @@ dependencies:
   '@uniswap/sdk-core':
     specifier: ^3.2.2
     version: 3.2.2
+  '@uniswap/v3-core':
+    specifier: ^1.0.1
+    version: 1.0.1
+  '@uniswap/v3-periphery':
+    specifier: ^1.4.3
+    version: 1.4.3
   '@uniswap/v3-sdk':
     specifier: ^3.9.0
     version: 3.9.0(hardhat@2.14.0)
@@ -23,14 +29,17 @@ dependencies:
     specifier: ^16.0.3
     version: 16.0.3
   ethers:
-    specifier: ^6.3.0
-    version: 6.3.0
+    specifier: ^6.4.0
+    version: 6.4.0
   mongoose:
-    specifier: ^7.1.1
-    version: 7.1.1
+    specifier: ^7.2.1
+    version: 7.2.1
   next:
     specifier: 13.4.2
     version: 13.4.2(react-dom@18.2.0)(react@18.2.0)
+  pnpm:
+    specifier: ^8.5.1
+    version: 8.5.1
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -46,17 +55,13 @@ dependencies:
 
 devDependencies:
   hardhat:
-    specifier: ^2.0.0
+    specifier: ^2.14.0
     version: 2.14.0(typescript@5.0.4)
 
 packages:
 
-  /@adraffy/ens-normalize@1.9.0:
-    resolution: {integrity: sha512-iowxq3U30sghZotgl4s/oJRci6WPBfNO5YYgk2cIOMCHr3LeGPcsZjCEr+33Q4N+oV3OABDAtA+pyvWjbvBifQ==}
-    dev: false
-
-  /@babel/runtime@7.21.5:
-    resolution: {integrity: sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==}
+  /@babel/runtime@7.22.0:
+    resolution: {integrity: sha512-TT6NB0oszYQ4oxLNUdG+FNHIc3MohXVCKA2BeyQ4WeM2VCSC6wBZ6P0Yfkdzxv+87D8Xk0LJyHeCKlWMvpZt0g==}
     engines: {node: '>=6.9.0'}
     dependencies:
       regenerator-runtime: 0.13.11
@@ -829,7 +834,7 @@ packages:
   /@swc/helpers@0.5.1:
     resolution: {integrity: sha512-sJ902EfIzn1Fa+qYmjdQqh8tPsoxyBz+8yBKC2HKUxyezKJFwPGOn7pv4WY6QuQW//ySQi5lJjA/ZT9sNWWNTg==}
     dependencies:
-      tslib: 2.5.0
+      tslib: 2.5.2
     dev: false
 
   /@types/bn.js@4.11.6:
@@ -851,6 +856,10 @@ packages:
 
   /@types/lru-cache@5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
+
+  /@types/node@18.15.13:
+    resolution: {integrity: sha512-N+0kuo9KgrUQ1Sn/ifDXsvg0TTleP7rIy4zOBGECxAljqvqfqpTfzx0Q1NUedOixRMBfe2Whhb056a42cWs26Q==}
+    dev: false
 
   /@types/node@20.1.7:
     resolution: {integrity: sha512-WCuw/o4GSwDGMoonES8rcvwsig77dGCMbZDrZr2x4ZZiNW4P/gcoZXe/0twgtobcTkmg9TuKflxYL/DuwDyJzg==}
@@ -949,6 +958,11 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
+  /@uniswap/v3-core@1.0.1:
+    resolution: {integrity: sha512-7pVk4hEm00j9tc71Y9+ssYpO6ytkeI0y7WE9P6UcmNzhxPePwyAxImuhVsTqWK9YFvzgtvzJHi64pBl4jUzKMQ==}
+    engines: {node: '>=10'}
+    dev: false
+
   /@uniswap/v3-periphery@1.4.1(hardhat@2.14.0):
     resolution: {integrity: sha512-Ab0ZCKOQrQMKIcpBTezTsEhWfQjItd0TtkCG8mPhoQu+wC67nPaf4hYUhM6wGHeFUmDiYY5MpEQuokB0ENvoTg==}
     engines: {node: '>=10'}
@@ -1025,8 +1039,8 @@ packages:
   /aes-js@3.0.0:
     resolution: {integrity: sha512-H7wUZRn8WpTq9jocdxQ2c8x2sKo9ZVmzfRE13GiNJXfp7NcKYEdvl3vspKjXox6RIG2VtaRe4JFvxG4rqp2Zuw==}
 
-  /aes-js@4.0.0-beta.3:
-    resolution: {integrity: sha512-/xJX0/VTPcbc5xQE2VUP91y1xN8q/rDfhEzLm+vLc3hYvb5+qHCnpJRuFcrKn63zumK/sCwYYzhG8HP78JYSTA==}
+  /aes-js@4.0.0-beta.5:
+    resolution: {integrity: sha512-G965FqalsNyrPqgEGON7nIx1e/OVENSgiEIzyC63haUMuvNnwIgIjMs52hlTCKhkBny7A2ORNlfY9Zu+jmGk1Q==}
     dev: false
 
   /agent-base@6.0.2:
@@ -1213,8 +1227,8 @@ packages:
     resolution: {integrity: sha512-Gmy6FhYlCY7uOElZUSbxo2UCDH8owEk996gkbrpsgGtrJLM3J7jGxl9Ic7Qwwj4ivOE5AWZWRMecDdF7hqGjFA==}
     engines: {node: '>=10'}
 
-  /caniuse-lite@1.0.30001488:
-    resolution: {integrity: sha512-NORIQuuL4xGpIy6iCCQGN4iFjlBXtfKWIenlUuyZJumLRIindLb7wXM+GO8erEhb7vXfcnf4BAg2PrSDN5TNLQ==}
+  /caniuse-lite@1.0.30001489:
+    resolution: {integrity: sha512-x1mgZEXK8jHIfAxm+xgdpHpk50IN3z3q3zP261/WS+uvePxW8izXuCu6AHz0lkuYTlATDehiZ/tNyYBdSQsOUQ==}
     dev: false
 
   /case@1.6.3:
@@ -1513,14 +1527,15 @@ packages:
       - bufferutil
       - utf-8-validate
 
-  /ethers@6.3.0:
-    resolution: {integrity: sha512-CKFYvTne1YT4S1glTiu7TgGsj0t6c6GAD7evrIk8zbeUb6nK8dcUPAiAWM8uDX/1NmRTvLM9+1Vnn49hwKtEzw==}
+  /ethers@6.4.0:
+    resolution: {integrity: sha512-nksaMCwX+BOdV2NQ1/57OehSD2JtujbhrdC2+Fb9VpvBO0WO6h+WWwu3oMMw7aUiTa5lvQcWX1vl4aOy7Q3CTg==}
     engines: {node: '>=14.0.0'}
     dependencies:
-      '@adraffy/ens-normalize': 1.9.0
+      '@adraffy/ens-normalize': github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5
       '@noble/hashes': 1.1.2
       '@noble/secp256k1': 1.7.1
-      aes-js: 4.0.0-beta.3
+      '@types/node': 18.15.13
+      aes-js: 4.0.0-beta.5
       tslib: 2.4.0
       ws: 8.5.0
     transitivePeerDependencies:
@@ -2067,8 +2082,8 @@ packages:
       whatwg-url: 11.0.0
     dev: false
 
-  /mongodb@5.3.0:
-    resolution: {integrity: sha512-Wy/sbahguL8c3TXQWXmuBabiLD+iVmz+tOgQf+FwkCjhUIorqbAxRbbz00g4ZoN4sXIPwpAlTANMaGRjGGTikQ==}
+  /mongodb@5.5.0:
+    resolution: {integrity: sha512-XgrkUgAAdfnZKQfk5AsYL8j7O99WHd4YXPxYxnh8dZxD+ekYWFRA3JktUsBnfg+455Smf75/+asoU/YLwNGoQQ==}
     engines: {node: '>=14.20.1'}
     peerDependencies:
       '@aws-sdk/credential-providers': ^3.201.0
@@ -2089,13 +2104,13 @@ packages:
       saslprep: 1.0.3
     dev: false
 
-  /mongoose@7.1.1:
-    resolution: {integrity: sha512-AIxaWwGY+td7QOMk4NgK6fbRuGovFyDzv65nU1uj1DsUh3lpjfP3iFYHSR+sUKrs7nbp19ksLlRXkmInBteSCA==}
-    engines: {node: '>=14.0.0'}
+  /mongoose@7.2.1:
+    resolution: {integrity: sha512-c2OOl+ch9NlmPeJw7UjSb2jHNjoOw1XXHyzwygIf4z1GmaBx1OYb8OYqHkYPivvEmfY/vUWZFCgePsDqZgFn2w==}
+    engines: {node: '>=14.20.1'}
     dependencies:
       bson: 5.3.0
       kareem: 2.5.1
-      mongodb: 5.3.0
+      mongodb: 5.5.0
       mpath: 0.9.0
       mquery: 5.0.0
       ms: 2.1.3
@@ -2165,7 +2180,7 @@ packages:
       '@next/env': 13.4.2
       '@swc/helpers': 0.5.1
       busboy: 1.6.0
-      caniuse-lite: 1.0.30001488
+      caniuse-lite: 1.0.30001489
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
@@ -2279,6 +2294,12 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  /pnpm@8.5.1:
+    resolution: {integrity: sha512-W6elL7Nww0a/MCICkzpkbxW6f99TQuX4DuJoDjWp39X08PKDkEpg4cgj3d6EtgYADcdQWl/eM8NdlLJVE3RgpA==}
+    engines: {node: '>=16.14'}
+    hasBin: true
+    dev: false
+
   /postcss@8.4.14:
     resolution: {integrity: sha512-E398TUmfAYFPBSdzgeieK2Y1+1cpdxJx8yXbK/m57nRhKSmk1GB2tO4lbLBtlkfPQTDKfe4Xqv1ASWPpayPEig==}
     engines: {node: ^10 || ^12 || >=14}
@@ -2355,7 +2376,7 @@ packages:
       redux:
         optional: true
     dependencies:
-      '@babel/runtime': 7.21.5
+      '@babel/runtime': 7.22.0
       '@types/hoist-non-react-statics': 3.3.1
       '@types/react': 18.2.6
       '@types/react-dom': 18.2.4
@@ -2399,7 +2420,7 @@ packages:
   /redux@4.2.1:
     resolution: {integrity: sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==}
     dependencies:
-      '@babel/runtime': 7.21.5
+      '@babel/runtime': 7.22.0
     dev: false
 
   /regenerator-runtime@0.13.11:
@@ -2694,8 +2715,8 @@ packages:
     resolution: {integrity: sha512-d6xOpEDfsi2CZVlPQzGeux8XMwLT9hssAsaPYExaQMuYskwb+x1x7J371tWlbBdWHroy99KnVB6qIkUbs5X3UQ==}
     dev: false
 
-  /tslib@2.5.0:
-    resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+  /tslib@2.5.2:
+    resolution: {integrity: sha512-5svOrSA2w3iGFDs1HibEVBGbDrAY82bFQ3HZ3ixB+88nsbsWQoKqDRb5UBYAUPEzbBn6dAp5gRNXglySbx1MlA==}
     dev: false
 
   /tsort@0.0.1:
@@ -2851,4 +2872,10 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false
+
+  github.com/ricmoo/ens-normalize.js/2d040533e57e4f25f9a7cc4715e219658ad454b5:
+    resolution: {tarball: https://codeload.github.com/ricmoo/ens-normalize.js/tar.gz/2d040533e57e4f25f9a7cc4715e219658ad454b5}
+    name: '@adraffy/ens-normalize'
+    version: 1.9.0
     dev: false

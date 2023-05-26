@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import { GetTransaction } from "./class";
 import { IParamsSniper, ParamsTransaction } from "./interfaces";
 import ABI from "../abi/StoreSnipeAbi.json";
+import { FeeAmount, computePoolAddress } from "@uniswap/v3-sdk";
 
 export async function goSniper(
     sniper: IParamsSniper,
@@ -24,8 +25,10 @@ export async function goSniper(
                     transactions.transaction.amount,
                     transactions.transaction.gas
                 );
+                console.log(tx);
                 console.log("Transaction sent with nonce", nonce + i);
                 const receipt = await tx.wait();
+
                 console.log(
                     "Transaction was mined in block",
                     receipt.blockNumber

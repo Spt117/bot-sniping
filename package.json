@@ -14,17 +14,20 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "@uniswap/sdk-core": "^3.2.2",
+    "@uniswap/v3-core": "^1.0.1",
+    "@uniswap/v3-periphery": "^1.4.3",
     "@uniswap/v3-sdk": "^3.9.0",
     "dotenv": "^16.0.3",
-    "ethers": "^6.3.0",
-    "mongoose": "^7.1.1",
+    "ethers": "^6.4.0",
+    "mongoose": "^7.2.1",
     "next": "13.4.2",
+    "pnpm": "^8.5.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "hardhat": "^2.0.0"
+    "hardhat": "^2.14.0"
   }
 }
