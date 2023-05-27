@@ -48,6 +48,8 @@ export interface AppState {
 interface RouterDetails {
     name: string;
     address: string;
+    quoterAddress: string;
+    factoryAddress: string;
     networks: string[];
 }
 

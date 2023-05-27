@@ -59,11 +59,15 @@ export const routers: Routers = {
             "Polygon",
             "Binance Smart Chain",
         ],
+        quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
+        factoryAddress: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
     },
     PancakeSwap: {
         name: "PancakeSwap",
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
         networks: ["Binance Smart Chain", "Ethereum"],
+        quoterAddress: "",
+        factoryAddress: "",
     },
 };
 
@@ -92,6 +96,8 @@ export const paramSniper: IParamsSniper = {
         name: "",
         address: "",
         networks: [],
+        quoterAddress: "",
+        factoryAddress: "",
     },
     id: 0,
     disable: false,
