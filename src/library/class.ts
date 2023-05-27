@@ -106,11 +106,16 @@ export class GetTransaction {
         this.blockchainRouter = blockchainRouter;
     }
 
-    getWallet(): ethers.Wallet | undefined {
+    getProvider() {
+        const provider = new ethers.JsonRpcProvider(
+            this.blockchainRouter.blockchain.connection
+        );
+        return provider;
+    }
+
+    getWallet() {
         try {
-            const provider = new ethers.JsonRpcProvider(
-                this.blockchainRouter.blockchain.connection
-            );
+            const provider = this.getProvider();
             const wallet = new ethers.Wallet(
                 this.transaction.private,
                 provider
@@ -119,5 +124,11 @@ export class GetTransaction {
         } catch (e) {
             console.log(e);
         }
+    }
+
+    async getBalance() {
+        const provider = this.getProvider();
+        const balance = await provider.getBalance(this.transaction.public);
+        return Number(Number(ethers.formatEther(balance)).toFixed(2));
     }
 }

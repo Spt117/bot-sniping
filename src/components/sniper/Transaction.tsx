@@ -6,18 +6,29 @@ import EditTransaction from "./EditTransaction";
 import { useEffect, useState } from "react";
 import { useMySymbol } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
+import { GetTransaction } from "@/library/class";
+import { paramTransaction } from "@/library/constantes";
 
 export function Transaction({ param }: { param: ParamsTransaction }) {
+    const dispatch = useDispatch();
     const { mySymbol, setMySymbol } = useMySymbol();
     const { paramsSniper, myTransactions, setMyTransactions } = useMyState();
+    const [balance, setBalance] = useState<number>(0);
+    const [bool, setBool] = useState(false);
 
     useEffect(() => {
         if (!param.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
-        else setMySymbol("tokens");
+        else {
+            setMySymbol("tokens");
+        }
+        getBalance();
     }, []);
 
-    const [bool, setBool] = useState(false);
-    const dispatch = useDispatch();
+    async function getBalance() {
+        const wallet = new GetTransaction(param, paramsSniper);
+        const balance = await wallet.getBalance();
+        setBalance(balance);
+    }
 
     function activeEdit() {
         setBool(true);
@@ -55,16 +66,22 @@ export function Transaction({ param }: { param: ParamsTransaction }) {
                     <output>{param.repeat}</output>
                 </div>
                 <div className="itemsTransactions">
-                    <div>gasLimit</div>
+                    <div>Gas Limit</div>
                     <output>{param.gas.gasLimit}</output>
                 </div>
                 <div className="itemsTransactions">
-                    <div>maxFeePerGas</div>
+                    <div>Max Fee Per Gas</div>
                     <output>{param.gas.maxFeePerGas}</output>
                 </div>
                 <div className="itemsTransactions">
-                    <div>maxPriorityFeePerGas</div>
+                    <div>Max Priority Fee Per Gas</div>
                     <output>{param.gas.maxPriorityFeePerGas}</output>
+                </div>
+                <div className="itemsTransactions">
+                    <div>Your balance</div>
+                    <output>
+                        {`${balance} ${paramsSniper.blockchain.symbol}`}
+                    </output>
                 </div>
                 <div className="divButtonsTransaction">
                     <button className="button" onClick={activeEdit}>
