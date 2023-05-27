@@ -27,7 +27,7 @@ export function Transaction({ param }: { param: ParamsTransaction }) {
     async function getBalance() {
         const wallet = new GetTransaction(param, paramsSniper);
         const balance = await wallet.getBalance();
-        setBalance(balance);
+        if (balance) setBalance(balance);
     }
 
     function activeEdit() {
