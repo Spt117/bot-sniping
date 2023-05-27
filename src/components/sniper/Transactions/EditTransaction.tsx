@@ -2,7 +2,7 @@ import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import Close from "../Close";
+import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
 import { useMyState } from "@/context/Context";
 

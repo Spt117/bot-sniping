@@ -27,29 +27,8 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-#newSnipe {
-    border-radius: 20px;
-    background-color: rgba(196, 248, 255, 0.6);
-    text-align: center;
-    color: #000000;
-    min-height: 10%;
-    background-color: rgb(142, 197, 252, 0.5);
+button {
     cursor: pointer;
-    border: none;
-    transition: background-color 3s ease;
-    transition: box-shadow 3s ease;
-    font-weight: bold;
-}
-#newSnipe:hover {
-    background-color: rgb(65, 62, 62, 0.5);
-    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
-    color: rgb(255, 255, 255);
-}
-
-#container-snipers {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
 }
 
 .closed {
@@ -73,7 +52,6 @@ input[type="number"] {
     background: none;
     color: inherit;
     border: none;
-    cursor: pointer;
     color: rgb(184, 184, 184);
     border-radius: 10px;
     transition: background-color 3s ease;
@@ -85,33 +63,6 @@ input[type="number"] {
     box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
 }
 
-#paramSnipe {
-    position: absolute;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background-color: rgba(196, 248, 255, 0.6);
-    text-align: center;
-    color: #ffffff;
-    padding: 2rem;
-    min-height: 15%;
-    background-color: rgb(142, 197, 252, 0.5);
-    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
-    z-index: 5;
-}
-#paramSnipe h4 {
-    /* all: unset; */
-    margin: 0;
-    margin-bottom: 0.5rem;
-    padding: 0;
-}
-
-.contain-param {
-    background-color: rgb(252, 255, 83);
-    margin: 0.5rem;
-    color: black;
-}
 .overlay {
     position: fixed; /* Position fixe pour qu'elle reste en place lors du scroll */
     top: 0; /* Elle commence en haut de la page */
@@ -120,71 +71,4 @@ input[type="number"] {
     height: 100%; /* Et toute la hauteur */
     background-color: rgba(0, 0, 0, 0.9); /* Fond noir semi-transparent */
     z-index: 3; /* Une grande valeur pour qu'elle soit au-dessus du reste du contenu */
-}
-
-.addTransaction {
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    background-color: rgba(196, 248, 255, 0.6);
-    text-align: center;
-    color: #ffffff;
-    padding: 1rem;
-    background-color: rgb(142, 197, 252, 0.5);
-    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
-    z-index: 5;
-    margin-top: 3rem;
-}
-
-.addTransaction h4 {
-    /* all: unset; */
-    margin: 0;
-    margin-bottom: 0.5rem;
-    padding: 0;
-}
-.listTransactions {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin: 0.5rem;
-    background-color: rgb(185, 255, 255);
-}
-.itemsTransactions {
-    margin: 0.5rem;
-    padding: 0.5rem;
-    border-radius: 10px;
-    background-color: rgba(196, 248, 255, 0.6);
-    text-align: center;
-    color: #000000;
-    background-color: rgba(197, 226, 255, 0.5);
-    /* box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9); */
-}
-.button {
-    border-radius: 0.5rem;
-    cursor: pointer;
-    font-weight: bold;
-    margin: 0.25rem;
-}
-.button:hover {
-    background-color: rgb(65, 62, 62, 0.5);
-    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
-    color: rgb(255, 255, 255);
-}
-
-.divButtonsTransaction {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-.divButtonsTransaction button {
-    min-width: 5rem;
-}
-
-.labelChekbox {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.2rem;
 }

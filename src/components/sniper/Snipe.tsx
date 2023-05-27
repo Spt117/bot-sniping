@@ -3,11 +3,13 @@ import { useEffect } from "react";
 import Close from "../Close";
 import { useDispatch } from "react-redux";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
-import AddTransaction from "./AddTransaction";
+import AddTransactionManually from "./Transactions/AddTransactionManually";
 import { useMyState } from "@/context/Context";
-import { GeneratorTransaction } from "./GeneratorTransaction";
+import { GeneratorTransaction } from "./Transactions/GeneratorTransaction";
 import { GetTransaction } from "@/library/class";
 import { checkPool, getEth } from "@/library/uniswapTests";
+import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
+import FileExemple from "./Transactions/FileExemple";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -45,7 +47,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 <Close functionClose={disableSniper} />
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
-                {myState === 1 && <AddTransaction />}
+                {myState === 2 && <AddTransactionManually />}
+                {myState === 1 && <ChooseAddTransaction />}
+                {myState === 3 && <FileExemple />}
 
                 <button className="button" onClick={() => setComponent(1)}>
                     Add Transaction

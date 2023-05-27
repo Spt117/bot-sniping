@@ -102,3 +102,35 @@ export const paramSniper: IParamsSniper = {
     id: 0,
     disable: false,
 };
+
+export const myModel = `
+[
+    {
+        "public": "0x0000000000000000000000000000000000000000",
+        "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "gas": {
+            "gasLimit": 500000,
+            "maxFeePerGas": 22000000000,
+            "maxPriorityFeePerGas": 1000000000
+        },
+        "amountIsToken": false,
+        "slippagePercent": 20,
+        "amount": 0,
+        "repeat": 1,
+        "useContract": false
+    },
+    {
+        "public": "0x0000000000000000000000000000000000000000",
+        "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
+        "gas": {
+            "gasLimit": 500000,
+            "maxFeePerGas": 22000000000,
+            "maxPriorityFeePerGas": 1000000000
+        },
+        "amountIsToken": false,
+        "slippagePercent": 20,
+        "amount": 0,
+        "repeat": 1,
+        "useContract": false
+    }
+]`;

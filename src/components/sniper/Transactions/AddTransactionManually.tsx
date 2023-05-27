@@ -4,11 +4,11 @@ import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import Close from "../Close";
+import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
 import { isEthereumAddress } from "@/library/fonctions";
 
-export default function AddTransaction() {
+export default function AddTransactionManually() {
     const { setMyState, myTransactions, setMyTransactions } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] =
@@ -20,8 +20,8 @@ export default function AddTransaction() {
     }
 
     function addItem(newItem: ParamsTransaction) {
-        setMyTransactions((oldParams: ParamsTransaction[]) => [
-            ...oldParams,
+        setMyTransactions((oldTransactions: ParamsTransaction[]) => [
+            ...oldTransactions,
             newItem,
         ]);
         close();

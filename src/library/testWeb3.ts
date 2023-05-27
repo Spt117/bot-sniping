@@ -5,8 +5,6 @@ const provider = new ethers.JsonRpcProvider(
     `https://goerli.infura.io/v3/${process.env.infura}`
 );
 
-// console.log(wallet);
-
 // const contrat = "0x395c6a5f1BFdF072163174e7F169B90D26bD0e93";
 const contrat = "0x138c1366D3A60D3AECdA306A5caE077158839E9b";
 

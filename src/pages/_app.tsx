@@ -1,6 +1,7 @@
 import { store } from "@/redux/store";
 import "@/styles/globals.css";
 import "@/styles/header.css";
+import "@/styles/sniper.css";
 import type { AppProps } from "next/app";
 import { Provider } from "react-redux";
 

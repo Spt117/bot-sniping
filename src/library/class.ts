@@ -128,7 +128,11 @@ export class GetTransaction {
 
     async getBalance() {
         const provider = this.getProvider();
-        const balance = await provider.getBalance(this.transaction.public);
-        return Number(Number(ethers.formatEther(balance)).toFixed(2));
+        try {
+            const balance = await provider.getBalance(this.transaction.public);
+            return Number(Number(ethers.formatEther(balance)).toFixed(2));
+        } catch (e) {
+            console.log(e);
+        }
     }
 }
