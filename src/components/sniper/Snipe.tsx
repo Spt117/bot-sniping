@@ -1,16 +1,16 @@
 import { IParamsSniper } from "@/library/interfaces";
 import { useEffect } from "react";
-import Close from "../Close";
 import { useDispatch } from "react-redux";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
-import AddTransactionManually from "./Transactions/AddTransactionManually";
 import { useMyState } from "@/context/Context";
 import { GeneratorTransaction } from "./Transactions/GeneratorTransaction";
 import { GetTransaction } from "@/library/class";
 import { checkPool, getEth } from "@/library/uniswapTests";
+import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
+import AddTransactionManually from "./Transactions/AddTransactionManually";
 import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
 import FileExemple from "./Transactions/FileExemple";
-import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
+import Close from "../Close";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
