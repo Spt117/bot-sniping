@@ -1,5 +1,8 @@
 import { routers } from "./constantes";
 import { IParamsSniper, ParamsTransaction } from "./interfaces";
+import { hdkey } from "ethereumjs-wallet";
+import { mnemonicToSeed } from "bip39";
+import { toChecksumAddress } from "ethereumjs-util";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -53,4 +56,20 @@ function checkIfAdressPublicIsInArray(
     transaction: ParamsTransaction
 ) {
     return array.find((e) => e.public === transaction.public) ? true : false;
+}
+
+export async function getAddresses(mnemonic: string, numAddresses: number) {
+    const seed = await mnemonicToSeed(mnemonic);
+    const hdwallet = hdkey.fromMasterSeed(seed);
+    const wallet_hdpath = "m/44'/60'/0'/0/";
+
+    let paires = [];
+
+    for (let i = 0; i < numAddresses; i++) {
+        const wallet = hdwallet.derivePath(wallet_hdpath + i).getWallet();
+        const address = toChecksumAddress(wallet.getAddressString());
+        const privateKey = wallet.getPrivateKeyString();
+        paires.push({ public: address, private: privateKey });
+    }
+    return paires;
 }

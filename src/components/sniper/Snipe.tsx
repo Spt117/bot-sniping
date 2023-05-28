@@ -10,6 +10,7 @@ import { GetTransaction } from "@/library/class";
 import { checkPool, getEth } from "@/library/uniswapTests";
 import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
 import FileExemple from "./Transactions/FileExemple";
+import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -47,9 +48,10 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 <Close functionClose={disableSniper} />
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
-                {myState === 2 && <AddTransactionManually />}
                 {myState === 1 && <ChooseAddTransaction />}
+                {myState === 2 && <AddTransactionManually />}
                 {myState === 3 && <FileExemple />}
+                {myState === 4 && <AddTransactionByMnemonic />}
 
                 <button className="button" onClick={() => setComponent(1)}>
                     Add Transaction

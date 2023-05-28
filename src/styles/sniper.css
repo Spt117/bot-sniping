@@ -29,7 +29,7 @@
 
 #paramSnipe {
     position: absolute;
-    top: 30%;
+    top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
     border-radius: 10px;
@@ -56,6 +56,7 @@
 .addTransaction {
     position: absolute;
     left: 50%;
+
     transform: translate(-50%, -50%);
     border-radius: 10px;
     background-color: rgba(196, 248, 255, 0.6);
@@ -122,7 +123,7 @@
 #model {
     position: absolute;
     left: 50%;
-    margin-top: 50%;
+    margin-top: 40%;
     transform: translate(-50%, -50%);
     z-index: 5;
     text-align: left;

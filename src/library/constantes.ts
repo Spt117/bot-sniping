@@ -74,16 +74,17 @@ export const routers: Routers = {
 export const paramTransaction: ParamsTransaction = {
     public: "",
     private: "",
-    gas: new Gas({
+    gas: {
         gasLimit: 500000,
         maxFeePerGas: 22000000000,
         maxPriorityFeePerGas: 1000000000,
-    }),
+    },
     amountIsToken: false,
     slippagePercent: 20,
-    amount: 0,
+    amount: 0.01,
     repeat: 1,
     useContract: false,
+    contractAddress: "none",
 };
 
 export const paramSniper: IParamsSniper = {
@@ -118,6 +119,7 @@ export const myModel = `
         "amount": 0,
         "repeat": 1,
         "useContract": false
+        "contractAddress": "none",
     },
     {
         "public": "0x0000000000000000000000000000000000000000",
@@ -132,5 +134,6 @@ export const myModel = `
         "amount": 0,
         "repeat": 1,
         "useContract": false
+        "contractAddress": "none",
     }
 ]`;

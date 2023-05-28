@@ -38,7 +38,7 @@ export default function ChooseAddTransaction() {
     }
 
     return (
-        <div className="addTransaction">
+        <div className="addTransaction" id="chooseAddTransaction">
             <Close functionClose={() => setComponent(0)} />
             <h4>Choose your way</h4>
             <button
@@ -65,7 +65,10 @@ export default function ChooseAddTransaction() {
                 Get Model
             </button>
             <br />
-            <button className="button-chooseAddTransaction">
+            <button
+                className="button-chooseAddTransaction"
+                onClick={() => setMyState(4)}
+            >
                 Add by Mnemonic phrase
             </button>
         </div>

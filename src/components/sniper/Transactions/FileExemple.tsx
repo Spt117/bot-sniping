@@ -23,7 +23,7 @@ export default function FileExemple() {
                 }}
             />
             <button id="button-copy" onClick={handleCopyClick}>
-                {isCopied ? "Copied !" : "Copy"}{" "}
+                {isCopied ? "Copied !" : "Copy"}
             </button>
             <pre>
                 <code>{myModel}</code>
