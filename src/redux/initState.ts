@@ -4,7 +4,7 @@ export const initialState: AppState = {
     isConnect: false,
     overlay: false,
     account: "",
-    chain: { name: "Non-connecté", id: null },
+    network: { name: "", symbol: "", connection: "", chainId: 0 },
     balance: 0,
     addASniper: false,
     composantSniper: [],

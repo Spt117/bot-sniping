@@ -5,7 +5,11 @@ import React, { useEffect } from "react";
 import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import Close from "../Close";
-import { isRouter } from "@/library/fonctions";
+import {
+    findNetworkByNameOrId,
+    findRouterByName,
+    isRouter,
+} from "@/library/fonctions";
 
 export default function ParamSnipe() {
     const dispatch = useDispatch();
@@ -36,16 +40,16 @@ export default function ParamSnipe() {
                 onChange={(e) =>
                     setParams({
                         ...params,
-                        blockchain: networks[e.target.value],
+                        blockchain: findNetworkByNameOrId(e.target.value),
                     })
                 }
             >
                 <option value="">--Please choose a Blockchain--</option>
-                {Object.keys(networks)
-                    .sort()
+                {networks
+                    .sort((a, b) => a.name.localeCompare(b.name))
                     .map((network) => (
-                        <option key={network} value={network}>
-                            {networks[network].name}
+                        <option key={network.chainId} value={network.name}>
+                            {network.name}
                         </option>
                     ))}
             </select>
@@ -61,7 +65,7 @@ export default function ParamSnipe() {
                             onChange={(e) =>
                                 setParams({
                                     ...params,
-                                    router: routers[e.target.value],
+                                    router: findRouterByName(e.target.value),
                                 })
                             }
                         >
@@ -70,16 +74,13 @@ export default function ParamSnipe() {
                                     --Please choose an exchange--
                                 </option>
                             )}
-                            {Object.keys(routers)
-                                .sort()
+                            {routers
+                                .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((router) => (
-                                    <React.Fragment key={router}>
+                                    <React.Fragment key={router.name}>
                                         {isRouter(router, params) && (
-                                            <option
-                                                key={router}
-                                                value={routers[router].name}
-                                            >
-                                                {router}
+                                            <option value={router.name}>
+                                                {router.name}
                                             </option>
                                         )}
                                     </React.Fragment>

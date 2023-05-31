@@ -37,9 +37,12 @@ export const overlayReducer = (
     }
 };
 
-export const chainReducer = (state = initialState.chain, action: AnyAction) => {
+export const networkReducer = (
+    state = initialState.network,
+    action: AnyAction
+) => {
     switch (action.type) {
-        case "chain":
+        case "network":
             return action.value;
         default:
             return state;

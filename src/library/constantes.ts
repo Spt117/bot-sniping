@@ -1,56 +1,62 @@
-import { ethers } from "ethers";
-import { Gas, Wallet } from "./class";
 import ethImage from "../assets/ethereum.png";
 import {
-    Networks,
+    INetworkInfo,
     IParamsSniper,
     ParamsTransaction,
-    Routers,
+    IRouterDetails,
 } from "./interfaces";
-export { wallet };
 
-let theWallet: ethers.Eip1193Provider;
-
-let wallet: Wallet;
-if (typeof window !== "undefined") {
-    theWallet = window.ethereum;
-    wallet = new Wallet(theWallet);
-}
-
-export const networks: Networks = {
-    goerli: {
+export const networks: INetworkInfo[] = [
+    {
         name: "Goerli Testnet",
         logo: ethImage,
         symbol: "ETH",
-        connection: `https://goerli.infura.io/v3/${process.env.infura}`,
+        connection: `https://ethereum-goerli-rpc.allthatnode.com`,
         chainId: 5,
     },
-    sepolia: {
+    {
         name: "Sepolia Testnet",
         logo: ethImage,
         symbol: "ETH",
-        connection: `https://sepolia.infura.io/v3/${process.env.infura}`,
+        connection: `https://ethereum-sepolia-rpc.allthatnode.com`,
+        chainId: 11155111,
     },
-    mainnet: {
+    {
+        name: "Avalanche",
+        symbol: "AVAX",
+        connection: "https://api.avax.network/ext/bc/C/rpc",
+        chainId: 43114,
+    },
+    {
+        name: "Binance Smart Chain",
+        symbol: "BNB",
+        connection: "https://bsc-dataseed2.binance.org/",
+        chainId: 56,
+    },
+    {
         name: "Ethereum",
         logo: ethImage,
         symbol: "ETH",
-        connection: `https://mainnet.infura.io/v3/${process.env.infura}`,
+        connection: `https://ethereum-mainnet-rpc.allthatnode.com`,
+        chainId: 1,
     },
-    matic: {
+    {
+        name: "Fantom",
+        symbol: "FTM",
+        connection: "https://rpcapi.fantom.network",
+        chainId: 250,
+    },
+
+    {
         name: "Polygon",
         symbol: "MATIC",
-        connection: `https://polygon-mainnet.infura.io/v3/${process.env.infura}`,
+        connection: `https://polygon-rpc.com`,
+        chainId: 137,
     },
-    bnb: {
-        name: "Binance Smart Chain",
-        symbol: "BNB",
-        connection: "",
-    },
-};
+];
 
-export const routers: Routers = {
-    "Uniswap V3": {
+export const routers: IRouterDetails[] = [
+    {
         name: "Uniswap V3",
         address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
         networks: [
@@ -62,14 +68,14 @@ export const routers: Routers = {
         quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
         factoryAddress: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
     },
-    PancakeSwap: {
+    {
         name: "PancakeSwap",
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
-        networks: ["Binance Smart Chain", "Ethereum"],
+        networks: ["Binance Smart Chain", "Ethereum", "Goerli Testnet"],
         quoterAddress: "",
         factoryAddress: "",
     },
-};
+];
 
 export const paramTransaction: ParamsTransaction = {
     public: "",
@@ -92,6 +98,7 @@ export const paramSniper: IParamsSniper = {
         name: "",
         symbol: "",
         connection: "",
+        chainId: 0,
     },
     router: {
         name: "",

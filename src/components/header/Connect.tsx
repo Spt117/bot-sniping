@@ -1,10 +1,10 @@
-import { wallet } from "@/library/constantes";
-import { truncateAddr } from "@/library/fonctions";
 import { myIsConnect } from "@/redux/actions";
 import Image from "next/image";
 import walletImage from "../../assets/wallet.png";
 import { useDispatch, useSelector } from "react-redux";
 import { AppState } from "@/library/interfaces";
+import { truncateAddr } from "@/library/fonctions";
+import { Wallet } from "@/library/class";
 
 export default function Connect() {
     const account = useSelector((state: AppState) => state.account);
@@ -14,6 +14,7 @@ export default function Connect() {
     // connecter metamask à l'aplication
     async function connectDapp() {
         try {
+            let wallet = new Wallet(window.ethereum);
             await wallet.getSigner();
             dispatch(myIsConnect(true));
         } catch (e) {

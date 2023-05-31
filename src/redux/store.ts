@@ -2,11 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import {
     accountReducer,
     balanceReducer,
-    chainReducer,
     composantSniperReducer,
     isAddASniperReducer,
     isConnectReducer,
     overlayReducer,
+    networkReducer,
 } from "./reducers";
 
 export const store = configureStore({
@@ -14,7 +14,7 @@ export const store = configureStore({
         account: accountReducer,
         isConnect: isConnectReducer,
         overlay: overlayReducer,
-        chain: chainReducer,
+        network: networkReducer,
         balance: balanceReducer,
         addASniper: isAddASniperReducer,
         composantSniper: composantSniperReducer,

@@ -1,4 +1,4 @@
-import { Network, IParamsSniper } from "@/library/interfaces";
+import { INetworkInfo, IParamsSniper } from "@/library/interfaces";
 
 export const myAccount = (account: string) => ({
     type: "account",
@@ -15,9 +15,9 @@ export const myOverlay = (overlay: boolean) => ({
     value: overlay,
 });
 
-export const myChain = (chain: Network) => ({
-    type: "chain",
-    value: chain,
+export const myNetwork = (network: INetworkInfo) => ({
+    type: "network",
+    value: network,
 });
 
 export const myBalance = (balance: number) => ({

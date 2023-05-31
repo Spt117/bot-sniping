@@ -6,21 +6,12 @@ declare global {
     }
 }
 
-export interface Network {
-    name: string;
-    id: number | null;
-}
-
-interface NetworkInfo {
+export interface INetworkInfo {
     name: string;
     logo?: StaticImageData;
     symbol: string;
     connection: string;
-    chainId?: number;
-}
-
-export interface Networks {
-    [key: string]: NetworkInfo;
+    chainId: number;
 }
 
 export interface Request {
@@ -30,8 +21,8 @@ export interface Request {
 }
 
 export interface IParamsSniper {
-    blockchain: NetworkInfo;
-    router: RouterDetails;
+    blockchain: INetworkInfo;
+    router: IRouterDetails;
     id: number;
     disable: boolean;
 }
@@ -40,21 +31,17 @@ export interface AppState {
     isConnect: boolean;
     overlay: boolean;
     account: string | null;
-    chain: Network;
+    network: INetworkInfo;
     balance: number;
     addASniper: boolean;
     composantSniper: IParamsSniper[];
 }
-interface RouterDetails {
+export interface IRouterDetails {
     name: string;
     address: string;
     quoterAddress: string;
     factoryAddress: string;
     networks: string[];
-}
-
-export interface Routers {
-    [key: string]: RouterDetails;
 }
 
 export interface Keys {

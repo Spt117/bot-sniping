@@ -1,5 +1,5 @@
-import { routers } from "./constantes";
-import { IParamsSniper, ParamsTransaction } from "./interfaces";
+import { networks, paramSniper, routers } from "./constantes";
+import { IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
@@ -28,8 +28,23 @@ export function eventMetamask(callBack: any) {
         events.forEach((e) => window.ethereum.removeListener(e, callBack(e)));
 }
 
-export function isRouter(router: string, params: IParamsSniper): boolean {
-    return routers[router].networks.includes(params.blockchain.name);
+export function isRouter(
+    router: IRouterDetails,
+    params: IParamsSniper
+): boolean {
+    return router.networks.includes(params.blockchain.name);
+}
+
+export function findNetworkByNameOrId(prop: string | number) {
+    return (
+        networks.find(
+            (network) => network.name === prop || network.chainId === prop
+        ) || paramSniper.blockchain
+    );
+}
+
+export function findRouterByName(name: string) {
+    return routers.find((router) => router.name === name) || paramSniper.router;
 }
 
 export function isEthereumAddress(
@@ -38,8 +53,8 @@ export function isEthereumAddress(
 ) {
     const findAdress = checkIfAdressPublicIsInArray(array, address);
     const button = document.getElementById("newTransactionButton");
-    const ethereumPublicAddressRegex = /^(0x){1}[0-9a-fA-F]{40}$/i;
-    const ethereumPrivateAddressRegex = /^(0x){1}[0-9a-fA-F]{64}$/i;
+    const ethereumPublicAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/i;
+    const ethereumPrivateAddressRegex = /^(0x)?[0-9a-fA-F]{64}$/i;
     if (
         ethereumPublicAddressRegex.test(address.public) &&
         ethereumPrivateAddressRegex.test(address.private) &&

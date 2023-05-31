@@ -49,7 +49,7 @@ export class Wallet {
         const address = await this.getAddress();
         if (address) {
             const balance = await this.provider.getBalance(address);
-            return balance;
+            return Number(Number(ethers.formatEther(balance)).toFixed(4));
         }
     }
 
@@ -81,17 +81,6 @@ export class Wallet {
             console.log(e);
             return false;
         }
-    }
-}
-
-export class Gas {
-    gasLimit: number;
-    maxFeePerGas: number;
-    maxPriorityFeePerGas: number;
-    constructor(gas: Gas) {
-        this.gasLimit = gas.gasLimit;
-        this.maxFeePerGas = gas.maxFeePerGas;
-        this.maxPriorityFeePerGas = gas.maxPriorityFeePerGas;
     }
 }
 
@@ -130,7 +119,7 @@ export class GetTransaction {
         const provider = this.getProvider();
         try {
             const balance = await provider.getBalance(this.transaction.public);
-            return Number(Number(ethers.formatEther(balance)).toFixed(2));
+            return Number(Number(ethers.formatEther(balance)).toFixed(4));
         } catch (e) {
             console.log(e);
         }
