@@ -65,7 +65,7 @@
     background-color: rgb(142, 197, 252, 0.5);
     box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
     z-index: 5;
-    margin-top: 3rem;
+    top: 40%;
 }
 
 .addTransaction h4 {
@@ -174,4 +174,7 @@
     margin: 0;
     margin-bottom: 0.5rem;
     padding: 0;
+}
+.isToken {
+    cursor: pointer;
 }

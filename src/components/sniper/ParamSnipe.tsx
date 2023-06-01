@@ -1,8 +1,8 @@
+import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import { networks, paramSniper, routers } from "@/library/constantes";
-import { AppState, IParamsSniper } from "@/library/interfaces";
+import { AppState } from "@/library/interfaces";
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import { useState } from "react";
 import Close from "../Close";
 import {
@@ -14,26 +14,25 @@ import {
 export default function ParamSnipe() {
     const dispatch = useDispatch();
     const id = useSelector((state: AppState) => state.composantSniper.length);
-    const [params, setParams] = useState<IParamsSniper>(paramSniper);
+    const [params, setParams] = useState(paramSniper);
 
     useEffect(() => {
         setParams({ ...params, id: id });
-        console.log(params);
     }, [id]);
 
-    function reset() {
+    function close() {
         dispatch(myAddASniper(false));
         dispatch(myOverlay(false));
     }
 
     function addComposantSnipe() {
         dispatch(myComposantSniper(params));
-        reset();
+        close();
     }
 
     return (
         <div id="paramSnipe">
-            <Close functionClose={reset} />
+            <Close functionClose={close} />
             <h4>Blockchain</h4>
             <select
                 name="Blockchain"

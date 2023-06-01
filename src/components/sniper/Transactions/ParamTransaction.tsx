@@ -48,7 +48,8 @@ export default function ParamTransaction({
 
             <div className="labelChekbox">
                 <input
-                    name="isToken"
+                    className="isToken"
+                    id="isToken"
                     type="checkbox"
                     placeholder="isToken"
                     onChange={(e) =>
@@ -58,7 +59,9 @@ export default function ParamTransaction({
                         })
                     }
                 />
-                <label htmlFor="isToken">Set amount in token</label>
+                <label className="isToken" htmlFor="isToken">
+                    Set amount in token
+                </label>
             </div>
             <input
                 type="number"

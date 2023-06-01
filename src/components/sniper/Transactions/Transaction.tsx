@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 import { useMySymbol } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
 import { GetTransaction } from "@/library/class";
-import { paramTransaction } from "@/library/constantes";
 
 export function Transaction({ param }: { param: ParamsTransaction }) {
     const dispatch = useDispatch();

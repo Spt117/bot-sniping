@@ -6,7 +6,7 @@ import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
 import { useMyState } from "@/context/Context";
 
-export default function EditTransaction({
+export default function editTransaction({
     addressPublic,
 
     setBool,
@@ -30,7 +30,7 @@ export default function EditTransaction({
         dispatch(myOverlay(false));
     }
 
-    function EditTransaction() {
+    function editTransaction() {
         newArray[index] = {
             ...newArray[index],
             ...newTransaction,
@@ -47,7 +47,7 @@ export default function EditTransaction({
                 setNewTransaction={setNewTransaction}
             />
             <br />
-            <button className="button" onClick={EditTransaction}>
+            <button className="button" onClick={editTransaction}>
                 Set Transaction
             </button>
         </div>

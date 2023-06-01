@@ -2,7 +2,7 @@ import { FeeAmount, TICK_SPACINGS, computePoolAddress } from "@uniswap/v3-sdk";
 import { Token } from "@uniswap/sdk-core";
 import { ethers } from "ethers";
 import { GetTransaction } from "./class";
-import ABI from "../abi/IERC20.json";
+import ABI from "../web3/abis/IERC20.json";
 import IUniswapV3PoolABI from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 import Quoter from "@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
 

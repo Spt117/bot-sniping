@@ -5,12 +5,13 @@ import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { useMyState } from "@/context/Context";
 import { GeneratorTransaction } from "./Transactions/GeneratorTransaction";
 import { GetTransaction } from "@/library/class";
-import { checkPool, getEth } from "@/library/uniswapTests";
+import { checkPool, getEth } from "@/library/uniswapV3Tests";
 import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
 import AddTransactionManually from "./Transactions/AddTransactionManually";
 import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
 import FileExemple from "./Transactions/FileExemple";
 import Close from "../Close";
+import { testEth } from "@/library/uniswapV2Test";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -36,10 +37,11 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         dispatch(myOverlay(true));
     }
 
-    async function test2(addr: string, addr2: string) {
+    async function test2() {
         const wallet = new GetTransaction(myTransactions[0], sniper);
-        getEth(addr, addr2, wallet);
-        checkPool(addr, addr2, wallet);
+        // getEth(addr, addr2, wallet);
+        // checkPool(addr, addr2, wallet);
+        testEth(wallet);
     }
 
     return (
@@ -71,10 +73,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
 
                 <button
                     onClick={() =>
-                        test2(
-                            "0x395c6a5f1BFdF072163174e7F169B90D26bD0e93",
-                            "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
-                        )
+                        test2()
+                        // "0x395c6a5f1BFdF072163174e7F169B90D26bD0e93",
+                        // "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
                     }
                 >
                     GetEth

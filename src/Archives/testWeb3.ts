@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import ABI from "../abi/testAbi.json";
+import ABI from "../web3/abis/testAbi.json";
 
 const provider = new ethers.JsonRpcProvider(
     `https://goerli.infura.io/v3/${process.env.infura}`

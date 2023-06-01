@@ -26,7 +26,9 @@ export default function FileExemple() {
                 {isCopied ? "Copied !" : "Copy"}
             </button>
             <pre>
-                <code>{myModel}</code>
+                <code style={{ color: "black", fontWeight: "bolder" }}>
+                    {myModel}
+                </code>
             </pre>
             <br />
             <p>

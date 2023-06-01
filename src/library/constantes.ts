@@ -69,6 +69,18 @@ export const routers: IRouterDetails[] = [
         factoryAddress: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
     },
     {
+        name: "Uniswap V2",
+        address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
+        networks: [
+            "Ethereum",
+            "Goerli Testnet",
+            "Polygon",
+            "Binance Smart Chain",
+        ],
+        quoterAddress: "",
+        factoryAddress: "",
+    },
+    {
         name: "PancakeSwap",
         address: "0x1b81D678ffb9C0263b24A97847620C99d213eB14",
         networks: ["Binance Smart Chain", "Ethereum", "Goerli Testnet"],

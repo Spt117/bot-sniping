@@ -48,7 +48,11 @@ export default function ChooseAddTransaction() {
                 Add Manually
             </button>
             <br />
-            <button className="button-chooseAddTransaction" onClick={getFile}>
+            <button
+                className="button-chooseAddTransaction"
+                onClick={getFile}
+                title=".json file or .txt file"
+            >
                 Import file
             </button>
             <input
