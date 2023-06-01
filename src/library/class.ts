@@ -35,14 +35,20 @@ export class Wallet {
     }
 
     async getSigner() {
-        const signer = await this.provider.getSigner();
-        return signer;
+        try {
+            const signer = await this.provider.getSigner();
+            return signer;
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     async getAddress() {
         const signer = await this.getSigner();
-        const address = await signer.getAddress();
-        return address;
+        if (signer) {
+            const address = await signer.getAddress();
+            return address;
+        }
     }
 
     async getBalance() {

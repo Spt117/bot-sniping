@@ -40,7 +40,7 @@ export default function EditTransaction({
     }
 
     return (
-        <div className="addTransaction">
+        <div className="editTransaction">
             <Close functionClose={closeEdit} />
             <ParamTransaction
                 newTransaction={newTransaction}

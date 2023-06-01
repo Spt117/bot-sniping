@@ -18,6 +18,7 @@ export default function ParamSnipe() {
 
     useEffect(() => {
         setParams({ ...params, id: id });
+        console.log(params);
     }, [id]);
 
     function reset() {
@@ -55,39 +56,38 @@ export default function ParamSnipe() {
             </select>
             <br />
             <br />
-            {params.blockchain.connection !== "" &&
-                params.blockchain.name !== "Sepolia Testnet" && (
-                    <>
-                        <h4>Exchange</h4>
-                        <select
-                            name="router"
-                            id="router"
-                            onChange={(e) =>
-                                setParams({
-                                    ...params,
-                                    router: findRouterByName(e.target.value),
-                                })
-                            }
-                        >
-                            {!params.router.name && (
-                                <option value="">
-                                    --Please choose an exchange--
-                                </option>
-                            )}
-                            {routers
-                                .sort((a, b) => a.name.localeCompare(b.name))
-                                .map((router) => (
-                                    <React.Fragment key={router.name}>
-                                        {isRouter(router, params) && (
-                                            <option value={router.name}>
-                                                {router.name}
-                                            </option>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                        </select>
-                    </>
-                )}
+            {params.blockchain.connection !== "" && (
+                <>
+                    <h4>Exchange</h4>
+                    <select
+                        name="router"
+                        id="router"
+                        onChange={(e) =>
+                            setParams({
+                                ...params,
+                                router: findRouterByName(e.target.value),
+                            })
+                        }
+                    >
+                        {!params.router.name && (
+                            <option value="">
+                                --Please choose an exchange--
+                            </option>
+                        )}
+                        {routers
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((router) => (
+                                <React.Fragment key={router.name}>
+                                    {isRouter(router, params) && (
+                                        <option value={router.name}>
+                                            {router.name}
+                                        </option>
+                                    )}
+                                </React.Fragment>
+                            ))}
+                    </select>
+                </>
+            )}
             {params.router.name && (
                 <>
                     <br />

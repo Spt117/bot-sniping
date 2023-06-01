@@ -14,12 +14,18 @@ export default function Header() {
     const boolIsConnect = useSelector((state: AppState) => state.isConnect);
 
     async function events(e: string) {
+        let wallet = new Wallet(window.ethereum);
         try {
             if (e === "chainChanged") {
                 // window.location.reload();
-                init();
+                init(wallet);
             } else if (e === "accountsChanged") {
-                getBalanceAndAddress();
+                const isConnect = await wallet.isConnect();
+                if (isConnect) {
+                    getBalanceAndAddress(wallet);
+                } else {
+                    dispatch(myIsConnect(false));
+                }
             }
         } catch (e) {
             console.log(e);
@@ -27,47 +33,41 @@ export default function Header() {
         }
     }
 
-    async function getBalanceAndAddress() {
-        let wallet = new Wallet(window.ethereum);
-
+    async function getBalanceAndAddress(wallet: Wallet) {
         const [address, balance] = await Promise.all([
             wallet.getAddress(),
             wallet.getBalance(),
         ]);
-        dispatch(myAccount(address));
+        if (address) dispatch(myAccount(address));
         dispatch(myBalance(Number(balance)));
     }
 
-    async function getNetwork() {
-        let wallet = new Wallet(window.ethereum);
-
+    async function getNetwork(wallet: Wallet) {
         const network = await wallet.getChain();
         const networkInfo = findNetworkByNameOrId(network.id);
         dispatch(myNetwork(networkInfo));
     }
 
     useEffect(() => {
+        const unsubscribe = eventMetamask(events);
         let wallet = new Wallet(window.ethereum);
-
         if (wallet.wallet) {
-            init();
+            init(wallet);
+            // Return cleanup function
+            return () => {
+                unsubscribe();
+            };
         } else {
             dispatch(myIsConnect(false));
         }
     }, [boolIsConnect]);
 
-    async function init() {
-        let wallet = new Wallet(window.ethereum);
-
+    async function init(wallet: Wallet) {
         const isConnect = await wallet.isConnect();
         if (isConnect) {
-            getBalanceAndAddress();
-            getNetwork();
-            // const network = await wallet.getChain();
-            // const networkInfo = findNetworkByNameOrId(network.id);
-            // dispatch(myNetwork(networkInfo));
+            getBalanceAndAddress(wallet);
+            getNetwork(wallet);
             dispatch(myIsConnect(true));
-            eventMetamask(events);
         }
     }
 

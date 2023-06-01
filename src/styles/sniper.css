@@ -28,7 +28,7 @@
 }
 
 #paramSnipe {
-    position: absolute;
+    position: fixed;
     top: 25%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -54,9 +54,8 @@
     color: black;
 }
 .addTransaction {
-    position: absolute;
+    position: fixed;
     left: 50%;
-
     transform: translate(-50%, -50%);
     border-radius: 10px;
     background-color: rgba(196, 248, 255, 0.6);
@@ -121,9 +120,9 @@
 }
 
 #model {
-    position: absolute;
+    position: fixed;
     left: 50%;
-    margin-top: 40%;
+    margin-top: 15%;
     transform: translate(-50%, -50%);
     z-index: 5;
     text-align: left;
@@ -154,4 +153,25 @@
     margin: 0.25rem;
     background-color: rgba(10, 10, 10, 0.5);
     color: rgb(255, 255, 255);
+}
+
+.editTransaction {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #ffffff;
+    padding: 1rem;
+    background-color: rgb(142, 197, 252, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
+    z-index: 5;
+    top: 40%;
+}
+.editTransaction h4 {
+    /* all: unset; */
+    margin: 0;
+    margin-bottom: 0.5rem;
+    padding: 0;
 }
