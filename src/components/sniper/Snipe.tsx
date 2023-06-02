@@ -1,17 +1,16 @@
+import { useMyState } from "@/context/Context";
+import { GetTransaction } from "@/library/class";
 import { IParamsSniper } from "@/library/interfaces";
+import { testEth } from "@/library/uniswapV2Test";
+import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { myDisableSniper, myOverlay } from "@/redux/actions";
-import { useMyState } from "@/context/Context";
-import { GeneratorTransaction } from "./Transactions/GeneratorTransaction";
-import { GetTransaction } from "@/library/class";
-import { checkPool, getEth } from "@/library/uniswapV3Tests";
+import Close from "../Close";
 import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
 import AddTransactionManually from "./Transactions/AddTransactionManually";
 import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
 import FileExemple from "./Transactions/FileExemple";
-import Close from "../Close";
-import { testEth } from "@/library/uniswapV2Test";
+import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -72,8 +71,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 <br />
 
                 <button
-                    onClick={() =>
-                        test2()
+                    onClick={
+                        () => test2()
                         // "0x395c6a5f1BFdF072163174e7F169B90D26bD0e93",
                         // "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
                     }

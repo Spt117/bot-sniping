@@ -2,8 +2,8 @@ import ethImage from "../assets/ethereum.png";
 import {
     INetworkInfo,
     IParamsSniper,
-    ParamsTransaction,
     IRouterDetails,
+    ParamsTransaction,
 } from "./interfaces";
 
 export const networks: INetworkInfo[] = [

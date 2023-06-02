@@ -2,7 +2,7 @@ import { Transaction } from "./Transaction";
 import { MySymbolProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/Context";
 
-export function GeneratorTransaction() {
+export default function GeneratorTransaction() {
     const { myTransactions, setBoolTransactions } = useMyState();
     return (
         <>

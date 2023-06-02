@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import { GetTransaction } from "./class";
 import { IParamsSniper, ParamsTransaction } from "./interfaces";
-import ABI from "../abi/StoreSnipeAbi.json";
+import ABI from "../web3/abis/StoreSnipeAbi.json";
 import { FeeAmount, computePoolAddress } from "@uniswap/v3-sdk";
 
 export async function goSniper(

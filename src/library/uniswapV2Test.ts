@@ -18,9 +18,8 @@ export async function testEth(wallet: GetTransaction) {
     const weth = await UniswapRouterV2Contract.WETH();
     console.log("factory", factory);
     console.log("weth", weth);
-    const test = await UniswapRouterV2Contract.sortTokens(
-        "0xa7065ba15c7906282973896f6fec835b0c6c545b",
-        "0xc778417e063141139fce010982780140aa0cd5ab"
-    );
-    console.log("test", test);
+    // const test = await UniswapRouterV2Contract.sortTokens(
+    //     "0xa7065ba15c7906282973896f6fec835b0c6c545b",
+    //     "0xc778417e063141139fce010982780140aa0cd5ab"
+    // );
 }
