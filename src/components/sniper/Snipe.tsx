@@ -1,7 +1,7 @@
 import { useMyState } from "@/context/Context";
 import { GetTransaction } from "@/library/class";
 import { IParamsSniper } from "@/library/interfaces";
-import { testEth } from "@/library/uniswapV2Test";
+import { stopMempool, testMempool } from "@/library/uniswapV2Test";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -34,7 +34,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         const wallet = new GetTransaction(myTransactions[0], sniper);
         // getEth(addr, addr2, wallet);
         // checkPool(addr, addr2, wallet);
-        testEth(wallet);
+        // testEth(wallet);
+        testMempool(wallet);
     }
 
     return (
@@ -72,6 +73,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 >
                     GetEth
                 </button>
+
+                <button onClick={stopMempool}>Stop</button>
             </div>
         </div>
     );
