@@ -12,9 +12,7 @@ export default function GeneratorTransaction() {
                     <Transaction param={param} />
                 </MySymbolProvider>
             ))}
-            <button onClick={() => setBoolTransactions(false)}>
-                Hide transactions
-            </button>
+            <button onClick={() => setBoolTransactions(false)}>Hide transactions</button>
         </>
     );
 }

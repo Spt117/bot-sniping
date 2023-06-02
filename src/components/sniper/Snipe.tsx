@@ -14,14 +14,8 @@ import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
-    const {
-        myState,
-        setMyState,
-        setMyParamSniper,
-        myTransactions,
-        boolTransactions,
-        setBoolTransactions,
-    } = useMyState();
+    const { myState, setMyState, setMyParamSniper, myTransactions, boolTransactions, setBoolTransactions } =
+        useMyState();
 
     useEffect(() => {
         setMyParamSniper(sniper);
@@ -49,6 +43,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 <Close functionClose={disableSniper} />
                 <div>{sniper.blockchain.name}</div>
                 <div>{sniper.router.name}</div>
+
                 {myState === 1 && <ChooseAddTransaction />}
                 {myState === 2 && <AddTransactionManually />}
                 {myState === 3 && <FileExemple />}
@@ -61,9 +56,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                     <>
                         {boolTransactions && <GeneratorTransaction />}
                         {!boolTransactions && (
-                            <button onClick={() => setBoolTransactions(true)}>
-                                Show Transactions
-                            </button>
+                            <button onClick={() => setBoolTransactions(true)}>Show Transactions</button>
                         )}
                     </>
                 )}

@@ -34,10 +34,7 @@ export default function Header() {
     }
 
     async function getBalanceAndAddress(wallet: Wallet) {
-        const [address, balance] = await Promise.all([
-            wallet.getAddress(),
-            wallet.getBalance(),
-        ]);
+        const [address, balance] = await Promise.all([wallet.getAddress(), wallet.getBalance()]);
         if (address) dispatch(myAccount(address));
         dispatch(myBalance(Number(balance)));
     }
@@ -49,9 +46,9 @@ export default function Header() {
     }
 
     useEffect(() => {
-        const unsubscribe = eventMetamask(events);
         let wallet = new Wallet(window.ethereum);
         if (wallet.wallet) {
+            const unsubscribe = eventMetamask(events);
             init(wallet);
             // Return cleanup function
             return () => {
