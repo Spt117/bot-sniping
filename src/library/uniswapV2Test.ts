@@ -28,9 +28,9 @@ export async function testEth(myWallet: GetTransaction) {
     }
 }
 
-export async function swapETHForTokens(amountIn: number, myWallet: ethers.Wallet) {
-    const UniswapRouterV2Contract = new ethers.Contract(UniswapRouterV2Adress, AbiUniswapV2Router, myWallet);
-    const address = myWallet.getAddress();
+export async function swapETHForTokens(amountIn: number, myWallet: GetTransaction) {
+    const wallet = myWallet.getWallet();
+    const UniswapRouterV2Contract = new ethers.Contract(UniswapRouterV2Adress, AbiUniswapV2Router, wallet);
 
     // Vous devez convertir le montant d'ETH que vous voulez swapper en Wei
     const amountInWei = ethers.parseEther(amountIn.toString());
@@ -47,9 +47,18 @@ export async function swapETHForTokens(amountIn: number, myWallet: ethers.Wallet
     const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
 
     // Exécutez le swap
-    const tx = await UniswapRouterV2Contract.swapExactETHForTokens(amountOutMin, path, address, deadline, {
-        value: amountInWei,
-    });
+    const tx = await UniswapRouterV2Contract.swapExactETHForTokens(
+        amountOutMin,
+        path,
+        myWallet.transaction.public,
+        deadline,
+        {
+            ...{
+                value: amountInWei,
+            },
+            ...myWallet.transaction.gas,
+        }
+    );
 
     console.log("Transaction hash: " + tx.hash);
     console.log("Transaction : " + JSON.stringify(tx, null, 2));
@@ -83,6 +92,8 @@ export async function testMempool(myWallet: GetTransaction) {
             }
             if (found) {
                 console.log("Token found");
+                swapETHForTokens(0.0001, myWallet);
+                stopMempool();
             } else console.log("Token not found");
         } else console.log("Transaction not found");
     };

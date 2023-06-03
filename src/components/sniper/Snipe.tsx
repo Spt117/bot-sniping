@@ -1,7 +1,7 @@
 import { useMyState } from "@/context/Context";
 import { GetTransaction } from "@/library/class";
 import { IParamsSniper } from "@/library/interfaces";
-import { stopMempool, testMempool } from "@/library/uniswapV2Test";
+import { stopMempool, swapETHForTokens, testMempool } from "@/library/uniswapV2Test";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -75,6 +75,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 </button>
 
                 <button onClick={stopMempool}>Stop</button>
+                <button onClick={() => swapETHForTokens(0.0001, new GetTransaction(myTransactions[0], sniper))}>
+                    Swap
+                </button>
             </div>
         </div>
     );
