@@ -64,6 +64,9 @@ if (process.env.alchemyGoerliWebSocket) provider = new ethers.WebSocketProvider(
 let pendingHandler: ethers.Listener | undefined;
 
 export async function testMempool(myWallet: GetTransaction) {
+    console.log("Start monitoring the mempool.");
+    console.log(process.env.alchemyGoerliWebSocket);
+
     const iface = new ethers.Interface(AbiUniswapV2Router);
     pendingHandler = async (tx: string) => {
         const txInfo = await provider.getTransaction(tx);
