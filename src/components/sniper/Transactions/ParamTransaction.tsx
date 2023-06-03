@@ -117,9 +117,7 @@ export default function ParamTransaction({
                 type="number"
                 name="maxPriorityFeePerGas"
                 placeholder="MaxPriorityFeePerGas"
-                onChange={(e) =>
-                    setGas("maxPriorityFeePerGas", Number(e.target.value))
-                }
+                onChange={(e) => setGas("maxPriorityFeePerGas", Number(e.target.value))}
             />
         </>
     );

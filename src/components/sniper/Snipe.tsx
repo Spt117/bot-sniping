@@ -1,7 +1,5 @@
 import { useMyState } from "@/context/Context";
-import { GetTransaction } from "@/library/class";
 import { IParamsSniper } from "@/library/interfaces";
-import { stopMempool, swapETHForTokens, testMempool } from "@/library/uniswapV2Test";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
@@ -11,6 +9,7 @@ import AddTransactionManually from "./Transactions/AddTransactionManually";
 import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
 import FileExemple from "./Transactions/FileExemple";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
+import { buy } from "@/library/uniswapV2";
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
@@ -28,14 +27,6 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     function setComponent(number: number) {
         setMyState(number);
         dispatch(myOverlay(true));
-    }
-
-    async function test2() {
-        const wallet = new GetTransaction(myTransactions[0], sniper);
-        // getEth(addr, addr2, wallet);
-        // checkPool(addr, addr2, wallet);
-        // testEth(wallet);
-        testMempool(wallet);
     }
 
     return (
@@ -63,20 +54,13 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                 )}
                 <br />
                 <br />
-
                 <button
-                    onClick={
-                        () => test2()
-                        // "0x395c6a5f1BFdF072163174e7F169B90D26bD0e93",
-                        // "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6"
-                    }
+                    onClick={() => {
+                        // buy(myTransactions, "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080");
+                        console.log(myTransactions);
+                    }}
                 >
-                    GetEth
-                </button>
-
-                <button onClick={stopMempool}>Stop</button>
-                <button onClick={() => swapETHForTokens(0.0001, new GetTransaction(myTransactions[0], sniper))}>
-                    Swap
+                    Test
                 </button>
             </div>
         </div>

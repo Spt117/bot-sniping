@@ -8,7 +8,7 @@ const wethAdress = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";
 const UniswapRouterV2Adress = "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D";
 const uniswapV2FactoryAddress = "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f";
 
-export async function testEth(myWallet: GetTransaction) {
+async function testEth(myWallet: GetTransaction) {
     const wallet = myWallet.getWallet();
     const factoryContract = new ethers.Contract(uniswapV2FactoryAddress, AbiUniswapV2Factory.abi, wallet);
 
@@ -28,12 +28,12 @@ export async function testEth(myWallet: GetTransaction) {
     }
 }
 
-export async function swapETHForTokens(amountIn: number, myWallet: GetTransaction) {
+async function swapETHForTokens(myWallet: GetTransaction) {
     const wallet = myWallet.getWallet();
     const UniswapRouterV2Contract = new ethers.Contract(UniswapRouterV2Adress, AbiUniswapV2Router, wallet);
 
     // Vous devez convertir le montant d'ETH que vous voulez swapper en Wei
-    const amountInWei = ethers.parseEther(amountIn.toString());
+    const amountInWei = ethers.parseEther(myWallet.transaction.amount.toString());
 
     // Définissez le montant minimum de tokens que vous êtes prêt à recevoir en retour
     // Dans cet exemple, nous acceptons n'importe quel montant de tokens
@@ -73,7 +73,7 @@ const provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket
 
 let pendingHandler: ethers.Listener | undefined;
 
-export async function testMempool(myWallet: GetTransaction) {
+async function testMempool(myWallet: GetTransaction) {
     console.log("Started monitoring the mempool.");
     const iface = new ethers.Interface(AbiUniswapV2Router);
     pendingHandler = async (tx: string) => {
@@ -92,7 +92,7 @@ export async function testMempool(myWallet: GetTransaction) {
             }
             if (found) {
                 console.log("Token found");
-                swapETHForTokens(0.0001, myWallet);
+                swapETHForTokens(myWallet);
                 stopMempool();
             } else console.log("Token not found");
         } else console.log("Transaction not found");
@@ -101,7 +101,7 @@ export async function testMempool(myWallet: GetTransaction) {
     provider.on("pending", pendingHandler);
 }
 
-export function stopMempool() {
+function stopMempool() {
     if (pendingHandler) {
         provider.off("pending", pendingHandler);
         console.log("Stopped monitoring the mempool.");

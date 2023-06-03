@@ -1,10 +1,5 @@
 import ethImage from "../assets/ethereum.png";
-import {
-    INetworkInfo,
-    IParamsSniper,
-    IRouterDetails,
-    ParamsTransaction,
-} from "./interfaces";
+import { INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 
 export const networks: INetworkInfo[] = [
     {
@@ -13,6 +8,7 @@ export const networks: INetworkInfo[] = [
         symbol: "ETH",
         connection: `https://ethereum-goerli-rpc.allthatnode.com`,
         chainId: 5,
+        wrappedAddress: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
     },
     {
         name: "Sepolia Testnet",
@@ -20,18 +16,21 @@ export const networks: INetworkInfo[] = [
         symbol: "ETH",
         connection: `https://ethereum-sepolia-rpc.allthatnode.com`,
         chainId: 11155111,
+        wrappedAddress: "",
     },
     {
         name: "Avalanche",
         symbol: "AVAX",
         connection: "https://api.avax.network/ext/bc/C/rpc",
         chainId: 43114,
+        wrappedAddress: "",
     },
     {
         name: "Binance Smart Chain",
         symbol: "BNB",
         connection: "https://bsc-dataseed2.binance.org/",
         chainId: 56,
+        wrappedAddress: "",
     },
     {
         name: "Ethereum",
@@ -39,12 +38,14 @@ export const networks: INetworkInfo[] = [
         symbol: "ETH",
         connection: `https://ethereum-mainnet-rpc.allthatnode.com`,
         chainId: 1,
+        wrappedAddress: "",
     },
     {
         name: "Fantom",
         symbol: "FTM",
         connection: "https://rpcapi.fantom.network",
         chainId: 250,
+        wrappedAddress: "",
     },
 
     {
@@ -52,6 +53,7 @@ export const networks: INetworkInfo[] = [
         symbol: "MATIC",
         connection: `https://polygon-rpc.com`,
         chainId: 137,
+        wrappedAddress: "",
     },
 ];
 
@@ -59,26 +61,16 @@ export const routers: IRouterDetails[] = [
     {
         name: "Uniswap V3",
         address: "0xE592427A0AEce92De3Edee1F18E0157C05861564",
-        networks: [
-            "Ethereum",
-            "Goerli Testnet",
-            "Polygon",
-            "Binance Smart Chain",
-        ],
+        networks: ["Ethereum", "Goerli Testnet", "Polygon", "Binance Smart Chain"],
         quoterAddress: "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6",
         factoryAddress: "0x1F98431c8aD98523631AE4a59f267346ea31F984",
     },
     {
         name: "Uniswap V2",
         address: "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D",
-        networks: [
-            "Ethereum",
-            "Goerli Testnet",
-            "Polygon",
-            "Binance Smart Chain",
-        ],
+        networks: ["Ethereum", "Goerli Testnet", "Polygon", "Binance Smart Chain"],
         quoterAddress: "",
-        factoryAddress: "",
+        factoryAddress: "0x5C69bEe701ef814a2B6a3EDD4B1652CB9cc5aA6f",
     },
     {
         name: "PancakeSwap",
@@ -101,6 +93,7 @@ export const paramTransaction: ParamsTransaction = {
     slippagePercent: 20,
     amount: 0.01,
     repeat: 1,
+    nonce: 0,
     useContract: false,
     contractAddress: "none",
 };

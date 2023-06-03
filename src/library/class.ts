@@ -68,14 +68,8 @@ export class Wallet {
             if (signer) {
                 const signature = await signer.signMessage(data);
                 const messageHash = ethers.hashMessage(data);
-                const recoveredAddress = ethers.recoverAddress(
-                    messageHash,
-                    signature
-                );
-                if (
-                    recoveredAddress.toLowerCase() ===
-                    signer.address.toLowerCase()
-                ) {
+                const recoveredAddress = ethers.recoverAddress(messageHash, signature);
+                if (recoveredAddress.toLowerCase() === signer.address.toLowerCase()) {
                     console.log("La signature est valide !");
                     return true;
                 } else {
@@ -93,28 +87,24 @@ export class Wallet {
 export class GetTransaction {
     transaction: ParamsTransaction;
     blockchainRouter: IParamsSniper;
-    constructor(
-        transaction: ParamsTransaction,
-        blockchainRouter: IParamsSniper
-    ) {
+    constructor(transaction: ParamsTransaction, blockchainRouter: IParamsSniper) {
         this.transaction = transaction;
         this.blockchainRouter = blockchainRouter;
     }
 
+    editTransaction(transaction: ParamsTransaction) {
+        this.transaction = transaction;
+    }
+
     getProvider() {
-        const provider = new ethers.JsonRpcProvider(
-            this.blockchainRouter.blockchain.connection
-        );
+        const provider = new ethers.JsonRpcProvider(this.blockchainRouter.blockchain.connection);
         return provider;
     }
 
     getWallet() {
         try {
             const provider = this.getProvider();
-            const wallet = new ethers.Wallet(
-                this.transaction.private,
-                provider
-            );
+            const wallet = new ethers.Wallet(this.transaction.private, provider);
             return wallet;
         } catch (e) {
             console.log(e);

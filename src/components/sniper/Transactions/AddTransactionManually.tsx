@@ -7,23 +7,20 @@ import { useDispatch } from "react-redux";
 import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
 import { isEthereumAddress } from "@/library/fonctions";
+import { GetTransaction } from "@/library/class";
 
 export default function AddTransactionManually() {
-    const { setMyState, myTransactions, setMyTransactions } = useMyState();
+    const { setMyState, myTransactions, setMyTransactions, paramsSniper } = useMyState();
     const dispatch = useDispatch();
-    const [newTransaction, setNewTransaction] =
-        useState<ParamsTransaction>(paramTransaction);
+    const [newTransaction, setNewTransaction] = useState<ParamsTransaction>(paramTransaction);
 
     function close() {
         setMyState(0);
         dispatch(myOverlay(false));
     }
 
-    function addItem(newItem: ParamsTransaction) {
-        setMyTransactions((oldTransactions: ParamsTransaction[]) => [
-            ...oldTransactions,
-            newItem,
-        ]);
+    function addItem(newItem: GetTransaction) {
+        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, newItem]);
         close();
     }
 
@@ -66,15 +63,12 @@ export default function AddTransactionManually() {
                 <br />
                 <br />
 
-                <ParamTransaction
-                    newTransaction={newTransaction}
-                    setNewTransaction={setNewTransaction}
-                />
+                <ParamTransaction newTransaction={newTransaction} setNewTransaction={setNewTransaction} />
                 <br />
                 <button
                     id="newTransactionButton"
                     className="button"
-                    onClick={() => addItem(newTransaction)}
+                    onClick={() => addItem(new GetTransaction(newTransaction, paramsSniper))}
                 >
                     Add
                 </button>

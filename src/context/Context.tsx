@@ -1,5 +1,6 @@
+import { GetTransaction } from "@/library/class";
 import { paramSniper } from "@/library/constantes";
-import { IParamsSniper, ParamsTransaction } from "@/library/interfaces";
+import { IParamsSniper } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
@@ -8,10 +9,8 @@ interface IMyStateContext {
     setMyParamSniper: React.Dispatch<React.SetStateAction<IParamsSniper>>;
     myState: number;
     setMyState: React.Dispatch<React.SetStateAction<number>>;
-    myTransactions: ParamsTransaction[];
-    setMyTransactions: React.Dispatch<
-        React.SetStateAction<ParamsTransaction[]>
-    >;
+    myTransactions: GetTransaction[];
+    setMyTransactions: React.Dispatch<React.SetStateAction<GetTransaction[]>>;
     boolTransactions: boolean;
     setBoolTransactions: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -33,11 +32,8 @@ interface myStateProviderProps {
 
 export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [myState, setMyState] = useState<number>(0);
-    const [paramsSniper, setMyParamSniper] =
-        useState<IParamsSniper>(paramSniper);
-    const [myTransactions, setMyTransactions] = useState<ParamsTransaction[]>(
-        []
-    );
+    const [paramsSniper, setMyParamSniper] = useState<IParamsSniper>(paramSniper);
+    const [myTransactions, setMyTransactions] = useState<GetTransaction[]>([]);
     const [boolTransactions, setBoolTransactions] = useState<boolean>(true);
 
     return (

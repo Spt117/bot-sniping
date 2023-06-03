@@ -3,6 +3,7 @@ import { IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
+import { GetTransaction } from "./class";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -25,41 +26,30 @@ export function eventMetamask(callBack: any) {
             callBack(e);
         })
     );
-    return () =>
-        events.forEach((e) => window.ethereum.removeListener(e, callBack));
+    return () => events.forEach((e) => window.ethereum.removeListener(e, callBack));
 }
 
-export function isRouter(
-    router: IRouterDetails,
-    params: IParamsSniper
-): boolean {
+export function isRouter(router: IRouterDetails, params: IParamsSniper): boolean {
     return router.networks.includes(params.blockchain.name);
 }
 
 export function findNetworkByNameOrId(prop: string | number) {
-    return (
-        networks.find(
-            (network) => network.name === prop || network.chainId === prop
-        ) || paramSniper.blockchain
-    );
+    return networks.find((network) => network.name === prop || network.chainId === prop) || paramSniper.blockchain;
 }
 
 export function findRouterByName(name: string) {
     return routers.find((router) => router.name === name) || paramSniper.router;
 }
 
-export function isEthereumAddress(
-    address: ParamsTransaction,
-    array: ParamsTransaction[]
-) {
-    const findAdress = checkIfAdressPublicIsInArray(array, address);
+export function isEthereumAddress(address: ParamsTransaction, array: GetTransaction[]) {
+    const findAdressPublic = checkIfAdressPublicIsInArray(array, address);
     const button = document.getElementById("newTransactionButton");
     const ethereumPublicAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/i;
     const ethereumPrivateAddressRegex = /^(0x)?[0-9a-fA-F]{64}$/i;
     if (
         ethereumPublicAddressRegex.test(address.public) &&
         ethereumPrivateAddressRegex.test(address.private) &&
-        !findAdress
+        !findAdressPublic
     ) {
         button?.removeAttribute("disabled");
     } else {
@@ -67,11 +57,8 @@ export function isEthereumAddress(
     }
 }
 
-function checkIfAdressPublicIsInArray(
-    array: ParamsTransaction[],
-    transaction: ParamsTransaction
-) {
-    return array.find((e) => e.public === transaction.public) ? true : false;
+function checkIfAdressPublicIsInArray(array: GetTransaction[], transaction: ParamsTransaction) {
+    return array.find((e) => e.transaction.public === transaction.public) ? true : false;
 }
 
 export async function getAddresses(mnemonic: string, numAddresses: number) {

@@ -1,5 +1,6 @@
 import Close from "@/components/Close";
 import { useMyState } from "@/context/Context";
+import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { getAddresses } from "@/library/fonctions";
 import { ParamsTransaction } from "@/library/interfaces";
@@ -9,7 +10,7 @@ import { useDispatch } from "react-redux";
 
 export default function AddTransactionByMnemonic() {
     const [mnemonic, setMnemonic] = useState({ myMnemonic: "", number: 0 });
-    const { setMyState, setMyTransactions } = useMyState();
+    const { setMyState, setMyTransactions, paramsSniper } = useMyState();
     const dispatch = useDispatch();
 
     function closeComponent() {
@@ -18,26 +19,21 @@ export default function AddTransactionByMnemonic() {
     }
 
     async function addAcounts() {
-        const accounts = await getAddresses(
-            mnemonic.myMnemonic,
-            mnemonic.number
-        );
+        const accounts = await getAddresses(mnemonic.myMnemonic, mnemonic.number);
         for (let i = 0; i < accounts.length; i++) {
             const newTransaction: ParamsTransaction = { ...paramTransaction };
             newTransaction.public = accounts[i].public;
             newTransaction.private = accounts[i].private;
-            setMyTransactions((oldTransactions: ParamsTransaction[]) => [
-                ...oldTransactions,
-                newTransaction,
-            ]);
+            const myTransactions = new GetTransaction(newTransaction, paramsSniper);
+            const nonce = await myTransactions.getWallet()?.getNonce();
+            if (nonce) myTransactions.editTransaction({ ...newTransaction, nonce: nonce });
+            setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, myTransactions]);
         }
         closeComponent();
     }
 
     function checkNumberAccounts() {
-        const button = document.querySelector(
-            "#button-getAccounts"
-        ) as HTMLButtonElement;
+        const button = document.querySelector("#button-getAccounts") as HTMLButtonElement;
         if (mnemonic.number < 1 || mnemonic.number > 100) {
             button.disabled = true;
         } else {
@@ -55,17 +51,13 @@ export default function AddTransactionByMnemonic() {
             <input
                 type="text"
                 placeholder="Mnemonic"
-                onChange={(e) =>
-                    setMnemonic({ ...mnemonic, myMnemonic: e.target.value })
-                }
+                onChange={(e) => setMnemonic({ ...mnemonic, myMnemonic: e.target.value })}
             />{" "}
             <br />
             <input
                 type="number"
                 placeholder="Number of account"
-                onChange={(e) =>
-                    setMnemonic({ ...mnemonic, number: Number(e.target.value) })
-                }
+                onChange={(e) => setMnemonic({ ...mnemonic, number: Number(e.target.value) })}
             />{" "}
             <br />
             <button id="button-getAccounts" onClick={addAcounts}>

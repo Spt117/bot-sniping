@@ -12,6 +12,7 @@ export interface INetworkInfo {
     symbol: string;
     connection: string;
     chainId: number;
+    wrappedAddress?: string;
 }
 
 export interface Request {
@@ -63,6 +64,7 @@ export interface ParamsTransaction {
     slippagePercent: number;
     amount: number;
     repeat: number;
+    nonce: number;
     secondsDelay?: number;
     useContract: boolean;
     contractAddress?: string;
