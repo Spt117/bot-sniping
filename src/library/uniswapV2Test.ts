@@ -58,9 +58,8 @@ export async function swapETHForTokens(amountIn: number, myWallet: ethers.Wallet
     const receipt = await tx.wait();
     console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
 }
-
-// @ts-ignore
-const provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket);
+let provider: ethers.WebSocketProvider;
+if (process.env.alchemyGoerliWebSocket) provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket);
 
 let pendingHandler: ethers.Listener | undefined;
 
