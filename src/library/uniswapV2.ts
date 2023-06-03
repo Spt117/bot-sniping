@@ -1,20 +1,30 @@
 import { ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
 import { GetTransaction } from "./class";
+import { addNonce } from "./fonctions";
 
 export async function buy(transactions: GetTransaction[], tokenAdress: string) {
     let promises = transactions.map((transaction) => swaps(transaction, tokenAdress));
     await Promise.allSettled(promises);
+    let nonces = transactions.map((transaction) => addNonce(transaction));
+    await Promise.allSettled(nonces);
 }
 
 async function swaps(transaction: GetTransaction, tokenAdress: string) {
-    let number = transaction.transaction.repeat;
-    if (number === 1) swapETHForTokensOnce(transaction, tokenAdress);
+    const number = transaction.transaction.repeat;
+    const nonce = transaction.transaction.nonce;
+    if (number === 1) swapETHForTokensOnce(transaction, tokenAdress, nonce);
     else {
+        let promises = [];
+        for (let i = 0; i < number; i++) {
+            promises.push(swapETHForTokensOnce(transaction, tokenAdress, nonce + i));
+        }
+        let resultats = await Promise.all(promises);
+        console.log(resultats);
     }
 }
 
-async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: string) {
+async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: string, nonce: number) {
     try {
         const wallet = myWallet.getWallet();
         const UniswapRouterV2Contract = new ethers.Contract(
@@ -44,10 +54,11 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
                     value: amountInWei,
                 },
                 ...myWallet.transaction.gas,
+                ...{ nonce: nonce },
             }
         );
         console.log("Transaction hash: " + tx.hash);
-        console.log("Transaction : " + JSON.stringify(tx, null, 2));
+        // console.log("Transaction : " + JSON.stringify(tx, null, 2));
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
         console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
