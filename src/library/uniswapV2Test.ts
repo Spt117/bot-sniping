@@ -58,15 +58,14 @@ export async function swapETHForTokens(amountIn: number, myWallet: ethers.Wallet
     const receipt = await tx.wait();
     console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
 }
-let provider: ethers.WebSocketProvider;
-if (process.env.alchemyGoerliWebSocket) provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket);
+
+// @ts-ignore
+const provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket);
 
 let pendingHandler: ethers.Listener | undefined;
 
 export async function testMempool(myWallet: GetTransaction) {
-    console.log("Start monitoring the mempool.");
-    console.log(process.env.alchemyGoerliWebSocket);
-
+    console.log("Started monitoring the mempool.");
     const iface = new ethers.Interface(AbiUniswapV2Router);
     pendingHandler = async (tx: string) => {
         const txInfo = await provider.getTransaction(tx);
