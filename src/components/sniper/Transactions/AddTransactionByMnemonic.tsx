@@ -2,7 +2,7 @@ import Close from "@/components/Close";
 import { useMyState } from "@/context/Context";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
-import { getAddresses } from "@/library/fonctions";
+import { addNonce, getAddresses } from "@/library/fonctions";
 import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
@@ -24,10 +24,8 @@ export default function AddTransactionByMnemonic() {
             const newTransaction: ParamsTransaction = { ...paramTransaction };
             newTransaction.public = accounts[i].public;
             newTransaction.private = accounts[i].private;
-            const myTransactions = new GetTransaction(newTransaction, paramsSniper);
-            const nonce = await myTransactions.getWallet()?.getNonce();
-            if (nonce) myTransactions.editTransaction({ ...newTransaction, nonce: nonce });
-            setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, myTransactions]);
+            const nonce = await addNonce(new GetTransaction(newTransaction, paramsSniper));
+            setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, nonce]);
         }
         closeComponent();
     }

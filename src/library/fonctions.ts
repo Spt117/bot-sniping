@@ -76,3 +76,9 @@ export async function getAddresses(mnemonic: string, numAddresses: number) {
     }
     return paires;
 }
+
+export async function addNonce(newItem: GetTransaction) {
+    const nonce = await newItem.getWallet()?.getNonce();
+    if (nonce) newItem.editTransaction({ ...newItem.transaction, nonce: nonce });
+    return newItem;
+}

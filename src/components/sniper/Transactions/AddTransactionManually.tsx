@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
-import { isEthereumAddress } from "@/library/fonctions";
+import { addNonce, isEthereumAddress } from "@/library/fonctions";
 import { GetTransaction } from "@/library/class";
 
 export default function AddTransactionManually() {
@@ -19,8 +19,9 @@ export default function AddTransactionManually() {
         dispatch(myOverlay(false));
     }
 
-    function addItem(newItem: GetTransaction) {
-        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, newItem]);
+    async function addItem(newItem: GetTransaction) {
+        const nonce = await addNonce(newItem);
+        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, nonce]);
         close();
     }
 

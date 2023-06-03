@@ -1,7 +1,7 @@
 import Close from "@/components/Close";
 import { useMyState } from "@/context/Context";
 import { GetTransaction } from "@/library/class";
-import { ParamsTransaction } from "@/library/interfaces";
+import { addNonce } from "@/library/fonctions";
 import { myOverlay } from "@/redux/actions";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -23,17 +23,14 @@ export default function ChooseAddTransaction() {
     function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files![0];
         const reader = new FileReader();
-        reader.onload = (event) => {
+        reader.onload = async (event) => {
             const file = event.target?.result;
-
             if (file !== null && typeof file === "string") {
                 const result = JSON.parse(file);
                 for (let i = 0; i < result.length; i++) {
                     const element = result[i];
-                    setMyTransactions((oldTransactions: GetTransaction[]) => [
-                        ...oldTransactions,
-                        new GetTransaction(element, paramsSniper),
-                    ]);
+                    const myTransactions = await addNonce(new GetTransaction(element, paramsSniper));
+                    setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, myTransactions]);
                 }
             } else {
                 console.log("File content is not a string or is null");
