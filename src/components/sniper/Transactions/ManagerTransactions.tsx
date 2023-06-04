@@ -10,15 +10,17 @@ export default function ManagerTransactions() {
     const { myState, setMyState, paramsSniper } = useMyState();
     const dispatch = useDispatch();
 
-    function setComponent(number: number) {
-        setMyState(number);
-        dispatch(myOverlay(true));
-    }
     return (
         <>
             <div>{paramsSniper.blockchain.name}</div>
             <div>{paramsSniper.router.name}</div>
-            <button className="button" onClick={() => setComponent(1)}>
+            <button
+                className="button"
+                onClick={() => {
+                    setMyState(1);
+                    dispatch(myOverlay(true));
+                }}
+            >
                 Add Transaction
             </button>
             {myState === 1 && <ChooseAddTransaction />}

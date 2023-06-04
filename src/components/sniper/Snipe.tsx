@@ -1,32 +1,42 @@
 import { useMyState } from "@/context/Context";
 import { IParamsSniper } from "@/library/interfaces";
-import { buy } from "@/library/uniswapV2";
 import { myDisableSniper } from "@/redux/actions";
+import { scanMempool } from "@/sniper/mempool";
+import { buyWithEth } from "@/sniper/uniswapV2";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerTransactions from "./Transactions/ManagerTransactions";
+import Contrat from "./Contrat";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     const dispatch = useDispatch();
-    const { setMyParamSniper, myTransactions, boolTransactions, setBoolTransactions } = useMyState();
-    const [contract, setContract] = useState("");
+    const {
+        setMyParamSniper,
+        myTransactions,
+        boolTransactions,
+        setBoolTransactions,
+        contractAddress,
+        isSniping,
+        setIsSniping,
+    } = useMyState();
 
     useEffect(() => {
         setMyParamSniper(sniper);
-    }, []);
+        console.log(contractAddress);
+    }, [contractAddress]);
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));
     }
 
     async function test() {
-        const button = document.getElementById("test");
-        button?.setAttribute("disabled", "true");
-        await buy(myTransactions, contract);
-        button?.removeAttribute("disabled");
+        if (contractAddress) {
+            setIsSniping(true);
+            await scanMempool(myTransactions, contractAddress, buyWithEth, () => setIsSniping(false));
+        }
     }
 
     return (
@@ -43,14 +53,19 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                         )}
                         <br />
                         <br />
-                        <input type="text" onChange={(e) => setContract(e.target.value)} />
+                        {!contractAddress && <Contrat />}
                     </>
                 )}
                 <br />
                 <br />
-                <button id="test" onClick={test}>
-                    Test
-                </button>
+                {!isSniping && contractAddress && (
+                    <>
+                        <p>Contrat {contractAddress}</p>
+                        <button id="test" onClick={test}>
+                            Sniper
+                        </button>
+                    </>
+                )}
             </div>
         </div>
     );

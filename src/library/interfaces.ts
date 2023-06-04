@@ -10,7 +10,7 @@ export interface INetworkInfo {
     name: string;
     logo?: StaticImageData;
     symbol: string;
-    connection: string;
+    connection?: string;
     chainId: number;
     wrappedAddress?: string;
 }

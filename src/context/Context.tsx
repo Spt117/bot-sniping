@@ -13,6 +13,10 @@ interface IMyStateContext {
     setMyTransactions: React.Dispatch<React.SetStateAction<GetTransaction[]>>;
     boolTransactions: boolean;
     setBoolTransactions: React.Dispatch<React.SetStateAction<boolean>>;
+    contractAddress: string | null;
+    setContractAddress: React.Dispatch<React.SetStateAction<string>>;
+    isSniping: boolean;
+    setIsSniping: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const MyState = createContext<IMyStateContext>({
     paramsSniper: paramSniper,
@@ -23,6 +27,10 @@ const MyState = createContext<IMyStateContext>({
     setMyTransactions: () => {},
     boolTransactions: true,
     setBoolTransactions: () => {},
+    contractAddress: null,
+    setContractAddress: () => {},
+    isSniping: false,
+    setIsSniping: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -35,6 +43,8 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [paramsSniper, setMyParamSniper] = useState<IParamsSniper>(paramSniper);
     const [myTransactions, setMyTransactions] = useState<GetTransaction[]>([]);
     const [boolTransactions, setBoolTransactions] = useState<boolean>(true);
+    const [contractAddress, setContractAddress] = useState<string>("");
+    const [isSniping, setIsSniping] = useState<boolean>(false);
 
     return (
         <MyState.Provider
@@ -47,6 +57,10 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setMyTransactions,
                 boolTransactions,
                 setBoolTransactions,
+                contractAddress,
+                setContractAddress,
+                isSniping,
+                setIsSniping,
             }}
         >
             {children}

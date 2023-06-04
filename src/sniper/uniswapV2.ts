@@ -1,26 +1,25 @@
 import { ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
-import { GetTransaction } from "./class";
-import { addNonce } from "./fonctions";
+import { GetTransaction } from "../library/class";
+import { addNonce } from "../library/fonctions";
 
-export async function buy(transactions: GetTransaction[], tokenAdress: string) {
-    let promises = transactions.map((transaction) => swaps(transaction, tokenAdress));
+export async function buyWithEth(transactions: GetTransaction[], tokenAdress: string) {
+    let promises = transactions.map((transaction) => swapEth(transaction, tokenAdress));
     await Promise.allSettled(promises);
     let nonces = transactions.map((transaction) => addNonce(transaction));
     await Promise.allSettled(nonces);
 }
 
-async function swaps(transaction: GetTransaction, tokenAdress: string) {
+async function swapEth(transaction: GetTransaction, tokenAdress: string) {
     const number = transaction.transaction.repeat;
     const nonce = transaction.transaction.nonce;
-    if (number === 1) swapETHForTokensOnce(transaction, tokenAdress, nonce);
+    if (number === 1) await swapETHForTokensOnce(transaction, tokenAdress, nonce);
     else {
         let promises = [];
         for (let i = 0; i < number; i++) {
             promises.push(swapETHForTokensOnce(transaction, tokenAdress, nonce + i));
         }
-        let resultats = await Promise.all(promises);
-        console.log(resultats);
+        await Promise.all(promises);
     }
 }
 
@@ -39,7 +38,7 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
         // Dans cet exemple, nous acceptons n'importe quel montant de tokens
         const amountOutMin = 0;
         // Le chemin de swap est ETH -> tokenOut
-        const path = [myWallet.blockchainRouter.blockchain.wrappedAddress, tokenAdress]; // Remplacez par les adresses réelles
+        const path = [tokenAdress, myWallet.blockchainRouter.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
         // Le timestamp du deadline
         // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
         const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
@@ -52,9 +51,9 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
             {
                 ...{
                     value: amountInWei,
+                    nonce: nonce,
+                    ...myWallet.transaction.gas,
                 },
-                ...myWallet.transaction.gas,
-                ...{ nonce: nonce },
             }
         );
         console.log("Transaction hash: " + tx.hash);
@@ -66,5 +65,3 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
         console.log(error);
     }
 }
-
-async function swapETHForTokensMultiple(myWallet: GetTransaction, tokenAdress: string) {}

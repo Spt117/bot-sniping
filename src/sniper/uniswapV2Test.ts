@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
 import AbiUniswapV2Factory from "../web3/abis/uniswapV2Factory.json";
-import { GetTransaction } from "./class";
+import { GetTransaction } from "../library/class";
 
 const tokenAdress = "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080";
 const wethAdress = "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6";

@@ -4,6 +4,7 @@ const nextConfig = {
     env: {
         infuraGoerliWebSocket: process.env.infuraGoerliWebSocket,
         alchemyGoerliWebSocket: process.env.alchemyGoerliWebSocket,
+        ankrGoerli: process.env.ankrGoerli,
     },
 };
 

@@ -10,7 +10,7 @@ import { GetTransaction } from "@/library/class";
 export function Transaction({ param }: { param: GetTransaction }) {
     const dispatch = useDispatch();
     const { mySymbol, setMySymbol } = useMySymbol();
-    const { paramsSniper, myTransactions, setMyTransactions } = useMyState();
+    const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
     const [bool, setBool] = useState(false);
 
@@ -20,7 +20,7 @@ export function Transaction({ param }: { param: GetTransaction }) {
             setMySymbol("tokens");
         }
         getBalance();
-    }, []);
+    }, [myTransactions, isSniping]);
 
     async function getBalance() {
         const balance = await param.getBalance();
