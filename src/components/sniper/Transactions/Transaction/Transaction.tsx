@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
+import ParamBuy from "./ParamBuy";
 
 export function Transaction({ myTransaction }: { myTransaction: GetTransaction }) {
     const dispatch = useDispatch();
@@ -21,17 +22,11 @@ export function Transaction({ myTransaction }: { myTransaction: GetTransaction }
         }
         getBalance();
         setMyTransaction(myTransaction);
-        console.log(myTransaction);
     }, [isSniping, myTransaction]);
 
     async function getBalance() {
         const balance = await myTransaction.getBalance();
         if (balance) setBalance(balance);
-    }
-
-    function activeEdit() {
-        setBool(true);
-        dispatch(myOverlay(true));
     }
 
     function deleteTransaction() {
@@ -45,45 +40,18 @@ export function Transaction({ myTransaction }: { myTransaction: GetTransaction }
 
     return (
         <>
-            <div className="listTransactions">
+            <div className="accounts">
                 <div className="itemsTransactions">
                     <div>Address</div>
                     <output name="adress">{truncateAddr(myTransaction.transaction.public)}</output>
                 </div>
                 <div className="itemsTransactions">
-                    <div>Amount</div>
-                    <output>
-                        {myTransaction.transaction.amount} {mySymbol}
-                    </output>
-                </div>
-                <div className="itemsTransactions">
-                    <div>Slippage</div>
-                    <output>{myTransaction.transaction.slippagePercent}%</output>
-                </div>
-                <div className="itemsTransactions">
-                    <div>Repeat</div>
-                    <output>{myTransaction.transaction.repeat}</output>
-                </div>
-                <div className="itemsTransactions">
-                    <div>Gas Limit</div>
-                    <output>{myTransaction.transaction.gasBuy.gasLimit}</output>
-                </div>
-                <div className="itemsTransactions">
-                    <div>Max Fee Per Gas</div>
-                    <output>{myTransaction.transaction.gasBuy.maxFeePerGas} Gwei</output>
-                </div>
-                <div className="itemsTransactions">
-                    <div>Max Priority Fee Per Gas</div>
-                    <output>{myTransaction.transaction.gasBuy.maxPriorityFeePerGas} Gwei</output>
-                </div>
-                <div className="itemsTransactions">
                     <div>Your balance</div>
                     <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
                 </div>
+                <ParamBuy setBool={setBool} />
+
                 <div className="divButtonsTransaction">
-                    <button className="button" onClick={activeEdit}>
-                        Edit
-                    </button>
                     <button onClick={deleteTransaction} className="button">
                         Remove
                     </button>

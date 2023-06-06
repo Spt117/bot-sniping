@@ -1,4 +1,4 @@
-import { Transaction } from "./Transaction";
+import { Transaction } from "./Transaction/Transaction";
 import { MyTransactionProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 

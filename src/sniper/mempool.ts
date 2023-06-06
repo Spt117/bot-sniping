@@ -18,7 +18,7 @@ export async function scanMempool(
     pendingHandler = async (tx: string) => {
         try {
             const txInfo = await provider.getTransaction(tx);
-            if (txInfo && txInfo.to === transactions[0].blockchainRouter.router.address) {
+            if (txInfo && txInfo.to === transactions[0].blockchain.router.address) {
                 console.log("UniswapV2 detected a new transaction in the mempool: " + JSON.stringify(txInfo, null, 2));
                 const data = txInfo.data;
                 const decodedTransaction = iface.parseTransaction({ data });

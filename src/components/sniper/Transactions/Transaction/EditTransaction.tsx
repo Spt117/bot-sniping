@@ -1,10 +1,12 @@
 import { myOverlay } from "@/redux/actions";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import Close from "../../Close";
-import ParamTransaction from "./ParamTransaction";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import Close from "@/components/Close";
 import { useMyState } from "@/context/ContextSniper";
-import { ParamsTransaction } from "@/library/interfaces";
+import { AppState, ParamsTransaction } from "@/library/interfaces";
+import ParamTransaction from "./ParamTransaction";
+import { useMyTransaction } from "@/context/ContextTransaction";
 
 export default function editTransaction({
     addressPublic,
@@ -16,6 +18,7 @@ export default function editTransaction({
     setBool: Function;
 }) {
     const { myTransactions, setMyTransactions } = useMyState();
+    const { myTransaction, setMyTransaction } = useMyTransaction();
     const dispatch = useDispatch();
     const newArray = [...myTransactions];
     const index = newArray.findIndex((transaction) => transaction.transaction.public === addressPublic);
@@ -32,6 +35,22 @@ export default function editTransaction({
         closeEdit();
     }
 
+    useEffect(() => {
+        console.log(myTransaction.transaction);
+    }, [myTransaction]);
+
+    function test() {
+        let newTest = { ...myTransaction.transaction };
+        newTest.gasApprove = {
+            gasLimit: 0,
+            maxFeePerGas: 0,
+            maxPriorityFeePerGas: 0,
+        };
+        myTransaction.editTransaction(newTest);
+        console.log(myTransaction);
+        console.log(myTransactions);
+    }
+
     return (
         <div className="editTransaction">
             <Close functionClose={closeEdit} />
@@ -40,6 +59,7 @@ export default function editTransaction({
             <button className="button" onClick={editTransaction}>
                 Set Transaction
             </button>
+            <button onClick={test}>Test</button>
         </div>
     );
 }
