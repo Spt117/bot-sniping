@@ -1,4 +1,4 @@
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { IParamsSniper } from "@/library/interfaces";
 import { myDisableSniper } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
-import ManagerTransactions from "./Transactions/ManagerTransactions";
+import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
@@ -20,30 +20,45 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         setBoolTransactions,
         contractAddress,
         isSniping,
+        setResultSnipe,
         setIsSniping,
     } = useMyState();
 
     useEffect(() => {
         setMyParamSniper(sniper);
-        console.log(contractAddress);
-    }, [contractAddress]);
+    }, []);
 
     function disableSniper() {
         dispatch(myDisableSniper(sniper));
     }
 
+    function endBuy(result: []) {
+        setResultSnipe(result);
+        setIsSniping(false);
+    }
+
     async function test() {
         if (contractAddress) {
             setIsSniping(true);
-            await scanMempool(myTransactions, contractAddress, buyWithEth, () => setIsSniping(false));
+            await buyWithEth(myTransactions, contractAddress, endBuy);
+            // await scanMempool(myTransactions, contractAddress, buyWithEth, endBuy);
         }
+    }
+
+    function download() {
+        const element = document.createElement("a");
+        const file = new Blob([JSON.stringify(myTransactions)], { type: "text/plain;charset=utf-8" });
+        element.href = URL.createObjectURL(file);
+        element.download = "myTransactions.json";
+        document.body.appendChild(element);
+        element.click();
     }
 
     return (
         <div className="contain-snipe">
             <div className="contain-close">
                 <Close functionClose={disableSniper} />
-                <ManagerTransactions />
+                <ManagerComponent />
 
                 {myTransactions.length > 0 && (
                     <>

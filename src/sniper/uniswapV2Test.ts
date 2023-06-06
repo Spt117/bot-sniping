@@ -12,19 +12,33 @@ async function testEth(myWallet: GetTransaction) {
     const wallet = myWallet.getWallet();
     const factoryContract = new ethers.Contract(uniswapV2FactoryAddress, AbiUniswapV2Factory.abi, wallet);
 
-    findPaire();
+    findPair();
 
-    function findPaire() {
-        const intervalId = setInterval(async () => {
+    let intervalId: string | number | NodeJS.Timer | null | undefined = null;
+
+    function findPair() {
+        if (intervalId !== null) {
+            console.log("findPair is already running");
+            return;
+        }
+        intervalId = setInterval(async () => {
             const pair = await factoryContract.getPair(tokenAdress, wethAdress);
             console.log("pair", pair);
 
             if (pair !== "0x0000000000000000000000000000000000000000") {
-                // swapETHForTokens(0.0001, myWallet);
                 console.log("Pair found:", pair);
-                clearInterval(intervalId); // Stop the interval
+                stopFindPair(); // Stop the interval
             }
         }, 1000);
+    }
+
+    function stopFindPair() {
+        if (intervalId === null) {
+            console.log("findPair is not running");
+            return;
+        }
+        clearInterval(intervalId);
+        intervalId = null;
     }
 }
 

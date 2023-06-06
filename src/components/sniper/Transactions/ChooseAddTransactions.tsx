@@ -1,5 +1,5 @@
 import Close from "@/components/Close";
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { addNonce } from "@/library/fonctions";
 import { myOverlay } from "@/redux/actions";
@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ChooseAddTransaction() {
-    const { setMyState, setMyTransactions, paramsSniper } = useMyState();
+    const { setMyState, setMyTransactions, paramsSniper, myTransactions } = useMyState();
     const dispatch = useDispatch();
     const fileInput = useRef<HTMLInputElement>(null);
 
@@ -20,6 +20,17 @@ export default function ChooseAddTransaction() {
         fileInput.current?.click();
     }
 
+    function checkTransactionWithPublicAdress(transaction: GetTransaction) {
+        const index = myTransactions.findIndex(
+            (element) => element.transaction.public === transaction.transaction.public
+        );
+        if (index === -1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
         const file = event.target.files![0];
         const reader = new FileReader();
@@ -29,8 +40,10 @@ export default function ChooseAddTransaction() {
                 const result = JSON.parse(file);
                 for (let i = 0; i < result.length; i++) {
                     const element = result[i];
-                    const myTransactions = await addNonce(new GetTransaction(element, paramsSniper));
-                    setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, myTransactions]);
+                    if (checkTransactionWithPublicAdress(new GetTransaction(element, paramsSniper))) {
+                        const transactions = await addNonce(new GetTransaction(element, paramsSniper));
+                        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, transactions]);
+                    }
                 }
             } else {
                 console.log("File content is not a string or is null");

@@ -1,12 +1,12 @@
-import { useMyState } from "@/context/Context";
-import AddTransactionByMnemonic from "./AddTransactionByMnemonic";
-import AddTransactionManually from "./AddTransactionManually";
-import ChooseAddTransaction from "./ChooseAddTransactions";
-import FileExemple from "./FileExemple";
+import { useMyState } from "@/context/ContextSniper";
 import { myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
+import AddTransactionByMnemonic from "./Transactions/AddTransactionByMnemonic";
+import AddTransactionManually from "./Transactions/AddTransactionManually";
+import ChooseAddTransaction from "./Transactions/ChooseAddTransactions";
+import FileExemple from "./Transactions/FileExemple";
 
-export default function ManagerTransactions() {
+export default function ManagerComponent() {
     const { myState, setMyState, paramsSniper } = useMyState();
     const dispatch = useDispatch();
 

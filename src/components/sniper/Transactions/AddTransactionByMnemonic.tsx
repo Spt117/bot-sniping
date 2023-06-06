@@ -1,5 +1,5 @@
 import Close from "@/components/Close";
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { addNonce, getAddresses } from "@/library/fonctions";

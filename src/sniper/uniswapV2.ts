@@ -3,23 +3,28 @@ import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
 import { GetTransaction } from "../library/class";
 import { addNonce } from "../library/fonctions";
 
-export async function buyWithEth(transactions: GetTransaction[], tokenAdress: string) {
-    let promises = transactions.map((transaction) => swapEth(transaction, tokenAdress));
-    await Promise.allSettled(promises);
-    let nonces = transactions.map((transaction) => addNonce(transaction));
-    await Promise.allSettled(nonces);
+export async function buyWithEth(transactions: GetTransaction[], tokenAdress: string, endBuy: Function) {
+    const promises = transactions.map((transaction) => swapEth(transaction, tokenAdress));
+    const result = await Promise.allSettled(promises);
+    endBuy(result);
+
+    const nonce = transactions.map((transaction) => addNonce(transaction));
+    await Promise.allSettled(nonce);
 }
 
 async function swapEth(transaction: GetTransaction, tokenAdress: string) {
     const number = transaction.transaction.repeat;
     const nonce = transaction.transaction.nonce;
-    if (number === 1) await swapETHForTokensOnce(transaction, tokenAdress, nonce);
-    else {
-        let promises = [];
+    if (number === 1) {
+        const txReceipt = await swapETHForTokensOnce(transaction, tokenAdress, nonce);
+        return txReceipt;
+    } else {
+        const promises = [];
         for (let i = 0; i < number; i++) {
             promises.push(swapETHForTokensOnce(transaction, tokenAdress, nonce + i));
         }
-        await Promise.all(promises);
+        const txReceipt = await Promise.all(promises);
+        return txReceipt;
     }
 }
 
@@ -27,7 +32,7 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
     try {
         const wallet = myWallet.getWallet();
         const UniswapRouterV2Contract = new ethers.Contract(
-            myWallet.blockchainRouter.router.address,
+            myWallet.blockchain.router.address,
             AbiUniswapV2Router,
             wallet
         );
@@ -38,7 +43,7 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
         // Dans cet exemple, nous acceptons n'importe quel montant de tokens
         const amountOutMin = 0;
         // Le chemin de swap est ETH -> tokenOut
-        const path = [tokenAdress, myWallet.blockchainRouter.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
+        const path = [myWallet.blockchain.blockchain.wrappedAddress, tokenAdress]; // Remplacez par les adresses réelles
         // Le timestamp du deadline
         // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
         const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
@@ -52,7 +57,7 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
                 ...{
                     value: amountInWei,
                     nonce: nonce,
-                    ...myWallet.transaction.gas,
+                    ...myWallet.transaction.gasBuy,
                 },
             }
         );
@@ -61,6 +66,7 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
         console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
+        return receipt;
     } catch (error) {
         console.log(error);
     }

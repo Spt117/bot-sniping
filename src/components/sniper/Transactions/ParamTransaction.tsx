@@ -1,5 +1,5 @@
-import { useMyState } from "@/context/Context";
-import { useMySymbol } from "@/context/ContextTransaction";
+import { useMyState } from "@/context/ContextSniper";
+import { useMyTransaction } from "@/context/ContextTransaction";
 import { ParamsTransaction } from "@/library/interfaces";
 import { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ export default function ParamTransaction({
     newTransaction: ParamsTransaction;
     setNewTransaction: Function;
 }) {
-    const { mySymbol, setMySymbol } = useMySymbol();
+    const { mySymbol, setMySymbol } = useMyTransaction();
     const { paramsSniper } = useMyState();
     const [symbol, setTheSymbol] = useState("");
 
@@ -36,7 +36,7 @@ export default function ParamTransaction({
         setNewTransaction({
             ...newTransaction,
             gas: {
-                ...newTransaction.gas,
+                ...newTransaction.gasBuy,
                 [property]: Number(value),
             },
         });
@@ -109,14 +109,14 @@ export default function ParamTransaction({
             <input
                 type="number"
                 name="maxFeePerGas"
-                placeholder="MaxFeePerGas"
+                placeholder="MaxFeePerGas in Gwei"
                 onChange={(e) => setGas("maxFeePerGas", Number(e.target.value))}
             />
             <br />
             <input
                 type="number"
                 name="maxPriorityFeePerGas"
-                placeholder="MaxPriorityFeePerGas"
+                placeholder="MaxPriorityFeePerGas in Gwei"
                 onChange={(e) => setGas("maxPriorityFeePerGas", Number(e.target.value))}
             />
         </>

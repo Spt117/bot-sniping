@@ -1,4 +1,4 @@
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";

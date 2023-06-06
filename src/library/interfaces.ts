@@ -13,6 +13,7 @@ export interface INetworkInfo {
     connection?: string;
     chainId: number;
     wrappedAddress?: string;
+    addressExplorer?: string;
 }
 
 export interface Request {
@@ -24,6 +25,7 @@ export interface Request {
 export interface IParamsSniper {
     blockchain: INetworkInfo;
     router: IRouterDetails;
+    node?: string;
     id: number;
     disable: boolean;
 }
@@ -59,7 +61,9 @@ export interface Gas {
 export interface ParamsTransaction {
     private: string;
     public: string;
-    gas: Gas;
+    gasBuy: Gas;
+    gasApprove: Gas;
+    gasSell: Gas;
     amountIsToken: boolean;
     slippagePercent: number;
     amount: number;

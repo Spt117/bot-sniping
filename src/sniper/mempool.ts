@@ -11,7 +11,7 @@ export async function scanMempool(
     transactions: GetTransaction[],
     tokenAdress: string,
     functionBuy: Function,
-    onBuyComplete: Function
+    endBuy: Function
 ) {
     console.log("Started monitoring the mempool.");
     const iface = new ethers.Interface(AbiUniswapV2Router);
@@ -31,10 +31,9 @@ export async function scanMempool(
                     }
                 }
                 if (found) {
-                    console.log("Token found");
+                    console.log("Token found in hash " + txInfo.hash);
                     stopMempool();
-                    await functionBuy(transactions, tokenAdress);
-                    onBuyComplete();
+                    await functionBuy(transactions, tokenAdress, endBuy);
                 } else console.log("Token not found");
             } else console.log("Transaction not found");
         } catch (error) {

@@ -1,4 +1,4 @@
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { useState } from "react";
 
 export default function Contrat() {

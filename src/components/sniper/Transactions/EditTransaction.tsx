@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../../Close";
 import ParamTransaction from "./ParamTransaction";
-import { useMyState } from "@/context/Context";
+import { useMyState } from "@/context/ContextSniper";
 import { ParamsTransaction } from "@/library/interfaces";
 
 export default function editTransaction({

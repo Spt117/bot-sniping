@@ -1,15 +1,10 @@
-import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import { networks, paramSniper, routers } from "@/library/constantes";
+import { findNetworkByNameOrId, findRouterByName, isRouter } from "@/library/fonctions";
 import { AppState } from "@/library/interfaces";
+import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-import { useState } from "react";
 import Close from "../Close";
-import {
-    findNetworkByNameOrId,
-    findRouterByName,
-    isRouter,
-} from "@/library/fonctions";
 
 export default function ParamSnipe() {
     const dispatch = useDispatch();
@@ -68,20 +63,12 @@ export default function ParamSnipe() {
                             })
                         }
                     >
-                        {!params.router.name && (
-                            <option value="">
-                                --Please choose an exchange--
-                            </option>
-                        )}
+                        {!params.router.name && <option value="">--Please choose an exchange--</option>}
                         {routers
                             .sort((a, b) => a.name.localeCompare(b.name))
                             .map((router) => (
                                 <React.Fragment key={router.name}>
-                                    {isRouter(router, params) && (
-                                        <option value={router.name}>
-                                            {router.name}
-                                        </option>
-                                    )}
+                                    {isRouter(router, params) && <option value={router.name}>{router.name}</option>}
                                 </React.Fragment>
                             ))}
                     </select>
@@ -90,6 +77,21 @@ export default function ParamSnipe() {
             {params.router.name && (
                 <>
                     <br />
+                    <br />
+                    <div>
+                        <h4>Node (recommanded)</h4>
+                        <input
+                            type="text"
+                            placeholder="Url of your node"
+                            onChange={(e) =>
+                                setParams({
+                                    ...params,
+                                    node: e.target.value,
+                                })
+                            }
+                            id="node"
+                        />
+                    </div>
                     <br />
                     <button onClick={addComposantSnipe}>Valider</button>
                 </>

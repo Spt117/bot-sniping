@@ -10,6 +10,7 @@ export const networks: INetworkInfo[] = [
         connection: process.env.ankrGoerli,
         chainId: 5,
         wrappedAddress: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
+        addressExplorer: "https://goerli.etherscan.io/",
     },
     {
         name: "Sepolia Testnet",
@@ -85,7 +86,17 @@ export const routers: IRouterDetails[] = [
 export const paramTransaction: ParamsTransaction = {
     public: "",
     private: "",
-    gas: {
+    gasBuy: {
+        gasLimit: 500000,
+        maxFeePerGas: 22000000000,
+        maxPriorityFeePerGas: 1000000000,
+    },
+    gasApprove: {
+        gasLimit: 500000,
+        maxFeePerGas: 22000000000,
+        maxPriorityFeePerGas: 1000000000,
+    },
+    gasSell: {
         gasLimit: 500000,
         maxFeePerGas: 22000000000,
         maxPriorityFeePerGas: 1000000000,

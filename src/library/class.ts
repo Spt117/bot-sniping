@@ -86,10 +86,10 @@ export class Wallet {
 
 export class GetTransaction {
     transaction: ParamsTransaction;
-    blockchainRouter: IParamsSniper;
+    blockchain: IParamsSniper;
     constructor(transaction: ParamsTransaction, blockchainRouter: IParamsSniper) {
         this.transaction = transaction;
-        this.blockchainRouter = blockchainRouter;
+        this.blockchain = blockchainRouter;
     }
 
     editTransaction(transaction: ParamsTransaction) {
@@ -97,8 +97,13 @@ export class GetTransaction {
     }
 
     getProvider() {
-        const provider = new ethers.JsonRpcProvider(this.blockchainRouter.blockchain.connection);
-        return provider;
+        if (this.blockchain.node) {
+            const provider = new ethers.JsonRpcProvider(this.blockchain.node);
+            return provider;
+        } else {
+            const provider = new ethers.JsonRpcProvider(this.blockchain.blockchain.connection);
+            return provider;
+        }
     }
 
     getWallet() {

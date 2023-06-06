@@ -1,40 +1,51 @@
+import { GetTransaction } from "@/library/class";
+import { paramSniper, paramTransaction } from "@/library/constantes";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
-interface IMySymbolContext {
+interface IContextTransaction {
     mySymbol: string;
     setMySymbol: React.Dispatch<React.SetStateAction<string>>;
+    myTransaction: GetTransaction;
+    setMyTransaction: React.Dispatch<React.SetStateAction<GetTransaction>>;
 }
-const MySymbol = createContext<IMySymbolContext>({
+const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
     setMySymbol: () => {},
+    myTransaction: new GetTransaction(paramTransaction, paramSniper),
+    setMyTransaction: () => {},
 });
 
 // Composant fournisseur de contexte
-interface mySymbolProviderProps {
+interface myTransactionProviderProps {
     children: ReactNode;
 }
 
-export const MySymbolProvider = ({ children }: mySymbolProviderProps) => {
+export const MyTransactionProvider = ({ children }: myTransactionProviderProps) => {
     const [mySymbol, setMySymbol] = useState<string>("");
+    const [myTransaction, setMyTransaction] = useState<GetTransaction>(
+        new GetTransaction(paramTransaction, paramSniper)
+    );
 
     return (
-        <MySymbol.Provider
+        <MyTransaction.Provider
             value={{
                 mySymbol,
                 setMySymbol,
+                myTransaction,
+                setMyTransaction,
             }}
         >
             {children}
-        </MySymbol.Provider>
+        </MyTransaction.Provider>
     );
 };
 
 // Hook personnalisé pour utiliser le contexte
-export const useMySymbol = (): IMySymbolContext => {
-    const context = useContext(MySymbol);
+export const useMyTransaction = (): IContextTransaction => {
+    const context = useContext(MyTransaction);
     if (!context) {
-        throw new Error("useMySymbol must be used within a MySymbolProvider");
+        throw new Error("useMyTransaction must be used within a MyTransactionProvider");
     }
     return context;
 };

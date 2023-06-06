@@ -3,27 +3,29 @@ import { myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
 import EditTransaction from "./EditTransaction";
 import { useEffect, useState } from "react";
-import { useMySymbol } from "@/context/ContextTransaction";
-import { useMyState } from "@/context/Context";
+import { useMyTransaction } from "@/context/ContextTransaction";
+import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 
-export function Transaction({ param }: { param: GetTransaction }) {
+export function Transaction({ myTransaction }: { myTransaction: GetTransaction }) {
     const dispatch = useDispatch();
-    const { mySymbol, setMySymbol } = useMySymbol();
+    const { mySymbol, setMySymbol, setMyTransaction } = useMyTransaction();
     const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
     const [bool, setBool] = useState(false);
 
     useEffect(() => {
-        if (!param.transaction.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
+        if (!myTransaction.transaction.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
         else {
             setMySymbol("tokens");
         }
         getBalance();
-    }, [myTransactions, isSniping]);
+        setMyTransaction(myTransaction);
+        console.log(myTransaction);
+    }, [isSniping, myTransaction]);
 
     async function getBalance() {
-        const balance = await param.getBalance();
+        const balance = await myTransaction.getBalance();
         if (balance) setBalance(balance);
     }
 
@@ -34,7 +36,9 @@ export function Transaction({ param }: { param: GetTransaction }) {
 
     function deleteTransaction() {
         const newArray = [...myTransactions];
-        const index = newArray.findIndex((transaction) => transaction.transaction.public === param.transaction.public);
+        const index = newArray.findIndex(
+            (transaction) => transaction.transaction.public === myTransaction.transaction.public
+        );
         newArray.splice(index, 1);
         setMyTransactions(newArray);
     }
@@ -44,33 +48,33 @@ export function Transaction({ param }: { param: GetTransaction }) {
             <div className="listTransactions">
                 <div className="itemsTransactions">
                     <div>Address</div>
-                    <output name="adress">{truncateAddr(param.transaction.public)}</output>
+                    <output name="adress">{truncateAddr(myTransaction.transaction.public)}</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Amount</div>
                     <output>
-                        {param.transaction.amount} {mySymbol}
+                        {myTransaction.transaction.amount} {mySymbol}
                     </output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Slippage</div>
-                    <output>{param.transaction.slippagePercent}%</output>
+                    <output>{myTransaction.transaction.slippagePercent}%</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Repeat</div>
-                    <output>{param.transaction.repeat}</output>
+                    <output>{myTransaction.transaction.repeat}</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Gas Limit</div>
-                    <output>{param.transaction.gas.gasLimit}</output>
+                    <output>{myTransaction.transaction.gasBuy.gasLimit}</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Max Fee Per Gas</div>
-                    <output>{param.transaction.gas.maxFeePerGas}</output>
+                    <output>{myTransaction.transaction.gasBuy.maxFeePerGas} Gwei</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Max Priority Fee Per Gas</div>
-                    <output>{param.transaction.gas.maxPriorityFeePerGas}</output>
+                    <output>{myTransaction.transaction.gasBuy.maxPriorityFeePerGas} Gwei</output>
                 </div>
                 <div className="itemsTransactions">
                     <div>Your balance</div>
@@ -84,7 +88,7 @@ export function Transaction({ param }: { param: GetTransaction }) {
                         Remove
                     </button>
                 </div>
-                {bool && <EditTransaction addressPublic={param.transaction.public} setBool={setBool} />}
+                {bool && <EditTransaction addressPublic={myTransaction.transaction.public} setBool={setBool} />}
             </div>
         </>
     );
