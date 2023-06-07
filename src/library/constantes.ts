@@ -131,33 +131,58 @@ export const paramSniper: IParamsSniper = {
 export const myModel = `
 [
     {
-        "public": "0x0000000000000000000000000000000000000000",
-        "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "gas": {
-            "gasLimit": 500000,
-            "maxFeePerGas": 22000000000,
-            "maxPriorityFeePerGas": 1000000000
-        },
-        "amountIsToken": false,
-        "slippagePercent": 20,
-        "amount": 0,
-        "repeat": 1,
-        "useContract": false
-        "contractAddress": "none",
-    },
-    {
-        "public": "0x0000000000000000000000000000000000000000",
-        "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
-        "gas": {
-            "gasLimit": 500000,
-            "maxFeePerGas": 22000000000,
-            "maxPriorityFeePerGas": 1000000000
-        },
-        "amountIsToken": false,
-        "slippagePercent": 20,
-        "amount": 0,
-        "repeat": 1,
-        "useContract": false
-        "contractAddress": "none",
-    }
+   "public": "0x0000000000000000000000000000000000000000",
+   "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "gasBuy":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+       "gasSell":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+       "gasApprove":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+   "amountIsToken":false,
+   "slippagePercent":20,
+   "amount":0.001,
+   "repeat":1,
+   "useContract":false
+   },
+   {
+   "public": "0x0000000000000000000000000000000000000000",
+   "private": "0x0000000000000000000000000000000000000000000000000000000000000000",
+   "gasBuy":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+               "gasSell":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+       "gasApprove":
+       {
+       "gasLimit":500000,
+       "maxFeePerGas":22000000000,
+       "maxPriorityFeePerGas":1000000000
+       },
+       
+   "amountIsToken":false,
+   "slippagePercent":20,	
+   "amount":0.001,
+   "repeat":1,
+   "useContract":false
+       }
 ]`;

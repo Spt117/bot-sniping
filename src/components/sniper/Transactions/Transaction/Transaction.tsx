@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
-import ParamBuy from "./ParamBuy";
+import ParamBuy from "./TransactionBuy";
 
 export function Transaction({ myTransaction }: { myTransaction: GetTransaction }) {
     const { setMySymbol, setMyTransaction, setMyAccount } = useMyTransaction();

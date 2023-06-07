@@ -7,7 +7,7 @@ import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../../Close";
-import ParamTransaction from "./Transaction/ParamTransaction";
+import EditBuy from "./Transaction/EditBuy";
 
 export default function AddTransactionManually() {
     const { setMyState, myTransactions, setMyTransactions, paramsSniper } = useMyState();
@@ -37,6 +37,7 @@ export default function AddTransactionManually() {
         <div className="addTransaction">
             <Close functionClose={close} />
             <h4>Add your account</h4>
+
             <div>
                 <input
                     type="text"
@@ -61,10 +62,7 @@ export default function AddTransactionManually() {
                         })
                     }
                 />
-                <br />
-                <br />
 
-                <ParamTransaction transaction={newTransaction} setTransaction={setNewTransaction} />
                 <br />
                 <button
                     id="newTransactionButton"

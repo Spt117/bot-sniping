@@ -2,17 +2,32 @@ import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useEffect } from "react";
 import EditGas from "./EditGas";
+import Close from "@/components/Close";
+import { myOverlay } from "@/redux/actions";
+import { useDispatch } from "react-redux";
 import { ParamsTransaction } from "@/library/interfaces";
 
-export default function ParamTransaction({
+export default function EditBuy({
+    setBool,
     transaction,
     setTransaction,
 }: {
+    setBool: Function;
     transaction: ParamsTransaction;
     setTransaction: Function;
 }) {
     const { paramsSniper } = useMyState();
     const { mySymbol, setMySymbol } = useMyTransaction();
+    const dispatch = useDispatch();
+
+    function closeEdit() {
+        setBool(false);
+        dispatch(myOverlay(false));
+    }
+
+    function editTransaction() {
+        closeEdit();
+    }
 
     useEffect(() => {
         getSymbol();
@@ -27,7 +42,8 @@ export default function ParamTransaction({
     }
 
     return (
-        <>
+        <div className="editTransaction">
+            <Close functionClose={closeEdit} />
             <h4>Set your transaction</h4>
 
             <div className="labelChekbox">
@@ -86,6 +102,10 @@ export default function ParamTransaction({
             <br />
 
             <EditGas property="gasBuy" />
-        </>
+            <br />
+            <button className="button" onClick={editTransaction}>
+                Set Transaction
+            </button>
+        </div>
     );
 }

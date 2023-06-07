@@ -20,6 +20,7 @@ export default function AddTransactionByMnemonic() {
 
     async function addAcounts() {
         const accounts = await getAddresses(mnemonic.myMnemonic, mnemonic.number);
+        closeComponent();
         for (let i = 0; i < accounts.length; i++) {
             const newTransaction: ParamsTransaction = { ...paramTransaction };
             newTransaction.public = accounts[i].public;
@@ -27,7 +28,6 @@ export default function AddTransactionByMnemonic() {
             const nonce = await addNonce(new GetTransaction(newTransaction, paramsSniper));
             setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, nonce]);
         }
-        closeComponent();
     }
 
     function checkNumberAccounts() {
