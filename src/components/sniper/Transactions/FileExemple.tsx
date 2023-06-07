@@ -35,14 +35,13 @@ export default function FileExemple() {
                 {isCopied ? "Copied !" : "Copy"}
             </button>
             <button onClick={download}> Download</button>
-            <pre>
-                <code style={{ color: "black", fontWeight: "bolder" }}>{myModel}</code>
-            </pre>
-            <br />
             <p>
                 You can copy and paste this code in a json/txt file. Set your public and private adress and import the
                 file.
             </p>
+            <pre>
+                <code style={{ color: "black", fontWeight: "bolder" }}>{myModel}</code>
+            </pre>
         </div>
     );
 }

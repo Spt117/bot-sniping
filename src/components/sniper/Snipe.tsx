@@ -1,6 +1,6 @@
 import { useMyState } from "@/context/ContextSniper";
 import { IParamsSniper } from "@/library/interfaces";
-import { myDisableSniper } from "@/redux/actions";
+import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
 import { buyWithEth } from "@/sniper/uniswapV2";
 import { useEffect, useState } from "react";
@@ -17,6 +17,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         setMyParamSniper,
         myTransactions,
         boolTransactions,
+        paramsSniper,
+        setMyState,
         setBoolTransactions,
         contractAddress,
         isSniping,
@@ -55,33 +57,46 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     }
 
     return (
-        <div className="contain-snipe">
-            <div className="contain-close">
-                <Close functionClose={disableSniper} />
-                <ManagerComponent />
+        <>
+            <ManagerComponent />
+            <div className="contain-snipe">
+                <div className="contain-close">
+                    <Close functionClose={disableSniper} />
 
-                {myTransactions.length > 0 && (
-                    <>
-                        {boolTransactions && <GeneratorTransaction />}
-                        {!boolTransactions && (
-                            <button onClick={() => setBoolTransactions(true)}>Show Transactions</button>
-                        )}
-                        <br />
-                        <br />
-                        {!contractAddress && <Contrat />}
-                    </>
-                )}
-                <br />
-                <br />
-                {!isSniping && contractAddress && (
-                    <>
-                        <p>Contrat {contractAddress}</p>
-                        <button id="test" onClick={test}>
-                            Sniper
-                        </button>
-                    </>
-                )}
+                    <div>{paramsSniper.blockchain.name}</div>
+                    <div>{paramsSniper.router.name}</div>
+                    <button
+                        className="button"
+                        onClick={() => {
+                            setMyState(1);
+                            dispatch(myOverlay(true));
+                        }}
+                    >
+                        Add Transaction
+                    </button>
+                    {myTransactions.length > 0 && (
+                        <>
+                            {boolTransactions && <GeneratorTransaction />}
+                            {!boolTransactions && (
+                                <button onClick={() => setBoolTransactions(true)}>Show Transactions</button>
+                            )}
+                            <br />
+                            <br />
+                            {!contractAddress && <Contrat />}
+                        </>
+                    )}
+                    <br />
+                    <br />
+                    {!isSniping && contractAddress && (
+                        <>
+                            <p>Contrat {contractAddress}</p>
+                            <button id="test" onClick={test}>
+                                Sniper
+                            </button>
+                        </>
+                    )}
+                </div>
             </div>
-        </div>
+        </>
     );
 }
