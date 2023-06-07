@@ -1,19 +1,24 @@
 import { GetTransaction } from "@/library/class";
 import { paramSniper, paramTransaction } from "@/library/constantes";
+import { ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
 interface IContextTransaction {
     mySymbol: string;
     setMySymbol: React.Dispatch<React.SetStateAction<string>>;
-    myTransaction: GetTransaction;
-    setMyTransaction: React.Dispatch<React.SetStateAction<GetTransaction>>;
+    myTransaction: ParamsTransaction;
+    setMyTransaction: React.Dispatch<React.SetStateAction<ParamsTransaction>>;
+    myAccount: GetTransaction;
+    setMyAccount: React.Dispatch<React.SetStateAction<GetTransaction>>;
 }
 const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
     setMySymbol: () => {},
-    myTransaction: new GetTransaction(paramTransaction, paramSniper),
+    myTransaction: paramTransaction,
     setMyTransaction: () => {},
+    myAccount: new GetTransaction(paramTransaction, paramSniper),
+    setMyAccount: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -23,10 +28,7 @@ interface myTransactionProviderProps {
 
 export const MyTransactionProvider = ({ children }: myTransactionProviderProps) => {
     const [mySymbol, setMySymbol] = useState<string>("");
-    const [myTransaction, setMyTransaction] = useState<GetTransaction>(
-        new GetTransaction(paramTransaction, paramSniper)
-    );
-
+    const [myTransaction, setMyTransaction] = useState<ParamsTransaction>(paramTransaction);
     return (
         <MyTransaction.Provider
             value={{
@@ -34,6 +36,8 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
                 setMySymbol,
                 myTransaction,
                 setMyTransaction,
+                myAccount: new GetTransaction(myTransaction, paramSniper),
+                setMyAccount: () => {},
             }}
         >
             {children}

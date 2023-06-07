@@ -1,45 +1,24 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { ParamsTransaction } from "@/library/interfaces";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import EditGas from "./EditGas";
 
-export default function ParamTransaction({
-    newTransaction,
-    setNewTransaction,
-}: {
-    newTransaction: ParamsTransaction;
-    setNewTransaction: Function;
-}) {
-    const { mySymbol, setMySymbol } = useMyTransaction();
+export default function ParamTransaction() {
     const { paramsSniper } = useMyState();
-    const [symbol, setTheSymbol] = useState("");
-
-    function setSymbol() {
-        if (newTransaction.amountIsToken) {
-            setMySymbol("tokens");
-            if (mySymbol === "") {
-                setTheSymbol("tokens");
-            }
-        } else {
-            setMySymbol(paramsSniper.blockchain.symbol);
-            if (mySymbol === "") {
-                setTheSymbol(paramsSniper.blockchain.symbol);
-            }
-        }
-    }
+    const { myTransaction, setMyTransaction, mySymbol, setMySymbol, myAccount } = useMyTransaction();
 
     useEffect(() => {
-        setSymbol();
-    }, [newTransaction.amountIsToken, mySymbol]);
+        getSymbol();
+        console.log(myTransaction);
+        console.log(myAccount);
+    }, [myTransaction.amountIsToken]);
 
-    function setGas(property: string, value: number) {
-        setNewTransaction({
-            ...newTransaction,
-            gas: {
-                ...newTransaction.gasBuy,
-                [property]: Number(value),
-            },
-        });
+    function getSymbol() {
+        if (myTransaction.amountIsToken) {
+            setMySymbol("tokens");
+        } else {
+            setMySymbol(paramsSniper.blockchain.symbol);
+        }
     }
 
     return (
@@ -52,9 +31,10 @@ export default function ParamTransaction({
                     id="isToken"
                     type="checkbox"
                     placeholder="isToken"
+                    checked={myTransaction.amountIsToken}
                     onChange={(e) =>
-                        setNewTransaction({
-                            ...newTransaction,
+                        setMyTransaction({
+                            ...myTransaction,
                             amountIsToken: e.target.checked,
                         })
                     }
@@ -66,10 +46,10 @@ export default function ParamTransaction({
             <input
                 type="number"
                 name="amount"
-                placeholder={`Amount in ${mySymbol || symbol}`}
+                placeholder={`Amount in ${mySymbol}`}
                 onChange={(e) =>
-                    setNewTransaction({
-                        ...newTransaction,
+                    setMyTransaction({
+                        ...myTransaction,
                         amount: Number(e.target.value),
                     })
                 }
@@ -80,8 +60,8 @@ export default function ParamTransaction({
                 name="slippage"
                 placeholder="Slippage %"
                 onChange={(e) =>
-                    setNewTransaction({
-                        ...newTransaction,
+                    setMyTransaction({
+                        ...myTransaction,
                         slippagePercent: Number(e.target.value),
                     })
                 }
@@ -92,33 +72,15 @@ export default function ParamTransaction({
                 name="repeat"
                 placeholder="Repeat"
                 onChange={(e) =>
-                    setNewTransaction({
-                        ...newTransaction,
+                    setMyTransaction({
+                        ...myTransaction,
                         repeat: Number(e.target.value),
                     })
                 }
             />
             <br />
-            <input
-                type="number"
-                name="gaslimit"
-                placeholder="Gaslimit"
-                onChange={(e) => setGas("gasLimit", Number(e.target.value))}
-            />
-            <br />
-            <input
-                type="number"
-                name="maxFeePerGas"
-                placeholder="MaxFeePerGas in Gwei"
-                onChange={(e) => setGas("maxFeePerGas", Number(e.target.value))}
-            />
-            <br />
-            <input
-                type="number"
-                name="maxPriorityFeePerGas"
-                placeholder="MaxPriorityFeePerGas in Gwei"
-                onChange={(e) => setGas("maxPriorityFeePerGas", Number(e.target.value))}
-            />
+
+            <EditGas property="gasBuy" />
         </>
     );
 }

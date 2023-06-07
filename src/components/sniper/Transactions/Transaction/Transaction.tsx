@@ -1,7 +1,4 @@
 import { truncateAddr } from "@/library/fonctions";
-import { myOverlay } from "@/redux/actions";
-import { useDispatch } from "react-redux";
-import EditTransaction from "./EditTransaction";
 import { useEffect, useState } from "react";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
@@ -9,11 +6,9 @@ import { GetTransaction } from "@/library/class";
 import ParamBuy from "./ParamBuy";
 
 export function Transaction({ myTransaction }: { myTransaction: GetTransaction }) {
-    const dispatch = useDispatch();
-    const { mySymbol, setMySymbol, setMyTransaction } = useMyTransaction();
+    const { setMySymbol, setMyTransaction, setMyAccount } = useMyTransaction();
     const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
-    const [bool, setBool] = useState(false);
 
     useEffect(() => {
         if (!myTransaction.transaction.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
@@ -21,7 +16,8 @@ export function Transaction({ myTransaction }: { myTransaction: GetTransaction }
             setMySymbol("tokens");
         }
         getBalance();
-        setMyTransaction(myTransaction);
+        setMyTransaction(myTransaction.transaction);
+        setMyAccount(myTransaction);
     }, [isSniping, myTransaction]);
 
     async function getBalance() {
@@ -49,14 +45,13 @@ export function Transaction({ myTransaction }: { myTransaction: GetTransaction }
                     <div>Your balance</div>
                     <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
                 </div>
-                <ParamBuy setBool={setBool} />
+                <ParamBuy />
 
                 <div className="divButtonsTransaction">
                     <button onClick={deleteTransaction} className="button">
                         Remove
                     </button>
                 </div>
-                {bool && <EditTransaction addressPublic={myTransaction.transaction.public} setBool={setBool} />}
             </div>
         </>
     );

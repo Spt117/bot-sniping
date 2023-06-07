@@ -1,10 +1,13 @@
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { myOverlay } from "@/redux/actions";
 import { useDispatch } from "react-redux";
+import EditTransaction from "./EditTransaction";
+import { useState } from "react";
 
-export default function ParamBuy({ setBool }: { setBool: Function }) {
+export default function ParamBuy() {
     const { mySymbol, myTransaction } = useMyTransaction();
     const dispatch = useDispatch();
+    const [bool, setBool] = useState(false);
 
     function activeEdit() {
         setBool(true);
@@ -16,32 +19,33 @@ export default function ParamBuy({ setBool }: { setBool: Function }) {
             <div className="itemsTransactions">
                 <div>Amount To Buy</div>
                 <output>
-                    {myTransaction.transaction.amount} {mySymbol}
+                    {myTransaction.amount} {mySymbol}
                 </output>
             </div>
             <div className="itemsTransactions">
                 <div>Slippage</div>
-                <output>{myTransaction.transaction.slippagePercent}%</output>
+                <output>{myTransaction.slippagePercent}%</output>
             </div>
             <div className="itemsTransactions">
                 <div>Repeat</div>
-                <output>{myTransaction.transaction.repeat}</output>
+                <output>{myTransaction.repeat}</output>
             </div>
             <div className="itemsTransactions">
                 <div>Gas Limit</div>
-                <output>{myTransaction.transaction.gasBuy.gasLimit}</output>
+                <output>{myTransaction.gasBuy.gasLimit}</output>
             </div>
             <div className="itemsTransactions">
                 <div>Max Fee Per Gas</div>
-                <output>{myTransaction.transaction.gasBuy.maxFeePerGas} Gwei</output>
+                <output>{myTransaction.gasBuy.maxFeePerGas} Gwei</output>
             </div>
             <div className="itemsTransactions">
                 <div>Max Priority Fee Per Gas</div>
-                <output>{myTransaction.transaction.gasBuy.maxPriorityFeePerGas} Gwei</output>
+                <output>{myTransaction.gasBuy.maxPriorityFeePerGas} Gwei</output>
             </div>
             <button className="button" onClick={activeEdit}>
                 Edit
             </button>
+            {bool && <EditTransaction setBool={setBool} />}
         </>
     );
 }

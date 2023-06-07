@@ -1,12 +1,12 @@
 import { useMyTransaction } from "@/context/ContextTransaction";
 
 export default function EditGas({ property }: { property: "gasBuy" | "gasApprove" | "gasSell" }) {
-    const { myTransaction } = useMyTransaction();
+    const { myTransaction, setMyTransaction } = useMyTransaction();
 
     function setGas(prop: "gasLimit" | "maxFeePerGas" | "maxPriorityFeePerGas", value: number) {
-        let newTest = { ...myTransaction.transaction };
+        let newTest = { ...myTransaction };
         newTest[property][prop] = value;
-        myTransaction.editTransaction(newTest);
+        setMyTransaction(newTest);
     }
 
     return (
