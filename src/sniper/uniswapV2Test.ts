@@ -70,7 +70,7 @@ async function swapETHForTokens(myWallet: GetTransaction) {
             ...{
                 value: amountInWei,
             },
-            ...myWallet.transaction.gas,
+            ...myWallet.transaction.gasBuy,
         }
     );
 

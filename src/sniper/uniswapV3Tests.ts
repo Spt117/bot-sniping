@@ -2,12 +2,12 @@ import { FeeAmount, TICK_SPACINGS, computePoolAddress } from "@uniswap/v3-sdk";
 import { Token } from "@uniswap/sdk-core";
 import { ethers } from "ethers";
 import { GetTransaction } from "../library/class";
-import ABI from "../web3/abis/IERC20.json";
+import ABI from "../web3/abis/ERC20.json";
 import IUniswapV3PoolABI from "@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json";
 import Quoter from "@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json";
 
 async function fetchTokenData(address: string, wallet: GetTransaction) {
-    const provider = new ethers.JsonRpcProvider(wallet.blockchainRouter.blockchain.connection);
+    const provider = new ethers.JsonRpcProvider(wallet.blockchain.blockchain.connection);
     const tokenContract = new ethers.Contract(address, ABI, provider);
     const decimals = await tokenContract.decimals();
     const symbol = await tokenContract.symbol();
@@ -27,11 +27,7 @@ export async function getEth(addr: string, addr2: string, wallet: GetTransaction
     const tokenData = await fetchTokenData(addr, wallet);
     const wethData = await fetchTokenData(addr2, wallet);
 
-    const quoterContract = new ethers.Contract(
-        wallet.blockchainRouter.router.quoterAddress,
-        Quoter.abi,
-        wallet.getWallet()
-    );
+    const quoterContract = new ethers.Contract(wallet.blockchain.router.quoterAddress, Quoter.abi, wallet.getWallet());
 
     const readableAmount = ethers.parseUnits(wallet.transaction.amount.toString(), tokenData.decimals);
 
@@ -54,7 +50,7 @@ export async function checkPool(addr: string, addr2: string, wallet: GetTransact
 
     for (let i = 0; i < fees.length; i++) {
         const currentPoolAddress = computePoolAddress({
-            factoryAddress: wallet.blockchainRouter.router.factoryAddress,
+            factoryAddress: wallet.blockchain.router.factoryAddress,
             tokenA: new Token(
                 tokenData.chainId,
                 tokenData.address,
