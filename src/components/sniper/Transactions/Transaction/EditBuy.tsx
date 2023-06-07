@@ -25,10 +25,6 @@ export default function EditBuy({
         dispatch(myOverlay(false));
     }
 
-    function editTransaction() {
-        closeEdit();
-    }
-
     useEffect(() => {
         getSymbol();
     }, [transaction.amountIsToken]);
@@ -103,7 +99,7 @@ export default function EditBuy({
 
             <EditGas property="gasBuy" />
             <br />
-            <button className="button" onClick={editTransaction}>
+            <button className="button" onClick={closeEdit}>
                 Set Transaction
             </button>
         </div>

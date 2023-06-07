@@ -15,16 +15,14 @@ export default function TransactionBuy() {
         dispatch(myOverlay(true));
     }
 
-    function setTransaction(prop: "amount" | "slippagePercent" | "repeat", value: number) {
-        let newTest = { ...myTransaction };
-        newTest[prop] = value;
-        setMyTransaction(newTest);
-    }
+    // function setTransaction(prop: "amount" | "slippagePercent" | "repeat", value: number) {
+    //     setMyTransaction({ ...myTransaction, [prop]: value });
+    // }
 
     return (
         <>
             <div className="itemsTransactions">
-                <div>Amount To Buy in {mySymbol}</div>
+                <div>Amount To Buy</div>
                 <output>
                     {myTransaction.amount} {mySymbol}
                 </output>

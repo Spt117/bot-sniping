@@ -3,7 +3,7 @@ import { IParamsSniper } from "@/library/interfaces";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
 import { buyWithEth } from "@/sniper/uniswapV2";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
@@ -45,15 +45,6 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             await buyWithEth(myTransactions, contractAddress, endBuy);
             // await scanMempool(myTransactions, contractAddress, buyWithEth, endBuy);
         }
-    }
-
-    function download() {
-        const element = document.createElement("a");
-        const file = new Blob([JSON.stringify(myTransactions)], { type: "text/plain;charset=utf-8" });
-        element.href = URL.createObjectURL(file);
-        element.download = "myTransactions.json";
-        document.body.appendChild(element);
-        element.click();
     }
 
     return (
