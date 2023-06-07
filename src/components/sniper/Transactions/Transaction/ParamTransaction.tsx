@@ -12,7 +12,7 @@ export default function ParamTransaction({
     setTransaction: Function;
 }) {
     const { paramsSniper } = useMyState();
-    const { mySymbol, setMySymbol, myAccount } = useMyTransaction();
+    const { mySymbol, setMySymbol } = useMyTransaction();
 
     useEffect(() => {
         getSymbol();

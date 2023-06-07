@@ -13,10 +13,10 @@ export async function goSniper(sniper: IParamsSniper, ParamsTransaction: ParamsT
     let txPromises = [];
 
     for (let i = 0; i < transactions.transaction.repeat; i++) {
-        transactions.transaction.gas.nonce = nonce + i;
+        transactions.transaction.gasBuy.nonce = nonce + i;
         const txPromise = (async () => {
             try {
-                const tx = await contract.Snipe(transactions.transaction.amount, transactions.transaction.gas);
+                const tx = await contract.Snipe(transactions.transaction.amount, transactions.transaction.gasBuy);
                 console.log(tx);
                 console.log("Transaction sent with nonce", nonce + i);
                 const receipt = await tx.wait();
