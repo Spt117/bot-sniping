@@ -64,7 +64,7 @@ export default function AddTransactionManually() {
                 <br />
                 <br />
 
-                <ParamTransaction newTransaction={newTransaction} setNewTransaction={setNewTransaction} />
+                <ParamTransaction transaction={newTransaction} setTransaction={setNewTransaction} />
                 <br />
                 <button
                     id="newTransactionButton"

@@ -2,19 +2,24 @@ import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useEffect } from "react";
 import EditGas from "./EditGas";
+import { ParamsTransaction } from "@/library/interfaces";
 
-export default function ParamTransaction() {
+export default function ParamTransaction({
+    transaction,
+    setTransaction,
+}: {
+    transaction: ParamsTransaction;
+    setTransaction: Function;
+}) {
     const { paramsSniper } = useMyState();
-    const { myTransaction, setMyTransaction, mySymbol, setMySymbol, myAccount } = useMyTransaction();
+    const { mySymbol, setMySymbol, myAccount } = useMyTransaction();
 
     useEffect(() => {
         getSymbol();
-        console.log(myTransaction);
-        console.log(myAccount);
-    }, [myTransaction.amountIsToken]);
+    }, [transaction.amountIsToken]);
 
     function getSymbol() {
-        if (myTransaction.amountIsToken) {
+        if (transaction.amountIsToken) {
             setMySymbol("tokens");
         } else {
             setMySymbol(paramsSniper.blockchain.symbol);
@@ -31,10 +36,10 @@ export default function ParamTransaction() {
                     id="isToken"
                     type="checkbox"
                     placeholder="isToken"
-                    checked={myTransaction.amountIsToken}
+                    checked={transaction.amountIsToken}
                     onChange={(e) =>
-                        setMyTransaction({
-                            ...myTransaction,
+                        setTransaction({
+                            ...transaction,
                             amountIsToken: e.target.checked,
                         })
                     }
@@ -48,8 +53,8 @@ export default function ParamTransaction() {
                 name="amount"
                 placeholder={`Amount in ${mySymbol}`}
                 onChange={(e) =>
-                    setMyTransaction({
-                        ...myTransaction,
+                    setTransaction({
+                        ...transaction,
                         amount: Number(e.target.value),
                     })
                 }
@@ -60,8 +65,8 @@ export default function ParamTransaction() {
                 name="slippage"
                 placeholder="Slippage %"
                 onChange={(e) =>
-                    setMyTransaction({
-                        ...myTransaction,
+                    setTransaction({
+                        ...transaction,
                         slippagePercent: Number(e.target.value),
                     })
                 }
@@ -72,8 +77,8 @@ export default function ParamTransaction() {
                 name="repeat"
                 placeholder="Repeat"
                 onChange={(e) =>
-                    setMyTransaction({
-                        ...myTransaction,
+                    setTransaction({
+                        ...transaction,
                         repeat: Number(e.target.value),
                     })
                 }
