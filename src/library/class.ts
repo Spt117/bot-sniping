@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { IParamsSniper, ParamsTransaction, Request } from "./interfaces";
-import abiERC20 from "../web3/abis/erc20.json";
+import abiERC20 from "../web3/abis/ERC20.json";
 
 export class request implements Request {
     method: string;
