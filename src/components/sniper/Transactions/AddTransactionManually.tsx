@@ -2,7 +2,6 @@ import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { addNonce, isEthereumAddress } from "@/library/fonctions";
-import { ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";

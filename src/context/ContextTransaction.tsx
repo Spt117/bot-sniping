@@ -1,4 +1,4 @@
-import { GetTransaction } from "@/library/class";
+import { ERC20, GetTransaction } from "@/library/class";
 import { paramSniper, paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
@@ -11,6 +11,8 @@ interface IContextTransaction {
     setMyTransaction: React.Dispatch<React.SetStateAction<ParamsTransaction>>;
     myAccount: GetTransaction;
     setMyAccount: React.Dispatch<React.SetStateAction<GetTransaction>>;
+    myERC20: ERC20 | null;
+    setMyERC20: React.Dispatch<React.SetStateAction<ERC20 | null>>;
 }
 const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
@@ -19,6 +21,8 @@ const MyTransaction = createContext<IContextTransaction>({
     setMyTransaction: () => {},
     myAccount: new GetTransaction(paramTransaction, paramSniper),
     setMyAccount: () => {},
+    myERC20: null,
+    setMyERC20: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -29,6 +33,8 @@ interface myTransactionProviderProps {
 export const MyTransactionProvider = ({ children }: myTransactionProviderProps) => {
     const [mySymbol, setMySymbol] = useState<string>("");
     const [myTransaction, setMyTransaction] = useState<ParamsTransaction>(paramTransaction);
+    const [myERC20, setMyERC20] = useState<ERC20 | null>(null);
+
     return (
         <MyTransaction.Provider
             value={{
@@ -38,6 +44,8 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
                 setMyTransaction,
                 myAccount: new GetTransaction(myTransaction, paramSniper),
                 setMyAccount: () => {},
+                myERC20,
+                setMyERC20,
             }}
         >
             {children}

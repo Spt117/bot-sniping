@@ -1,5 +1,6 @@
 import { ethers } from "ethers";
 import { IParamsSniper, ParamsTransaction, Request } from "./interfaces";
+import abiERC20 from "../web3/abis/erc20.json";
 
 export class request implements Request {
     method: string;
@@ -121,6 +122,86 @@ export class GetTransaction {
         try {
             const balance = await provider.getBalance(this.transaction.public);
             return Number(Number(ethers.formatEther(balance)).toFixed(4));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+}
+
+export class ERC20 {
+    contract: ethers.Contract;
+    transactions: GetTransaction;
+    wallet: ethers.Wallet | undefined;
+
+    constructor(token: string, transactions: GetTransaction) {
+        this.transactions = transactions;
+        this.wallet = this.transactions.getWallet();
+        this.contract = new ethers.Contract(token, abiERC20, this.wallet);
+    }
+
+    async getBalance() {
+        try {
+            const balance = await this.contract.balanceOf(this.transactions.transaction.public);
+            return Number(Number(ethers.formatEther(balance)).toFixed(4));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getDecimals() {
+        try {
+            const decimals = await this.contract.decimals();
+            return Number(decimals);
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getSymbol() {
+        try {
+            const symbol = await this.contract.symbol();
+            return symbol;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getTotalSupply() {
+        try {
+            const totalSupply = await this.contract.totalSupply();
+            return Number(Number(ethers.formatEther(totalSupply)).toFixed(4));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async getAllowance() {
+        try {
+            const allowance = await this.contract.allowance(
+                this.transactions.transaction.public,
+                this.transactions.blockchain.router
+            );
+            return Number(Number(ethers.formatEther(allowance)).toFixed(4));
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async approve(amount: number) {
+        try {
+            const contract = this.contract;
+            const approve = await contract.approve(this.wallet, amount);
+            return approve;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async transfer(amount: number) {
+        try {
+            const contract = this.contract;
+            const transfer = await contract.transfer(this.wallet, amount);
+            return transfer;
         } catch (e) {
             console.log(e);
         }

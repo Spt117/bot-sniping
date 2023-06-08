@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
-import ParamBuy from "./TransactionBuy";
+import TransactionBuy from "./TransactionBuy";
 
-export function Transaction({ myTransaction }: { myTransaction: GetTransaction }) {
+export default function Account({ myTransaction }: { myTransaction: GetTransaction }) {
     const { setMySymbol, setMyTransaction, setMyAccount } = useMyTransaction();
     const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
@@ -45,7 +45,7 @@ export function Transaction({ myTransaction }: { myTransaction: GetTransaction }
                     <div>Your balance</div>
                     <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
                 </div>
-                <ParamBuy />
+                <TransactionBuy />
 
                 <div className="divButtonsTransaction">
                     <button onClick={deleteTransaction} className="button">
