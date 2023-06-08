@@ -11,11 +11,13 @@ export async function getData() {
 }
 
 //  formater l'adresse de connexion à afficher
-export function truncateAddr(addr: string) {
-    const truncate = /^(0x[a-fA-F0-9]{2})[a-fA-F0-9]+([a-fA-F0-9]{4})$/;
-    const match = addr.match(truncate);
-    if (!match) return addr;
-    return `${match[1]}…${match[2]}`;
+export function truncateAddr(addr: string | null | undefined) {
+    if (addr) {
+        const truncate = /^(0x[a-fA-F0-9]{2})[a-fA-F0-9]+([a-fA-F0-9]{4})$/;
+        const match = addr.match(truncate);
+        if (!match) return addr;
+        return `${match[1]}…${match[2]}`;
+    }
 }
 
 export function eventMetamask(callBack: any) {

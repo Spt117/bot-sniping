@@ -72,4 +72,13 @@ export interface ParamsTransaction {
     secondsDelay?: number;
     useContract: boolean;
     contractAddress?: string;
+    isApproval: boolean;
+}
+
+export interface IERC20 {
+    name: string;
+    symbol: string;
+    decimals: number | undefined;
+    totalSupply: number | undefined;
+    address: string;
 }

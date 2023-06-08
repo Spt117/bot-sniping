@@ -128,7 +128,7 @@ export class GetTransaction {
     }
 }
 
-export class ERC20 {
+export class ClassERC20 {
     contract: ethers.Contract;
     transactions: GetTransaction;
     wallet: ethers.Wallet | undefined;
@@ -136,7 +136,7 @@ export class ERC20 {
     constructor(token: string, transactions: GetTransaction) {
         this.transactions = transactions;
         this.wallet = this.transactions.getWallet();
-        this.contract = new ethers.Contract(token, abiERC20, this.wallet);
+        this.contract = new ethers.Contract(token, abiERC20, this.transactions.getProvider());
     }
 
     async getBalance() {
@@ -166,6 +166,15 @@ export class ERC20 {
         }
     }
 
+    async getName() {
+        try {
+            const name = await this.contract.name();
+            return name;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     async getTotalSupply() {
         try {
             const totalSupply = await this.contract.totalSupply();
@@ -179,7 +188,7 @@ export class ERC20 {
         try {
             const allowance = await this.contract.allowance(
                 this.transactions.transaction.public,
-                this.transactions.blockchain.router
+                this.transactions.blockchain.router.address
             );
             return Number(Number(ethers.formatEther(allowance)).toFixed(4));
         } catch (e) {
@@ -190,17 +199,17 @@ export class ERC20 {
     async approve(amount: number) {
         try {
             const contract = this.contract;
-            const approve = await contract.approve(this.wallet, amount);
+            const approve = await contract.approve(this.transactions.blockchain.router, amount);
             return approve;
         } catch (e) {
             console.log(e);
         }
     }
 
-    async transfer(amount: number) {
+    async transfer(address: string, amount: number) {
         try {
             const contract = this.contract;
-            const transfer = await contract.transfer(this.wallet, amount);
+            const transfer = await contract.transfer(address, amount);
             return transfer;
         } catch (e) {
             console.log(e);

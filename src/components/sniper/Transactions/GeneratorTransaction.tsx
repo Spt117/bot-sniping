@@ -1,4 +1,4 @@
-import Account from "./Transaction/Account";
+import AccountManager from "./Transaction/AccountManager";
 import { MyTransactionProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 
@@ -9,7 +9,7 @@ export default function GeneratorTransaction() {
             <h4>Transactions</h4>
             {myTransactions.map((myTransaction, index) => (
                 <MyTransactionProvider key={index}>
-                    <Account myTransaction={myTransaction} />
+                    <AccountManager myTransaction={myTransaction} />
                 </MyTransactionProvider>
             ))}
             <button onClick={() => setBoolTransactions(false)}>Hide transactions</button>

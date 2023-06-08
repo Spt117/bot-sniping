@@ -74,7 +74,18 @@
     margin-bottom: 0.5rem;
     padding: 0;
 }
+
 .accounts {
+    margin: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    background-color: rgba(196, 248, 255, 0.6);
+    text-align: center;
+    color: #000000;
+    background-color: rgba(197, 226, 255, 0.5);
+    box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.12);
+}
+.accounts-containers {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,7 +93,7 @@
     margin: 0.5rem;
     background-color: rgb(185, 255, 255);
 }
-.itemsTransactions {
+.items {
     margin: 0.5rem;
     padding: 0.5rem;
     border-radius: 10px;

@@ -108,6 +108,7 @@ export const paramTransaction: ParamsTransaction = {
     nonce: 0,
     useContract: false,
     contractAddress: "none",
+    isApproval: false,
 };
 
 export const paramSniper: IParamsSniper = {

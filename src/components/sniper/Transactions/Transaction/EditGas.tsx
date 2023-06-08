@@ -4,9 +4,11 @@ export default function EditGas({ property }: { property: "gasBuy" | "gasApprove
     const { myTransaction, setMyTransaction } = useMyTransaction();
 
     function setGas(prop: "gasLimit" | "maxFeePerGas" | "maxPriorityFeePerGas", value: number) {
-        let newTest = { ...myTransaction };
-        newTest[property][prop] = value;
-        setMyTransaction(newTest);
+        if (myTransaction) {
+            let newTest = { ...myTransaction };
+            newTest[property][prop] = value;
+            setMyTransaction(newTest);
+        }
     }
 
     return (

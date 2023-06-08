@@ -19,20 +19,21 @@ export default function TransactionBuy() {
     //     setMyTransaction({ ...myTransaction, [prop]: value });
     // }
 
+    if (!myTransaction) return null;
     return (
-        <>
-            <div className="itemsTransactions">
+        <div className="accounts-containers">
+            <div className="items">
                 <div>Amount To Buy</div>
                 <output>
                     {myTransaction.amount} {mySymbol}
                 </output>
             </div>
-            <div className="itemsTransactions">
+            <div className="items">
                 <div>Repeat</div>
 
                 <output>{myTransaction.repeat}</output>
             </div>
-            <div className="itemsTransactions">
+            <div className="items">
                 <div>Slippage in %</div>
 
                 <output>{myTransaction.slippagePercent} %</output>
@@ -43,6 +44,6 @@ export default function TransactionBuy() {
                 Edit
             </button>
             {bool && <EditBuy setBool={setBool} transaction={myTransaction} setTransaction={setMyTransaction} />}
-        </>
+        </div>
     );
 }

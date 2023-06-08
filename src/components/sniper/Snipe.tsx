@@ -9,6 +9,7 @@ import Close from "../Close";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
+import ERC20 from "./Transactions/Transaction/ERC20";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -20,10 +21,11 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         paramsSniper,
         setMyState,
         setBoolTransactions,
-        contractAddress,
+        dataERC20,
         isSniping,
         setResultSnipe,
         setIsSniping,
+        resultSnipe,
     } = useMyState();
 
     useEffect(() => {
@@ -40,10 +42,10 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     }
 
     async function test() {
-        if (contractAddress) {
+        if (dataERC20?.address) {
             setIsSniping(true);
-            await buyWithEth(myTransactions, contractAddress, endBuy);
-            // await scanMempool(myTransactions, contractAddress, buyWithEth, endBuy);
+            await buyWithEth(myTransactions, dataERC20?.address, endBuy);
+            // await scanMempool(myTransactions, dataERC20?.address, buyWithEth, endBuy);
         }
     }
 
@@ -72,15 +74,15 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                                 <button onClick={() => setBoolTransactions(true)}>Show Transactions</button>
                             )}
                             <br />
-                            <br />
-                            {!contractAddress && <Contrat />}
+                            {!dataERC20?.address && <Contrat />}
                         </>
                     )}
                     <br />
+                    {dataERC20?.address && <ERC20 />}
                     <br />
-                    {!isSniping && contractAddress && (
+                    {!isSniping && dataERC20?.address && (
                         <>
-                            <p>Contrat {contractAddress}</p>
+                            <p>Contrat {dataERC20?.address}</p>
                             <button id="test" onClick={test}>
                                 Sniper
                             </button>

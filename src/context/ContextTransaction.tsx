@@ -1,4 +1,4 @@
-import { ERC20, GetTransaction } from "@/library/class";
+import { ClassERC20, GetTransaction } from "@/library/class";
 import { paramSniper, paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
@@ -7,19 +7,19 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 interface IContextTransaction {
     mySymbol: string;
     setMySymbol: React.Dispatch<React.SetStateAction<string>>;
-    myTransaction: ParamsTransaction;
-    setMyTransaction: React.Dispatch<React.SetStateAction<ParamsTransaction>>;
-    myAccount: GetTransaction;
-    setMyAccount: React.Dispatch<React.SetStateAction<GetTransaction>>;
-    myERC20: ERC20 | null;
-    setMyERC20: React.Dispatch<React.SetStateAction<ERC20 | null>>;
+    myTransaction: ParamsTransaction | null;
+    setMyTransaction: React.Dispatch<React.SetStateAction<ParamsTransaction | null>>;
+    myAccount: GetTransaction | null;
+    setMyAccount: React.Dispatch<React.SetStateAction<GetTransaction | null>>;
+    myERC20: ClassERC20 | null;
+    setMyERC20: React.Dispatch<React.SetStateAction<ClassERC20 | null>>;
 }
 const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
     setMySymbol: () => {},
-    myTransaction: paramTransaction,
+    myTransaction: null,
     setMyTransaction: () => {},
-    myAccount: new GetTransaction(paramTransaction, paramSniper),
+    myAccount: null,
     setMyAccount: () => {},
     myERC20: null,
     setMyERC20: () => {},
@@ -32,8 +32,9 @@ interface myTransactionProviderProps {
 
 export const MyTransactionProvider = ({ children }: myTransactionProviderProps) => {
     const [mySymbol, setMySymbol] = useState<string>("");
-    const [myTransaction, setMyTransaction] = useState<ParamsTransaction>(paramTransaction);
-    const [myERC20, setMyERC20] = useState<ERC20 | null>(null);
+    const [myTransaction, setMyTransaction] = useState<ParamsTransaction | null>(null);
+    const [myERC20, setMyERC20] = useState<ClassERC20 | null>(null);
+    const [myAccount, setMyAccount] = useState<GetTransaction | null>(null);
 
     return (
         <MyTransaction.Provider
@@ -42,8 +43,8 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
                 setMySymbol,
                 myTransaction,
                 setMyTransaction,
-                myAccount: new GetTransaction(myTransaction, paramSniper),
-                setMyAccount: () => {},
+                myAccount,
+                setMyAccount,
                 myERC20,
                 setMyERC20,
             }}
