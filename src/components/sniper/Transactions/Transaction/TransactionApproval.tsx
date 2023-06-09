@@ -4,10 +4,13 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import EditApproval from "./EditApproval";
 import Gas from "./Gas";
+import { ParamsTransaction } from "@/library/interfaces";
+import Spinner from "@/components/Spinner";
 
 export default function TransactionApproval() {
-    const { myTransaction, setMyTransaction, myERC20 } = useMyTransaction();
+    const { myTransaction, myAccount, myERC20, setMyTransaction } = useMyTransaction();
     const [bool, setBool] = useState(false);
+    const [boolApproval, setBoolApproval] = useState(false);
     const dispatch = useDispatch();
 
     function activeEdit() {
@@ -20,18 +23,41 @@ export default function TransactionApproval() {
     }, [myERC20]);
 
     async function isApproval() {
-        if (myERC20) {
-            const allowance = await myERC20.getAllowance();
-            console.log(myTransaction?.public, allowance);
+        console.log(myAccount?.transaction.public);
+        if (myERC20 && myAccount) {
+            const allowance = await myERC20.getAllowance(myAccount.blockchain.router.address);
+            if (allowance && allowance > 0) {
+                const button = document.getElementById(`button-approve-${myAccount?.transaction.public}`);
+                button?.setAttribute("disabled", "true");
+                let newTransaction = { ...myTransaction };
+                newTransaction.isApproval = true;
+                setMyTransaction(newTransaction as ParamsTransaction);
+            }
         }
+    }
+
+    async function approve() {
+        setBoolApproval(true);
+
+        if (myERC20 && myAccount) {
+            await myERC20.approve(myAccount.blockchain.router.address);
+            await isApproval();
+        }
+        setBoolApproval(false);
     }
 
     if (!myTransaction) return null;
     return (
         <div className="accounts-containers">
             <div className="items">
-                <div>Is Approval ?</div>
-                <output></output>
+                <div>Is Approval</div>
+                <hr />
+                <output>{myTransaction.isApproval ? "Yes" : "No"}</output>
+            </div>
+            <div className="items">
+                <button id={`button-approve-${myAccount?.transaction.public}`} onClick={approve}>
+                    Approve {boolApproval && <Spinner />}
+                </button>
             </div>
 
             <Gas gas={myTransaction.gasApprove} />
@@ -40,7 +66,6 @@ export default function TransactionApproval() {
                 Edit
             </button>
             {bool && <EditApproval setBool={setBool} />}
-            <button onClick={isApproval}>test</button>
         </div>
     );
 }

@@ -72,3 +72,27 @@ button {
     background-color: rgba(0, 0, 0, 0.9); /* Fond noir semi-transparent */
     z-index: 3; /* Une grande valeur pour qu'elle soit au-dessus du reste du contenu */
 }
+
+button:disabled:hover {
+    cursor: not-allowed;
+}
+
+.spinner {
+    display: inline-block;
+}
+.spinner:after {
+    content: " ";
+    display: block;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: spinner 1.2s linear infinite;
+}
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

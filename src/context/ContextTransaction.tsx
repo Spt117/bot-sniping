@@ -1,5 +1,4 @@
 import { ClassERC20, GetTransaction } from "@/library/class";
-import { paramSniper, paramTransaction } from "@/library/constantes";
 import { ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 

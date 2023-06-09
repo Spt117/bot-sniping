@@ -136,7 +136,7 @@ export class ClassERC20 {
     constructor(token: string, transactions: GetTransaction) {
         this.transactions = transactions;
         this.wallet = this.transactions.getWallet();
-        this.contract = new ethers.Contract(token, abiERC20, this.transactions.getProvider());
+        this.contract = new ethers.Contract(token, abiERC20, this.wallet);
     }
 
     async getBalance() {
@@ -184,23 +184,25 @@ export class ClassERC20 {
         }
     }
 
-    async getAllowance() {
+    async getAllowance(address: string) {
         try {
-            const allowance = await this.contract.allowance(
-                this.transactions.transaction.public,
-                this.transactions.blockchain.router.address
-            );
+            const allowance = await this.contract.allowance(this.transactions.transaction.public, address);
             return Number(Number(ethers.formatEther(allowance)).toFixed(4));
         } catch (e) {
             console.log(e);
         }
     }
 
-    async approve(amount: number) {
+    async approve(address: string) {
         try {
+            const totalSupply = await this.getTotalSupply();
+            const decimals = await this.getDecimals();
+            if (!totalSupply || !decimals) return;
+            const amount = ethers.parseUnits(totalSupply.toString(), decimals);
             const contract = this.contract;
-            const approve = await contract.approve(this.transactions.blockchain.router, amount);
-            return approve;
+            const approve = await contract.approve(address, amount, this.transactions.transaction.gasApprove);
+            const receipt = await approve.wait();
+            return receipt;
         } catch (e) {
             console.log(e);
         }
@@ -211,6 +213,16 @@ export class ClassERC20 {
             const contract = this.contract;
             const transfer = await contract.transfer(address, amount);
             return transfer;
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    async transferFrom(address: string, amount: number) {
+        try {
+            const contract = this.contract;
+            const transferFrom = await contract.transferFrom(this.transactions.transaction.public, address, amount);
+            return transferFrom;
         } catch (e) {
             console.log(e);
         }

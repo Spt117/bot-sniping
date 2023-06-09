@@ -188,3 +188,7 @@
 .isToken {
     cursor: pointer;
 }
+
+.approval {
+    background-color: #000000;
+}
