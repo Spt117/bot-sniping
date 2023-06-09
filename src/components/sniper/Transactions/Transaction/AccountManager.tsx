@@ -27,7 +27,7 @@ export default function AccountManager({ myTransaction }: { myTransaction: GetTr
         <div className="accounts">
             <Account />
             <TransactionBuy />
-            {dataERC20?.address && <TransactionApproval />}
+            <TransactionApproval />
             <TransactionSell />
         </div>
     );

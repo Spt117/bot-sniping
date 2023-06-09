@@ -76,8 +76,6 @@
 }
 
 .accounts {
-    margin: 0.5rem;
-    padding: 0.5rem;
     border-radius: 10px;
     background-color: rgba(196, 248, 255, 0.6);
     text-align: center;
@@ -88,16 +86,24 @@
 .accounts-containers {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-wrap: wrap;
-    margin: 0.5rem;
+    justify-content: space-between;
     /* background-color: rgb(185, 255, 255); */
+    margin-top: 1rem;
 }
+.items-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-radius: 10px;
+    text-align: center;
+    color: #000000;
+}
+
 .items {
     margin: 0.5rem;
     padding: 0.5rem;
     border-radius: 10px;
-    background-color: rgba(196, 248, 255, 0.6);
     text-align: center;
     color: #000000;
     background-color: rgba(197, 226, 255, 0.5);
@@ -112,6 +118,16 @@
     background-color: rgb(65, 62, 62, 0.5);
     box-shadow: 0px 0px 30px 6px rgba(255, 255, 255, 0.9);
     color: rgb(255, 255, 255);
+}
+.button:disabled {
+    background-color: inherit; /* Remplacez par la couleur de fond que vous voulez pour un bouton désactivé */
+    box-shadow: none;
+    color: inherit; /* Remplacez par la couleur de texte que vous voulez pour un bouton désactivé */
+}
+.button:disabled:hover {
+    background-color: inherit; /* Gardez la même couleur de fond que le bouton désactivé */
+    box-shadow: none;
+    color: inherit; /* Gardez la même couleur de texte que le bouton désactivé */
 }
 
 .divButtonsTransaction {

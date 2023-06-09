@@ -1,5 +1,5 @@
 import ethImage from "../assets/ethereum.png";
-import { INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
+import { IAccountERC20, INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 
 export const networks: INetworkInfo[] = [
     {
@@ -107,8 +107,14 @@ export const paramTransaction: ParamsTransaction = {
     repeat: 1,
     nonce: 0,
     useContract: false,
-    contractAddress: "none",
+};
+
+export const accountERC20: IAccountERC20 = {
+    isBuy: false,
+    isSell: false,
     isApproval: false,
+    approved: false,
+    tokenBalance: 0,
 };
 
 export const paramSniper: IParamsSniper = {

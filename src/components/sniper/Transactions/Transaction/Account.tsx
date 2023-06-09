@@ -4,7 +4,8 @@ import { truncateAddr } from "@/library/fonctions";
 import { useState, useEffect } from "react";
 
 export default function Account() {
-    const { setMySymbol, setMyTransaction, setMyAccount, myAccount } = useMyTransaction();
+    const { setMySymbol, setMyTransaction, setMyAccount, myAccount, myTransaction, mySymbol, myAccountERC20 } =
+        useMyTransaction();
     const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
@@ -33,11 +34,29 @@ export default function Account() {
     }
     return (
         <div className="accounts-containers">
-            <div className="items">
-                Address : <output name="adress">{truncateAddr(myAccount?.transaction.public)}</output>
-            </div>
-            <div className="items">
-                Balance : <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
+            <div className="items-header">
+                <div className="items">
+                    <div>Adress</div>
+                    <output name="adress">{truncateAddr(myAccount?.transaction.public)}</output>
+                </div>
+                <div className="items">
+                    <div>Balance</div>
+                    <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
+                </div>
+                <div className="items">
+                    <div>Amount To Buy</div>
+                    <output>
+                        {myTransaction?.amount} {mySymbol}
+                    </output>
+                </div>
+                <div className="items">
+                    <div>Repeat</div>
+                    <output>{myTransaction?.repeat}</output>
+                </div>
+                <div className="items">
+                    <div>Is Approval</div>
+                    <output>{myAccountERC20.approved ? "Yes" : "No"}</output>
+                </div>
             </div>
             <div className="divButtonsTransaction">
                 <button onClick={deleteTransaction} className="button">

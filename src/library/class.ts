@@ -142,7 +142,8 @@ export class ClassERC20 {
     async getBalance() {
         try {
             const balance = await this.contract.balanceOf(this.transactions.transaction.public);
-            return Number(Number(ethers.formatEther(balance)).toFixed(4));
+            const decimals = (await this.getDecimals()) as number;
+            return Number((Number(balance) / 10 ** decimals).toFixed(2));
         } catch (e) {
             console.log(e);
         }
@@ -178,7 +179,7 @@ export class ClassERC20 {
     async getTotalSupply() {
         try {
             const totalSupply = await this.contract.totalSupply();
-            return Number(Number(ethers.formatEther(totalSupply)).toFixed(4));
+            return Number(Number(ethers.formatEther(totalSupply)));
         } catch (e) {
             console.log(e);
         }
@@ -187,7 +188,7 @@ export class ClassERC20 {
     async getAllowance(address: string) {
         try {
             const allowance = await this.contract.allowance(this.transactions.transaction.public, address);
-            return Number(Number(ethers.formatEther(allowance)).toFixed(4));
+            return Number(Number(ethers.formatEther(allowance)));
         } catch (e) {
             console.log(e);
         }

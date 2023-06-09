@@ -12,6 +12,7 @@ export default function GeneratorTransaction() {
                     <AccountManager myTransaction={myTransaction} />
                 </MyTransactionProvider>
             ))}
+            <br />
             <button onClick={() => setBoolTransactions(false)}>Hide transactions</button>
         </>
     );

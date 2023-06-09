@@ -14,6 +14,8 @@ export async function buyWithEth(transactions: GetTransaction[], tokenAdress: st
 
 async function swapEth(transaction: GetTransaction, tokenAdress: string) {
     const number = transaction.transaction.repeat;
+    console.log("number : " + number);
+
     const nonce = transaction.transaction.nonce;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(transaction, tokenAdress, nonce);
@@ -60,6 +62,41 @@ async function swapETHForTokensOnce(myWallet: GetTransaction, tokenAdress: strin
                     ...myWallet.transaction.gasBuy,
                 },
             }
+        );
+        console.log("Transaction hash: " + tx.hash);
+        // console.log("Transaction : " + JSON.stringify(tx, null, 2));
+        // Attendre la confirmation de la transaction
+        const receipt = await tx.wait();
+        console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
+        return receipt;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export async function swapTokensForETHOnce(myWallet: GetTransaction, tokenAdress: string, amount: bigint) {
+    try {
+        const wallet = myWallet.getWallet();
+        const UniswapRouterV2Contract = new ethers.Contract(
+            myWallet.blockchain.router.address,
+            AbiUniswapV2Router,
+            wallet
+        );
+
+        // Dans cet exemple, nous acceptons n'importe quel montant d'ETH
+        const amountOutMin = 0;
+        // Le chemin de swap est tokenIN -> ETH
+        const path = [tokenAdress, myWallet.blockchain.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
+        // Le timestamp du deadline
+        // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
+        const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
+        // Exécutez le swap
+        const tx = await UniswapRouterV2Contract.swapExactTokensForETH(
+            amount,
+            amountOutMin,
+            path,
+            myWallet.transaction.public,
+            deadline
         );
         console.log("Transaction hash: " + tx.hash);
         // console.log("Transaction : " + JSON.stringify(tx, null, 2));

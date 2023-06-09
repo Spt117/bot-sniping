@@ -1,12 +1,17 @@
+import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { myOverlay } from "@/redux/actions";
+import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import EditBuy from "./EditBuy";
-import { useState } from "react";
 import Gas from "./Gas";
+import { ethers } from "ethers";
+import { addNonce } from "@/library/fonctions";
 
 export default function TransactionBuy() {
-    const { mySymbol, myTransaction, setMyTransaction } = useMyTransaction();
+    const { myTransaction, setMyTransaction, myAccountERC20, myAccount, setMyAccountERC20 } = useMyTransaction();
+    const { dataERC20 } = useMyState();
     const dispatch = useDispatch();
     const [bool, setBool] = useState(false);
 
@@ -22,24 +27,13 @@ export default function TransactionBuy() {
     if (!myTransaction) return null;
     return (
         <div className="accounts-containers">
-            <div className="items">
-                <div>Amount To Buy</div>
-                <output>
-                    {myTransaction.amount} {mySymbol}
-                </output>
+            <div className="items-header">
+                <Gas gas={myTransaction.gasBuy} />
+                <div className="items">
+                    <div>Slippage</div>
+                    <output>{myTransaction.slippagePercent} %</output>
+                </div>
             </div>
-            <div className="items">
-                <div>Repeat</div>
-
-                <output>{myTransaction.repeat}</output>
-            </div>
-            <div className="items">
-                <div>Slippage in %</div>
-
-                <output>{myTransaction.slippagePercent} %</output>
-            </div>
-            <Gas gas={myTransaction.gasBuy} />
-
             <button className="button" onClick={activeEdit}>
                 Edit
             </button>

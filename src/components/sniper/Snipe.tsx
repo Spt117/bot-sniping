@@ -39,6 +39,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     function endBuy(result: []) {
         setResultSnipe(result);
         setIsSniping(false);
+        console.log("endbuy");
     }
 
     async function test() {
@@ -48,6 +49,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             // await scanMempool(myTransactions, dataERC20?.address, buyWithEth, endBuy);
         }
     }
+
+    async function afterBuy() {}
 
     return (
         <>

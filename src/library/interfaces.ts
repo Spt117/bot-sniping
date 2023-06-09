@@ -71,8 +71,14 @@ export interface ParamsTransaction {
     nonce: number;
     secondsDelay?: number;
     useContract: boolean;
-    contractAddress?: string;
+}
+
+export interface IAccountERC20 {
+    isSell: boolean;
+    isBuy: boolean;
     isApproval: boolean;
+    approved: boolean;
+    tokenBalance: number;
 }
 
 export interface IERC20 {
