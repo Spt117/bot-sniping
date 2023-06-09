@@ -6,11 +6,14 @@ import EditApproval from "./EditApproval";
 import Gas from "./Gas";
 import { ParamsTransaction } from "@/library/interfaces";
 import Spinner from "@/components/Spinner";
+import { useMyState } from "@/context/ContextSniper";
 
 export default function TransactionApproval() {
     const { myTransaction, myAccount, myERC20, setMyTransaction } = useMyTransaction();
+    const { isSniping } = useMyState();
     const [bool, setBool] = useState(false);
     const [boolApproval, setBoolApproval] = useState(false);
+    const [balance, setBalance] = useState(0);
     const dispatch = useDispatch();
 
     function activeEdit() {
@@ -20,25 +23,22 @@ export default function TransactionApproval() {
 
     useEffect(() => {
         isApproval();
-    }, [myERC20]);
+        getBalance();
+    }, [myERC20, isSniping]);
 
     async function isApproval() {
-        console.log(myAccount?.transaction.public);
         if (myERC20 && myAccount) {
             const allowance = await myERC20.getAllowance(myAccount.blockchain.router.address);
             if (allowance && allowance > 0) {
                 const button = document.getElementById(`button-approve-${myAccount?.transaction.public}`);
                 button?.setAttribute("disabled", "true");
-                let newTransaction = { ...myTransaction };
-                newTransaction.isApproval = true;
-                setMyTransaction(newTransaction as ParamsTransaction);
+                setMyTransaction({ ...myTransaction, isApproval: true } as ParamsTransaction);
             }
         }
     }
 
     async function approve() {
         setBoolApproval(true);
-
         if (myERC20 && myAccount) {
             await myERC20.approve(myAccount.blockchain.router.address);
             await isApproval();
@@ -46,12 +46,18 @@ export default function TransactionApproval() {
         setBoolApproval(false);
     }
 
+    async function getBalance() {
+        if (myERC20 && myAccount) {
+            const balance = await myERC20.getBalance();
+            if (balance) setBalance(balance);
+        }
+    }
+
     if (!myTransaction) return null;
     return (
         <div className="accounts-containers">
             <div className="items">
                 <div>Is Approval</div>
-                <hr />
                 <output>{myTransaction.isApproval ? "Yes" : "No"}</output>
             </div>
             <div className="items">
@@ -59,12 +65,19 @@ export default function TransactionApproval() {
                     Approve {boolApproval && <Spinner />}
                 </button>
             </div>
+            <div className="items">
+                <div>Balance</div>
+                <output>{balance}</output>
+            </div>
+            {!myTransaction.isApproval && (
+                <>
+                    <Gas gas={myTransaction.gasApprove} />
 
-            <Gas gas={myTransaction.gasApprove} />
-
-            <button className="button" onClick={activeEdit}>
-                Edit
-            </button>
+                    <button className="button" onClick={activeEdit}>
+                        Edit
+                    </button>
+                </>
+            )}
             {bool && <EditApproval setBool={setBool} />}
         </div>
     );

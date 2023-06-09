@@ -1,10 +1,11 @@
-import { useEffect } from "react";
-import { useMyTransaction } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
+import { useMyTransaction } from "@/context/ContextTransaction";
 import { ClassERC20, GetTransaction } from "@/library/class";
-import TransactionBuy from "./TransactionBuy";
+import { useEffect } from "react";
 import Account from "./Account";
 import TransactionApproval from "./TransactionApproval";
+import TransactionBuy from "./TransactionBuy";
+import TransactionSell from "./TransactionSell";
 
 export default function AccountManager({ myTransaction }: { myTransaction: GetTransaction }) {
     const { setMySymbol, setMyTransaction, setMyAccount, setMyERC20 } = useMyTransaction();
@@ -27,6 +28,7 @@ export default function AccountManager({ myTransaction }: { myTransaction: GetTr
             <Account />
             <TransactionBuy />
             {dataERC20?.address && <TransactionApproval />}
+            <TransactionSell />
         </div>
     );
 }

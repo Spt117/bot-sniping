@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 
 export default function Account() {
     const { setMySymbol, setMyTransaction, setMyAccount, myAccount } = useMyTransaction();
-    const { paramsSniper, myTransactions, setMyTransactions, isSniping, dataERC20 } = useMyState();
+    const { paramsSniper, myTransactions, setMyTransactions, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
     useEffect(() => {

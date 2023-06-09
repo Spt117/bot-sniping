@@ -91,7 +91,7 @@
     justify-content: center;
     flex-wrap: wrap;
     margin: 0.5rem;
-    background-color: rgb(185, 255, 255);
+    /* background-color: rgb(185, 255, 255); */
 }
 .items {
     margin: 0.5rem;
