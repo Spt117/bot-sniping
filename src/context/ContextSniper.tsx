@@ -13,6 +13,8 @@ interface IMyStateContext {
     setBoolTransactions: React.Dispatch<React.SetStateAction<boolean>>;
     isSniping: boolean;
     setIsSniping: React.Dispatch<React.SetStateAction<boolean>>;
+    isSelling: boolean;
+    setIsSelling: React.Dispatch<React.SetStateAction<boolean>>;
     resultSnipe: [];
     setResultSnipe: React.Dispatch<React.SetStateAction<[]>>;
     dataERC20: IERC20 | null;
@@ -29,6 +31,8 @@ const MyState = createContext<IMyStateContext>({
     setBoolTransactions: () => {},
     isSniping: false,
     setIsSniping: () => {},
+    isSelling: false,
+    setIsSelling: () => {},
     resultSnipe: [],
     setResultSnipe: () => {},
     dataERC20: null,
@@ -50,6 +54,7 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [isSniping, setIsSniping] = useState<boolean>(false);
     const [resultSnipe, setResultSnipe] = useState<[]>([]);
     const [dataAccounts, setDataAccount] = useState<IDataAccount[]>([]);
+    const [isSelling, setIsSelling] = useState<boolean>(false);
 
     return (
         <MyState.Provider
@@ -68,6 +73,8 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setDataERC20,
                 dataAccounts,
                 setDataAccount,
+                isSelling,
+                setIsSelling,
             }}
         >
             {children}

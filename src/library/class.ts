@@ -144,6 +144,7 @@ export class ClassERC20 {
             return Number((Number(balance) / 10 ** decimals).toFixed(2));
         } catch (e) {
             console.log(e);
+            return 0;
         }
     }
 

@@ -21,11 +21,12 @@ export default function Sell() {
         setDataAccount(newDataAccounts);
     }
 
-    async function sell() {
+    async function sell(percent: number = 100) {
         setMyAccountERC20({ ...myAccountERC20, isSell: true });
+        const amount = myAccountERC20.tokenBalance * 0.99999 * (percent / 100);
         if (myAccountERC20 && myAccount && dataERC20?.decimals) {
-            const amount = ethers.parseUnits((myAccountERC20.tokenBalance * 0.99999).toString(), dataERC20?.decimals);
-            const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amount);
+            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20?.decimals);
+            const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
             const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
             const newAccount = { ...myAccount };
             newAccount.data = addNewNonce;
@@ -80,7 +81,7 @@ export default function Sell() {
                     </output>
                 </div>
             </div>
-            <button onClick={sell}>Sell {myAccountERC20.isSell && <Spinner />} </button>
+            <button onClick={() => sell()}>Sell {myAccountERC20.isSell && <Spinner />} </button>
         </div>
     );
 }

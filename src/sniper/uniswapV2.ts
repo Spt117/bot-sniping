@@ -1,6 +1,7 @@
 import { Numeric, ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
-import { IDataAccount } from "@/library/interfaces";
+import { IAccountERC20, IDataAccount, IERC20 } from "@/library/interfaces";
+import { ClassERC20 } from "@/library/class";
 
 export async function buyWithEth(dataAccounts: IDataAccount[], tokenAdress: string, endBuy: Function) {
     const promises = dataAccounts.map((dataAccount) => swapEth(dataAccount, tokenAdress));
@@ -68,6 +69,18 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
     } catch (error) {
         console.log(error);
     }
+}
+
+export async function sellWithEth(dataAccounts: IDataAccount[], tokenAdress: string, percent: number) {
+    const promises = dataAccounts.map(async (dataAccount) => {
+        const ERC20 = new ClassERC20(tokenAdress, dataAccount.methods, dataAccount.data);
+        const balance = await ERC20.getBalance();
+        const decimals = await ERC20.getDecimals();
+        const amount = balance * 0.99999 * (percent / 100);
+        const amountBigInt = ethers.parseUnits(amount.toString(), decimals);
+        await swapTokensForETHOnce(dataAccount, tokenAdress, amountBigInt);
+    });
+    const result = await Promise.allSettled(promises);
 }
 
 export async function swapTokensForETHOnce(dataAccount: IDataAccount, tokenAdress: string, amount: bigint) {

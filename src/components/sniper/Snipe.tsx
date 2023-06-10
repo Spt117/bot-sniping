@@ -2,7 +2,7 @@ import { useMyState } from "@/context/ContextSniper";
 import { IParamsSniper } from "@/library/interfaces";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
-import { buyWithEth } from "@/sniper/uniswapV2";
+import { buyWithEth, sellWithEth } from "@/sniper/uniswapV2";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
@@ -11,6 +11,7 @@ import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 import ERC20 from "./Transactions/ERC20";
 import { majNonces } from "@/library/fonctions";
+import Spinner from "../Spinner";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -27,6 +28,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         isSniping,
         setResultSnipe,
         setIsSniping,
+        setIsSelling,
+        isSelling,
         resultSnipe,
     } = useMyState();
 
@@ -53,6 +56,13 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
 
             // await scanMempool(myTransactions, dataERC20?.address, buyWithEth, endBuy);
         }
+    }
+
+    async function sell() {
+        setIsSelling(true);
+        if (dataERC20?.address) await sellWithEth(dataAccounts, dataERC20?.address, 100);
+        setIsSelling(false);
+        console.log("end sell");
     }
 
     return (
@@ -92,8 +102,10 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                         <>
                             <p>Contrat {dataERC20?.address}</p>
                             <button id="test" onClick={test}>
-                                Sniper
-                            </button>
+                                Buy
+                            </button>{" "}
+                            <hr />
+                            <button onClick={sell}>Sell All {isSelling && <Spinner />} </button>
                         </>
                     )}
                 </div>
