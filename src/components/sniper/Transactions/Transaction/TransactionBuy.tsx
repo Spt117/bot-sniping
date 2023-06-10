@@ -10,7 +10,7 @@ import { ethers } from "ethers";
 import { addNonce } from "@/library/fonctions";
 
 export default function TransactionBuy() {
-    const { myTransaction, setMyTransaction, myAccountERC20, myAccount, setMyAccountERC20 } = useMyTransaction();
+    const { setMyAccount, myAccountERC20, myAccount, setMyAccountERC20 } = useMyTransaction();
     const { dataERC20 } = useMyState();
     const dispatch = useDispatch();
     const [bool, setBool] = useState(false);
@@ -24,20 +24,20 @@ export default function TransactionBuy() {
     //     setMyTransaction({ ...myTransaction, [prop]: value });
     // }
 
-    if (!myTransaction) return null;
+    if (!myAccount) return null;
     return (
         <div className="accounts-containers">
             <div className="items-header">
-                <Gas gas={myTransaction.gasBuy} />
+                <Gas gas={myAccount.data.gasBuy} />
                 <div className="items">
                     <div>Slippage</div>
-                    <output>{myTransaction.slippagePercent} %</output>
+                    <output>{myAccount.data.slippagePercent} %</output>
                 </div>
             </div>
             <button className="button" onClick={activeEdit}>
                 Edit
             </button>
-            {bool && <EditBuy setBool={setBool} transaction={myTransaction} setTransaction={setMyTransaction} />}
+            {bool && <EditBuy setBool={setBool} />}
         </div>
     );
 }

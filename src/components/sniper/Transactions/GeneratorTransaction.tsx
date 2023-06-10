@@ -3,13 +3,13 @@ import { MyTransactionProvider } from "@/context/ContextTransaction";
 import { useMyState } from "@/context/ContextSniper";
 
 export default function GeneratorTransaction() {
-    const { myTransactions, setBoolTransactions } = useMyState();
+    const { dataAccounts, setBoolTransactions } = useMyState();
     return (
         <>
             <h4>Transactions</h4>
-            {myTransactions.map((myTransaction, index) => (
+            {dataAccounts.map((dataAccount, index) => (
                 <MyTransactionProvider key={index}>
-                    <AccountManager myTransaction={myTransaction} />
+                    <AccountManager dataAccount={dataAccount} />
                 </MyTransactionProvider>
             ))}
             <br />

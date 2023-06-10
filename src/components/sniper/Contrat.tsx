@@ -4,11 +4,11 @@ import { IERC20 } from "@/library/interfaces";
 import { useState } from "react";
 
 export default function Contrat() {
-    const { setDataERC20, myTransactions } = useMyState();
+    const { setDataERC20, dataAccounts } = useMyState();
     const [contract, setContract] = useState("");
 
     async function sendContract() {
-        const erc20 = new ClassERC20(contract, myTransactions[0]);
+        const erc20 = new ClassERC20(contract, dataAccounts[0].methods, dataAccounts[0].data);
         let dataERC20: IERC20 = {
             name: "",
             symbol: "",

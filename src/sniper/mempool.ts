@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
-import { GetTransaction } from "../library/class";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
+import { IDataAccount } from "@/library/interfaces";
 
 // @ts-ignore
 const provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket);
@@ -8,7 +8,7 @@ const provider = new ethers.WebSocketProvider(process.env.alchemyGoerliWebSocket
 let pendingHandler: ethers.Listener | undefined;
 
 export async function scanMempool(
-    transactions: GetTransaction[],
+    dataAccounts: IDataAccount[],
     tokenAdress: string,
     functionBuy: Function,
     endBuy: Function
@@ -18,7 +18,7 @@ export async function scanMempool(
     pendingHandler = async (tx: string) => {
         try {
             const txInfo = await provider.getTransaction(tx);
-            if (txInfo && txInfo.to === transactions[0].blockchain.router.address) {
+            if (txInfo && txInfo.to === dataAccounts[0].methods.blockchain.router.address) {
                 console.log("UniswapV2 detected a new transaction in the mempool: " + JSON.stringify(txInfo, null, 2));
                 const data = txInfo.data;
                 const decodedTransaction = iface.parseTransaction({ data });
@@ -33,7 +33,7 @@ export async function scanMempool(
                 if (found) {
                     console.log("Token found in hash " + txInfo.hash);
                     stopMempool();
-                    await functionBuy(transactions, tokenAdress, endBuy);
+                    await functionBuy(dataAccounts, tokenAdress, endBuy);
                 } else console.log("Token not found");
             } else console.log("Transaction not found");
         } catch (error) {

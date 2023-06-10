@@ -1,6 +1,6 @@
 import { GetTransaction } from "@/library/class";
 import { paramSniper } from "@/library/constantes";
-import { IERC20, IParamsSniper } from "@/library/interfaces";
+import { IDataAccount, IERC20, IParamsSniper } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
@@ -9,8 +9,6 @@ interface IMyStateContext {
     setMyParamSniper: React.Dispatch<React.SetStateAction<IParamsSniper>>;
     myState: number;
     setMyState: React.Dispatch<React.SetStateAction<number>>;
-    myTransactions: GetTransaction[];
-    setMyTransactions: React.Dispatch<React.SetStateAction<GetTransaction[]>>;
     boolTransactions: boolean;
     setBoolTransactions: React.Dispatch<React.SetStateAction<boolean>>;
     isSniping: boolean;
@@ -19,14 +17,14 @@ interface IMyStateContext {
     setResultSnipe: React.Dispatch<React.SetStateAction<[]>>;
     dataERC20: IERC20 | null;
     setDataERC20: React.Dispatch<React.SetStateAction<IERC20 | null>>;
+    dataAccounts: IDataAccount[];
+    setDataAccount: React.Dispatch<React.SetStateAction<IDataAccount[]>>;
 }
 const MyState = createContext<IMyStateContext>({
     paramsSniper: paramSniper,
     setMyParamSniper: () => {},
     myState: 0,
     setMyState: () => {},
-    myTransactions: [],
-    setMyTransactions: () => {},
     boolTransactions: true,
     setBoolTransactions: () => {},
     isSniping: false,
@@ -35,6 +33,8 @@ const MyState = createContext<IMyStateContext>({
     setResultSnipe: () => {},
     dataERC20: null,
     setDataERC20: () => {},
+    dataAccounts: [],
+    setDataAccount: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -45,11 +45,11 @@ interface myStateProviderProps {
 export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [myState, setMyState] = useState<number>(0);
     const [paramsSniper, setMyParamSniper] = useState<IParamsSniper>(paramSniper);
-    const [myTransactions, setMyTransactions] = useState<GetTransaction[]>([]);
     const [boolTransactions, setBoolTransactions] = useState<boolean>(true);
     const [dataERC20, setDataERC20] = useState<IERC20 | null>(null);
     const [isSniping, setIsSniping] = useState<boolean>(false);
     const [resultSnipe, setResultSnipe] = useState<[]>([]);
+    const [dataAccounts, setDataAccount] = useState<IDataAccount[]>([]);
 
     return (
         <MyState.Provider
@@ -58,8 +58,6 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setMyState,
                 paramsSniper,
                 setMyParamSniper,
-                myTransactions,
-                setMyTransactions,
                 boolTransactions,
                 setBoolTransactions,
                 isSniping,
@@ -68,6 +66,8 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setResultSnipe,
                 dataERC20,
                 setDataERC20,
+                dataAccounts,
+                setDataAccount,
             }}
         >
             {children}

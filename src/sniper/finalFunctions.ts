@@ -1,12 +1,12 @@
-import { GetTransaction } from "@/library/class";
 import { scanMempool } from "./mempool";
+import { IDataAccount } from "@/library/interfaces";
 
 export async function buyWithMempool(
-    transactions: GetTransaction[],
+    dataAccounts: IDataAccount[],
     tokenAdress: string,
     functionBuy: Function,
     onBuyComplete: Function
 ) {
-    await scanMempool(transactions, tokenAdress, functionBuy, onBuyComplete);
+    await scanMempool(dataAccounts, tokenAdress, functionBuy, onBuyComplete);
 }
 // result:

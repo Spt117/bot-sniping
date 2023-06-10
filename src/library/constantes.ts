@@ -107,13 +107,13 @@ export const paramTransaction: ParamsTransaction = {
     repeat: 1,
     nonce: 0,
     useContract: false,
+    approved: false,
 };
 
 export const accountERC20: IAccountERC20 = {
     isBuy: false,
     isSell: false,
     isApproval: false,
-    approved: false,
     tokenBalance: 0,
 };
 

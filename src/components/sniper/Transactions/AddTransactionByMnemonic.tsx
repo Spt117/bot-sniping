@@ -3,14 +3,14 @@ import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { addNonce, getAddresses } from "@/library/fonctions";
-import { ParamsTransaction } from "@/library/interfaces";
+import { Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 export default function AddTransactionByMnemonic() {
     const [mnemonic, setMnemonic] = useState({ myMnemonic: "", number: 0 });
-    const { setMyState, setMyTransactions, paramsSniper } = useMyState();
+    const { setMyState, paramsSniper, setDataAccount } = useMyState();
     const dispatch = useDispatch();
 
     function closeComponent() {
@@ -23,10 +23,14 @@ export default function AddTransactionByMnemonic() {
         closeComponent();
         for (let i = 0; i < accounts.length; i++) {
             const newTransaction: ParamsTransaction = { ...paramTransaction };
+            const account: Keys = { private: accounts[i].private, public: accounts[i].public };
             newTransaction.public = accounts[i].public;
             newTransaction.private = accounts[i].private;
-            const nonce = await addNonce(new GetTransaction(newTransaction, paramsSniper));
-            setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, nonce]);
+            const transactionWithNonce = await addNonce(new GetTransaction(account, paramsSniper), newTransaction);
+            setDataAccount((oldDataAccount) => [
+                ...oldDataAccount,
+                { data: transactionWithNonce, methods: new GetTransaction(account, paramsSniper) },
+            ]);
         }
     }
 

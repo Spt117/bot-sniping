@@ -12,8 +12,7 @@ import { accountERC20 } from "@/library/constantes";
 import TokenBalance from "./TokenBalance";
 
 export default function TransactionApproval() {
-    const { myTransaction, myAccount, myERC20, setMyTransaction, setMyAccountERC20, myAccountERC20 } =
-        useMyTransaction();
+    const { myAccount, myERC20, setMyAccountERC20, myAccountERC20, setMyAccount } = useMyTransaction();
     const { isSniping } = useMyState();
     const [bool, setBool] = useState(false);
     const dispatch = useDispatch();
@@ -26,23 +25,23 @@ export default function TransactionApproval() {
     async function approve() {
         setMyAccountERC20({ ...myAccountERC20, isApproval: true });
         if (myERC20 && myAccount) {
-            await myERC20.approve(myAccount.blockchain.router.address);
+            await myERC20.approve(myAccount.methods.blockchain.router.address);
             await isApproval();
         }
         setMyAccountERC20({ ...myAccountERC20, isApproval: false });
     }
 
     async function isApproval() {
-        const buttonApprove = document.getElementById(
-            `button-approve-${myAccount?.transaction.public}`
-        ) as HTMLButtonElement;
-        const buttonEdit = document.getElementById(`button-edit-${myAccount?.transaction.public}`) as HTMLButtonElement;
+        const buttonApprove = document.getElementById(`button-approve-${myAccount?.data.public}`) as HTMLButtonElement;
+        const buttonEdit = document.getElementById(`button-edit-${myAccount?.data.public}`) as HTMLButtonElement;
         if (myERC20 && myAccount) {
-            const allowance = await myERC20.getAllowance(myAccount.blockchain.router.address);
+            const allowance = await myERC20.getAllowance(myAccount.methods.blockchain.router.address);
             if (allowance && allowance > 0) {
                 buttonApprove.setAttribute("disabled", "true");
                 buttonEdit.setAttribute("disabled", "true");
-                setMyAccountERC20({ ...myAccountERC20, approved: true });
+                const newAccount = { ...myAccount };
+                newAccount.data.approved = true;
+                setMyAccount(newAccount);
             }
         }
     }
@@ -51,21 +50,13 @@ export default function TransactionApproval() {
         isApproval();
     }, [myERC20]);
 
-    useEffect(() => {
-        test();
-    }, [myAccountERC20]);
-
-    function test() {
-        console.log(myAccountERC20);
-    }
-
-    if (!myTransaction) return null;
+    if (!myAccount) return null;
     return (
         <div className="accounts-containers">
             <div className="items-header">
-                <Gas gas={myTransaction.gasApprove} />
+                <Gas gas={myAccount.data.gasApprove} />
                 <div className="items">
-                    <button id={`button-approve-${myAccount?.transaction.public}`} onClick={approve}>
+                    <button id={`button-approve-${myAccount?.data.public}`} onClick={approve}>
                         Approve {myAccountERC20.isApproval === true && <Spinner />}
                     </button>
                 </div>
@@ -73,11 +64,10 @@ export default function TransactionApproval() {
                     <div>Balance: {myAccountERC20.tokenBalance}</div>
                 </div>
             </div>
-            <button className="button" onClick={activeEdit} id={`button-edit-${myAccount?.transaction.public}`}>
+            <button className="button" onClick={activeEdit} id={`button-edit-${myAccount?.data.public}`}>
                 Edit
             </button>
             {bool && <EditApproval setBool={setBool} />}
-            <button onClick={test}>test</button>
             <TokenBalance />
         </div>
     );

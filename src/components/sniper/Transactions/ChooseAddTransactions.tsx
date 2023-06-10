@@ -2,12 +2,13 @@ import Close from "@/components/Close";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { addNonce } from "@/library/fonctions";
+import { IDataAccount, Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
 
 export default function ChooseAddTransaction() {
-    const { setMyState, setMyTransactions, paramsSniper, myTransactions } = useMyState();
+    const { setMyState, dataAccounts, paramsSniper, setDataAccount } = useMyState();
     const dispatch = useDispatch();
     const fileInput = useRef<HTMLInputElement>(null);
 
@@ -21,9 +22,7 @@ export default function ChooseAddTransaction() {
     }
 
     function checkTransactionWithPublicAdress(transaction: GetTransaction) {
-        const index = myTransactions.findIndex(
-            (element) => element.transaction.public === transaction.transaction.public
-        );
+        const index = dataAccounts.findIndex((element) => element.data.public === transaction.account.public);
         if (index === -1) {
             return true;
         } else {
@@ -39,10 +38,15 @@ export default function ChooseAddTransaction() {
             if (file !== null && typeof file === "string") {
                 const result = JSON.parse(file);
                 for (let i = 0; i < result.length; i++) {
-                    const element = result[i];
-                    if (checkTransactionWithPublicAdress(new GetTransaction(element, paramsSniper))) {
-                        const transactions = await addNonce(new GetTransaction(element, paramsSniper));
-                        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, transactions]);
+                    const element: ParamsTransaction = result[i];
+                    const account: Keys = { private: element.private, public: element.public };
+                    if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper))) {
+                        const transactionWithNonce = await addNonce(new GetTransaction(account, paramsSniper), element);
+                        const newDataAccount: IDataAccount = {
+                            data: transactionWithNonce,
+                            methods: new GetTransaction(account, paramsSniper),
+                        };
+                        setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, newDataAccount]);
                     }
                 }
             } else {

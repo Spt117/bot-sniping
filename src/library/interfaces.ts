@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import { GetTransaction } from "./class";
 
 declare global {
     interface Window {
@@ -71,13 +72,18 @@ export interface ParamsTransaction {
     nonce: number;
     secondsDelay?: number;
     useContract: boolean;
+    approved: boolean;
+}
+
+export interface IDataAccount {
+    data: ParamsTransaction;
+    methods: GetTransaction;
 }
 
 export interface IAccountERC20 {
     isSell: boolean;
     isBuy: boolean;
     isApproval: boolean;
-    approved: boolean;
     tokenBalance: number;
 }
 

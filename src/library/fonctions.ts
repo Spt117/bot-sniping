@@ -1,5 +1,5 @@
 import { networks, paramSniper, routers } from "./constantes";
-import { IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
+import { IDataAccount, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
@@ -43,7 +43,7 @@ export function findRouterByName(name: string) {
     return routers.find((router) => router.name === name) || paramSniper.router;
 }
 
-export function isEthereumAddress(address: ParamsTransaction, array: GetTransaction[]) {
+export function isEthereumAddress(address: ParamsTransaction, array: IDataAccount[]) {
     const findAdressPublic = checkIfAdressPublicIsInArray(array, address);
     const button = document.getElementById("newTransactionButton");
     const ethereumPublicAddressRegex = /^(0x)?[0-9a-fA-F]{40}$/i;
@@ -59,8 +59,8 @@ export function isEthereumAddress(address: ParamsTransaction, array: GetTransact
     }
 }
 
-function checkIfAdressPublicIsInArray(array: GetTransaction[], transaction: ParamsTransaction) {
-    return array.find((e) => e.transaction.public === transaction.public) ? true : false;
+function checkIfAdressPublicIsInArray(array: IDataAccount[], transaction: ParamsTransaction) {
+    return array.find((e) => e.data.public === transaction.public) ? true : false;
 }
 
 export async function getAddresses(mnemonic: string, numAddresses: number) {
@@ -79,8 +79,9 @@ export async function getAddresses(mnemonic: string, numAddresses: number) {
     return paires;
 }
 
-export async function addNonce(newItem: GetTransaction) {
-    const nonce = await newItem.getWallet()?.getNonce();
-    if (nonce) newItem.editTransaction({ ...newItem.transaction, nonce: nonce });
-    return newItem;
+export async function addNonce(account: GetTransaction, transaction: ParamsTransaction) {
+    const newTransaction = { ...transaction };
+    const nonce = await account.getWallet()?.getNonce();
+    if (nonce) newTransaction.nonce = nonce;
+    return newTransaction;
 }

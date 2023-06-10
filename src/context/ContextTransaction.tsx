@@ -1,16 +1,14 @@
 import { ClassERC20, GetTransaction } from "@/library/class";
 import { accountERC20 } from "@/library/constantes";
-import { IAccountERC20, ParamsTransaction } from "@/library/interfaces";
+import { IAccountERC20, IDataAccount, ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
 interface IContextTransaction {
     mySymbol: string;
     setMySymbol: React.Dispatch<React.SetStateAction<string>>;
-    myTransaction: ParamsTransaction | null;
-    setMyTransaction: React.Dispatch<React.SetStateAction<ParamsTransaction | null>>;
-    myAccount: GetTransaction | null;
-    setMyAccount: React.Dispatch<React.SetStateAction<GetTransaction | null>>;
+    myAccount: IDataAccount | null;
+    setMyAccount: React.Dispatch<React.SetStateAction<IDataAccount | null>>;
     myERC20: ClassERC20 | null;
     setMyERC20: React.Dispatch<React.SetStateAction<ClassERC20 | null>>;
     myAccountERC20: IAccountERC20;
@@ -19,8 +17,6 @@ interface IContextTransaction {
 const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
     setMySymbol: () => {},
-    myTransaction: null,
-    setMyTransaction: () => {},
     myAccount: null,
     setMyAccount: () => {},
     myERC20: null,
@@ -36,9 +32,8 @@ interface myTransactionProviderProps {
 
 export const MyTransactionProvider = ({ children }: myTransactionProviderProps) => {
     const [mySymbol, setMySymbol] = useState<string>("");
-    const [myTransaction, setMyTransaction] = useState<ParamsTransaction | null>(null);
     const [myERC20, setMyERC20] = useState<ClassERC20 | null>(null);
-    const [myAccount, setMyAccount] = useState<GetTransaction | null>(null);
+    const [myAccount, setMyAccount] = useState<IDataAccount | null>(null);
     const [myAccountERC20, setMyAccountERC20] = useState<IAccountERC20>(accountERC20);
 
     return (
@@ -46,8 +41,6 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
             value={{
                 mySymbol,
                 setMySymbol,
-                myTransaction,
-                setMyTransaction,
                 myAccount,
                 setMyAccount,
                 myERC20,

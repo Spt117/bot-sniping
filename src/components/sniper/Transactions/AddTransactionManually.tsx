@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import Close from "../../Close";
 
 export default function AddTransactionManually() {
-    const { setMyState, myTransactions, setMyTransactions, paramsSniper } = useMyState();
+    const { setMyState, setDataAccount, paramsSniper, dataAccounts } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] = useState(paramTransaction);
 
@@ -17,9 +17,11 @@ export default function AddTransactionManually() {
         dispatch(myOverlay(false));
     }
 
-    async function addItem(newItem: GetTransaction) {
-        const nonce = await addNonce(newItem);
-        setMyTransactions((oldTransactions: GetTransaction[]) => [...oldTransactions, nonce]);
+    async function addItem() {
+        const account = { public: newTransaction.public, private: newTransaction.private };
+        const methods = new GetTransaction(account, paramsSniper);
+        const nonce = await addNonce(methods, newTransaction);
+        setDataAccount((oldDataAccount) => [...oldDataAccount, { data: nonce, methods }]);
         close();
     }
 
@@ -28,7 +30,7 @@ export default function AddTransactionManually() {
     }, [newTransaction]);
 
     function checkAdress() {
-        isEthereumAddress(newTransaction, myTransactions);
+        isEthereumAddress(newTransaction, dataAccounts);
     }
 
     return (
@@ -62,11 +64,7 @@ export default function AddTransactionManually() {
                 />
 
                 <br />
-                <button
-                    id="newTransactionButton"
-                    className="button"
-                    onClick={() => addItem(new GetTransaction(newTransaction, paramsSniper))}
-                >
+                <button id="newTransactionButton" className="button" onClick={addItem}>
                     Add
                 </button>
             </div>

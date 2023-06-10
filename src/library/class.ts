@@ -1,5 +1,5 @@
 import { ethers } from "ethers";
-import { IParamsSniper, ParamsTransaction, Request } from "./interfaces";
+import { IParamsSniper, Keys, ParamsTransaction, Request } from "./interfaces";
 import abiERC20 from "../web3/abis/ERC20.json";
 
 export class request implements Request {
@@ -86,15 +86,11 @@ export class Wallet {
 }
 
 export class GetTransaction {
-    transaction: ParamsTransaction;
+    account: Keys;
     blockchain: IParamsSniper;
-    constructor(transaction: ParamsTransaction, blockchainRouter: IParamsSniper) {
-        this.transaction = transaction;
+    constructor(account: Keys, blockchainRouter: IParamsSniper) {
+        this.account = account;
         this.blockchain = blockchainRouter;
-    }
-
-    editTransaction(transaction: ParamsTransaction) {
-        this.transaction = transaction;
     }
 
     getProvider() {
@@ -110,7 +106,7 @@ export class GetTransaction {
     getWallet() {
         try {
             const provider = this.getProvider();
-            const wallet = new ethers.Wallet(this.transaction.private, provider);
+            const wallet = new ethers.Wallet(this.account.private, provider);
             return wallet;
         } catch (e) {
             console.log(e);
@@ -120,7 +116,7 @@ export class GetTransaction {
     async getBalance() {
         const provider = this.getProvider();
         try {
-            const balance = await provider.getBalance(this.transaction.public);
+            const balance = await provider.getBalance(this.account.public);
             return Number(Number(ethers.formatEther(balance)).toFixed(4));
         } catch (e) {
             console.log(e);
@@ -130,18 +126,20 @@ export class GetTransaction {
 
 export class ClassERC20 {
     contract: ethers.Contract;
-    transactions: GetTransaction;
+    account: GetTransaction;
+    transactions: ParamsTransaction;
     wallet: ethers.Wallet | undefined;
 
-    constructor(token: string, transactions: GetTransaction) {
-        this.transactions = transactions;
-        this.wallet = this.transactions.getWallet();
+    constructor(token: string, account: GetTransaction, transactions: ParamsTransaction) {
+        this.account = account;
+        this.wallet = this.account.getWallet();
         this.contract = new ethers.Contract(token, abiERC20, this.wallet);
+        this.transactions = transactions;
     }
 
     async getBalance() {
         try {
-            const balance = await this.contract.balanceOf(this.transactions.transaction.public);
+            const balance = await this.contract.balanceOf(this.account.account.public);
             const decimals = (await this.getDecimals()) as number;
             return Number((Number(balance) / 10 ** decimals).toFixed(2));
         } catch (e) {
@@ -187,7 +185,7 @@ export class ClassERC20 {
 
     async getAllowance(address: string) {
         try {
-            const allowance = await this.contract.allowance(this.transactions.transaction.public, address);
+            const allowance = await this.contract.allowance(this.account.account.public, address);
             return Number(Number(ethers.formatEther(allowance)));
         } catch (e) {
             console.log(e);
@@ -201,7 +199,7 @@ export class ClassERC20 {
             if (!totalSupply || !decimals) return;
             const amount = ethers.parseUnits(totalSupply.toString(), decimals);
             const contract = this.contract;
-            const approve = await contract.approve(address, amount, this.transactions.transaction.gasApprove);
+            const approve = await contract.approve(address, amount, this.transactions.gasApprove);
             const receipt = await approve.wait();
             return receipt;
         } catch (e) {
@@ -222,7 +220,7 @@ export class ClassERC20 {
     async transferFrom(address: string, amount: number) {
         try {
             const contract = this.contract;
-            const transferFrom = await contract.transferFrom(this.transactions.transaction.public, address, amount);
+            const transferFrom = await contract.transferFrom(this.account.account.public, address, amount);
             return transferFrom;
         } catch (e) {
             console.log(e);

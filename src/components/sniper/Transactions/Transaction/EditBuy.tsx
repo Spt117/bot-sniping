@@ -1,23 +1,15 @@
+import Close from "@/components/Close";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { useEffect } from "react";
-import EditGas from "./EditGas";
-import Close from "@/components/Close";
-import { myOverlay } from "@/redux/actions";
-import { useDispatch } from "react-redux";
 import { ParamsTransaction } from "@/library/interfaces";
+import { myOverlay } from "@/redux/actions";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import EditGas from "./EditGas";
 
-export default function EditBuy({
-    setBool,
-    transaction,
-    setTransaction,
-}: {
-    setBool: Function;
-    transaction: ParamsTransaction;
-    setTransaction: Function;
-}) {
+export default function EditBuy({ setBool }: { setBool: Function }) {
     const { paramsSniper } = useMyState();
-    const { mySymbol, setMySymbol } = useMyTransaction();
+    const { mySymbol, setMySymbol, myAccount, setMyAccount } = useMyTransaction();
     const dispatch = useDispatch();
 
     function closeEdit() {
@@ -27,14 +19,21 @@ export default function EditBuy({
 
     useEffect(() => {
         getSymbol();
-    }, [transaction.amountIsToken]);
+    }, [myAccount?.data.amountIsToken]);
 
     function getSymbol() {
-        if (transaction.amountIsToken) {
+        if (myAccount?.data.amountIsToken) {
             setMySymbol("tokens");
         } else {
             setMySymbol(paramsSniper.blockchain.symbol);
         }
+    }
+
+    function editTransaction<K extends keyof ParamsTransaction>(props: K, value: ParamsTransaction[K]) {
+        if (!myAccount) return;
+        const newAccount = { ...myAccount };
+        newAccount.data[props] = value;
+        setMyAccount(newAccount);
     }
 
     return (
@@ -48,13 +47,8 @@ export default function EditBuy({
                     id="isToken"
                     type="checkbox"
                     placeholder="isToken"
-                    checked={transaction.amountIsToken}
-                    onChange={(e) =>
-                        setTransaction({
-                            ...transaction,
-                            amountIsToken: e.target.checked,
-                        })
-                    }
+                    checked={myAccount?.data.amountIsToken}
+                    onChange={(e) => editTransaction("amountIsToken", e.target.checked)}
                 />
                 <label className="isToken" htmlFor="isToken">
                     Set amount in token
@@ -64,36 +58,21 @@ export default function EditBuy({
                 type="number"
                 name="amount"
                 placeholder={`Amount in ${mySymbol}`}
-                onChange={(e) =>
-                    setTransaction({
-                        ...transaction,
-                        amount: Number(e.target.value),
-                    })
-                }
+                onChange={(e) => editTransaction("amount", Number(e.target.value))}
             />
             <br />
             <input
                 type="number"
                 name="slippage"
                 placeholder="Slippage %"
-                onChange={(e) =>
-                    setTransaction({
-                        ...transaction,
-                        slippagePercent: Number(e.target.value),
-                    })
-                }
+                onChange={(e) => editTransaction("slippagePercent", Number(e.target.value))}
             />
             <br />
             <input
                 type="number"
                 name="repeat"
                 placeholder="Repeat"
-                onChange={(e) =>
-                    setTransaction({
-                        ...transaction,
-                        repeat: Number(e.target.value),
-                    })
-                }
+                onChange={(e) => editTransaction("repeat", Number(e.target.value))}
             />
             <br />
 
