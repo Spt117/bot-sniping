@@ -20,7 +20,7 @@ export function truncateAddr(addr: string | null | undefined) {
     }
 }
 
-export function eventMetamask(callBack: any) {
+export function eventMetamask(callBack: Function) {
     const events = ["chainChanged", "accountsChanged", "connect", "disconnect"];
 
     events.forEach((e) =>

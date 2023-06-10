@@ -1,6 +1,5 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { Contract } from "ethers";
 import { useEffect } from "react";
 
 export default function TokenBalance() {
@@ -19,10 +18,10 @@ export default function TokenBalance() {
                 setMyAccountERC20(newAccountERC20);
             }
         }
-        test();
+        eventTranferERC20();
     }
 
-    function test() {
+    function eventTranferERC20() {
         try {
             const contract = myERC20?.contract;
             contract?.on("Transfer", (from, to, amount) => {
