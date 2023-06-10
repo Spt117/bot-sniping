@@ -52,7 +52,7 @@ button {
     background: none;
     color: inherit;
     border: none;
-    color: rgb(184, 184, 184);
+    color: rgb(248, 243, 243);
     border-radius: 10px;
     transition: background-color 3s ease;
     transition: box-shadow 3s ease;

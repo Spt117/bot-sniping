@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function Account() {
     const { setMySymbol, myAccount, mySymbol } = useMyTransaction();
-    const { paramsSniper, setDataAccount, dataAccounts, isSniping } = useMyState();
+    const { paramsSniper, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
     useEffect(() => {
@@ -19,13 +19,6 @@ export default function Account() {
     async function getBalance() {
         const balance = await myAccount?.methods.getBalance();
         if (balance) setBalance(balance);
-    }
-
-    function deleteAccount() {
-        const newArray = [...dataAccounts];
-        const index = newArray.findIndex((dataAccount) => dataAccount.data.public === myAccount?.data.public);
-        newArray.splice(index, 1);
-        setDataAccount(newArray);
     }
 
     return (
@@ -53,11 +46,6 @@ export default function Account() {
                     <div>Slippage</div>
                     <output>{myAccount?.data.slippagePercent} %</output>
                 </div>
-            </div>
-            <div className="divButtonsTransaction">
-                <button onClick={deleteAccount} className="button">
-                    Remove
-                </button>
             </div>
         </div>
     );

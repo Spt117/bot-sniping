@@ -31,7 +31,7 @@ export default function Edit({ setBool }: { setBool: Function }) {
 
     return (
         <div className="editTransaction">
-            <Close functionClose={closeEdit} />
+            <Close functionClose={closeEdit} data="Close setting" />
             <h4>Set your transaction</h4>
             <EditOther />
             <h5>Gas Buy</h5>

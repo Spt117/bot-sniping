@@ -60,7 +60,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             <ManagerComponent />
             <div className="contain-snipe">
                 <div className="contain-close">
-                    <Close functionClose={disableSniper} />
+                    <Close functionClose={disableSniper} data="Close this snipe" />
 
                     <div>{paramsSniper.blockchain.name}</div>
                     <div>{paramsSniper.router.name}</div>

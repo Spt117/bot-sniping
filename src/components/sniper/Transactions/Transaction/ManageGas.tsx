@@ -1,13 +1,40 @@
-import TransactionApproval from "./TransactionApproval";
-import TransactionBuy from "./TransactionBuy";
-import TransactionSell from "./TransactionSell";
+import { useMyTransaction } from "@/context/ContextTransaction";
+import Gas from "./Gas";
+import TokenBalance from "./TokenBalance";
 
 export default function ManagerGas() {
+    const { myAccount } = useMyTransaction();
+
+    if (!myAccount) return null;
     return (
         <>
-            <TransactionBuy />
-            <TransactionApproval />
-            <TransactionSell />
+            <TokenBalance />
+            <div className="accounts-containers">
+                <div className="items-header">
+                    <div className="items">Gas Buy</div>
+                </div>
+                <div className="items-header">
+                    <Gas gas={myAccount.data.gasBuy} />
+                </div>
+            </div>
+            {!myAccount?.data.approved && (
+                <div className="accounts-containers">
+                    <div className="items-header">
+                        <div className="items">Gas Approve</div>
+                    </div>
+                    <div className="items-header">
+                        <Gas gas={myAccount.data.gasApprove} />
+                    </div>
+                </div>
+            )}
+            <div className="accounts-containers">
+                <div className="items-header">
+                    <div className="items">Gas Sell</div>
+                </div>
+                <div className="items-header">
+                    <Gas gas={myAccount.data.gasSell} />
+                </div>
+            </div>
         </>
     );
 }
