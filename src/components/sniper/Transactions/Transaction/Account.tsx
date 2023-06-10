@@ -4,7 +4,7 @@ import { truncateAddr } from "@/library/fonctions";
 import { useEffect, useState } from "react";
 
 export default function Account() {
-    const { setMySymbol, myAccount, mySymbol } = useMyTransaction();
+    const { setMySymbol, myAccount, mySymbol, myERC20 } = useMyTransaction();
     const { paramsSniper, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 

@@ -37,7 +37,7 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             <Account />
             <ManagerGas />
             <EditTransaction />
-            <Sell />
+            {dataERC20 && <Sell />}
         </div>
     );
 }

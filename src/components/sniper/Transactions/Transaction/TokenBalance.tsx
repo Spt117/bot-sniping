@@ -1,14 +1,14 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
+import { Contract } from "ethers";
 import { useEffect } from "react";
 
 export default function TokenBalance() {
     const { myAccountERC20, setMyAccountERC20, myERC20, myAccount } = useMyTransaction();
-    const { isSniping } = useMyState();
 
     useEffect(() => {
         getBalance();
-    }, [myERC20, myAccount, isSniping, myAccountERC20.isSell]);
+    }, [myERC20, myAccount]);
 
     async function getBalance() {
         if (myERC20 && myAccount) {
@@ -19,7 +19,24 @@ export default function TokenBalance() {
                 setMyAccountERC20(newAccountERC20);
             }
         }
+        test();
     }
 
+    function test() {
+        try {
+            const contract = myERC20?.contract;
+            contract?.on("Transfer", (from, to, amount) => {
+                if (from === myAccount?.data.public || to === myAccount?.data.public) {
+                    getBalance();
+                    console.log(`Swap détecté ! 
+                                 De: ${from} 
+                                 À: ${to} 
+                                 Montant: ${amount}`);
+                }
+            });
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return null;
 }
