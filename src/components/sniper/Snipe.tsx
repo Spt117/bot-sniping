@@ -41,9 +41,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     async function endBuy(result: []) {
         setResultSnipe(result);
         setIsSniping(false);
-        console.log("endbuy");
         const newDatas = await majNonces(dataAccounts);
         setDataAccount(newDatas);
+        console.log("endbuy");
     }
 
     async function test() {

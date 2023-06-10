@@ -31,6 +31,7 @@ export default function Sell() {
             newAccount.data = addNewNonce;
             await majDataAccounts();
             setMyAccountERC20({ ...myAccountERC20, isSell: false });
+            console.log("endSell");
         }
     }
 
