@@ -10,7 +10,7 @@ import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 import ERC20 from "./Transactions/Transaction/ERC20";
-import { addNonce } from "@/library/fonctions";
+import { majNonces } from "@/library/fonctions";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -42,21 +42,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         setResultSnipe(result);
         setIsSniping(false);
         console.log("endbuy");
-        newNonce();
-    }
-
-    async function newNonce() {
-        const majNonce = await Promise.allSettled(
-            dataAccounts.map(async (dataAccounts) => {
-                const newData = await addNonce(dataAccounts.methods, dataAccounts.data);
-                return { ...dataAccounts, data: newData };
-            })
-        );
-
-        const successfulUpdates = majNonce
-            .filter((result) => result.status === "fulfilled")
-            .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
-        setDataAccount(successfulUpdates);
+        const newDatas = await majNonces(dataAccounts);
+        setDataAccount(newDatas);
     }
 
     async function test() {
@@ -67,8 +54,6 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             // await scanMempool(myTransactions, dataERC20?.address, buyWithEth, endBuy);
         }
     }
-
-    async function afterBuy() {}
 
     return (
         <>

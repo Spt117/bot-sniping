@@ -11,7 +11,8 @@ import EditSell from "./EditSell";
 import Gas from "./Gas";
 
 export default function TransactionSell() {
-    const { myAccountERC20, setMyAccountERC20, myAccount, setMyAccount, myERC20 } = useMyTransaction();
+    const { myAccountERC20, setMyAccountERC20, myAccount, myERC20 } = useMyTransaction();
+    const { dataAccounts, setDataAccount } = useMyState();
     const { dataERC20, isSniping } = useMyState();
     const [bool, setBool] = useState(false);
     const dispatch = useDispatch();
@@ -21,19 +22,27 @@ export default function TransactionSell() {
         dispatch(myOverlay(true));
     }
 
+    async function majDataAccounts() {
+        if (!myAccount) return;
+        const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
+        const newAccount = { ...myAccount };
+        newAccount.data = addNewNonce;
+        const newDataAccounts = [...dataAccounts];
+        const index = newDataAccounts.findIndex((item) => item.data.public === newAccount.data.public);
+        newDataAccounts[index] = newAccount;
+        setDataAccount(newDataAccounts);
+    }
+
     async function sell() {
         setMyAccountERC20({ ...myAccountERC20, isSell: true });
         if (myAccountERC20 && myAccount && dataERC20?.decimals) {
             const amount = ethers.parseUnits((myAccountERC20.tokenBalance * 0.99999).toString(), dataERC20?.decimals);
             const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amount);
-            console.log("Fin de la transaction ");
-            console.log(receip);
-            setMyAccountERC20({ ...myAccountERC20, isSell: false });
             const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
             const newAccount = { ...myAccount };
             newAccount.data = addNewNonce;
-            setMyAccount(newAccount);
-            console.log(newAccount);
+            await majDataAccounts();
+            setMyAccountERC20({ ...myAccountERC20, isSell: false });
         }
         await getBalance();
     }

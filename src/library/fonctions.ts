@@ -85,3 +85,16 @@ export async function addNonce(account: GetTransaction, transaction: ParamsTrans
     if (nonce) newTransaction.nonce = nonce;
     return newTransaction;
 }
+
+export async function majNonces(accounts: IDataAccount[]) {
+    const majNonce = await Promise.allSettled(
+        accounts.map(async (dataAccounts) => {
+            const newData = await addNonce(dataAccounts.methods, dataAccounts.data);
+            return { ...dataAccounts, data: newData };
+        })
+    );
+    const successfulUpdates = majNonce
+        .filter((result) => result.status === "fulfilled")
+        .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
+    return successfulUpdates;
+}

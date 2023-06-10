@@ -1,7 +1,5 @@
 import { ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
-import { GetTransaction } from "../library/class";
-import { addNonce } from "../library/fonctions";
 import { IDataAccount } from "@/library/interfaces";
 
 export async function buyWithEth(dataAccounts: IDataAccount[], tokenAdress: string, endBuy: Function) {
@@ -27,8 +25,6 @@ async function swapEth(dataAccount: IDataAccount, tokenAdress: string) {
 }
 
 async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: string, nonce: number) {
-    console.log(nonce);
-
     try {
         const wallet = dataAccount.methods.getWallet();
         const UniswapRouterV2Contract = new ethers.Contract(
