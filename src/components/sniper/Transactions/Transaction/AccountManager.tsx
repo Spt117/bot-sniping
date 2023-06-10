@@ -7,10 +7,13 @@ import TransactionApproval from "./TransactionApproval";
 import TransactionBuy from "./TransactionBuy";
 import TransactionSell from "./TransactionSell";
 import { IDataAccount } from "@/library/interfaces";
+import Sell from "./Sell";
+import ManagerGas from "./ManageGas";
+import EditTransaction from "./EditTransaction";
 
 export default function AccountManager({ dataAccount }: { dataAccount: IDataAccount }) {
-    const { setMySymbol, setMyAccount, setMyERC20, myAccount } = useMyTransaction();
-    const { paramsSniper, isSniping, dataERC20, dataAccounts } = useMyState();
+    const { setMySymbol, setMyAccount, setMyERC20 } = useMyTransaction();
+    const { paramsSniper, isSniping, dataERC20 } = useMyState();
 
     useEffect(() => {
         if (!dataAccount.data.amountIsToken) setMySymbol(paramsSniper.blockchain.symbol);
@@ -23,18 +26,12 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
         }
     }, [isSniping, dataAccount, dataERC20]);
 
-    function test() {
-        console.log(myAccount?.data);
-        console.log(dataAccounts);
-    }
-
     return (
         <div className="accounts">
             <Account />
-            <TransactionBuy />
-            <TransactionApproval />
-            <TransactionSell />
-            <button onClick={test}>Click</button>
+            <ManagerGas />
+            <EditTransaction />
+            <Sell />
         </div>
     );
 }

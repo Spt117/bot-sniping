@@ -1,10 +1,10 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { truncateAddr } from "@/library/fonctions";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Account() {
-    const { setMySymbol, myAccount, mySymbol, myAccountERC20 } = useMyTransaction();
+    const { setMySymbol, myAccount, mySymbol } = useMyTransaction();
     const { paramsSniper, setDataAccount, dataAccounts, isSniping } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
@@ -21,16 +21,11 @@ export default function Account() {
         if (balance) setBalance(balance);
     }
 
-    function deleteTransaction() {
+    function deleteAccount() {
         const newArray = [...dataAccounts];
         const index = newArray.findIndex((dataAccount) => dataAccount.data.public === myAccount?.data.public);
         newArray.splice(index, 1);
         setDataAccount(newArray);
-    }
-
-    async function nonce() {
-        const nonce = await myAccount?.methods.getWallet()?.getNonce();
-        console.log("nonce " + nonce);
     }
 
     return (
@@ -45,7 +40,7 @@ export default function Account() {
                     <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
                 </div>
                 <div className="items">
-                    <div>Amount To Buy</div>
+                    <div>Amount To Spend</div>
                     <output>
                         {myAccount?.data.amount} {mySymbol}
                     </output>
@@ -55,15 +50,14 @@ export default function Account() {
                     <output>{myAccount?.data.repeat}</output>
                 </div>
                 <div className="items">
-                    <div>Is Approval</div>
-                    <output>{myAccount?.data.approved ? "Yes" : "No"}</output>
+                    <div>Slippage</div>
+                    <output>{myAccount?.data.slippagePercent} %</output>
                 </div>
             </div>
             <div className="divButtonsTransaction">
-                <button onClick={deleteTransaction} className="button">
+                <button onClick={deleteAccount} className="button">
                     Remove
                 </button>
-                <button onClick={nonce}>Nonce</button>
             </div>
         </div>
     );

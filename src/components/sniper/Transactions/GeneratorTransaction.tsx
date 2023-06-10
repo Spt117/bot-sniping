@@ -6,14 +6,15 @@ export default function GeneratorTransaction() {
     const { dataAccounts, setBoolTransactions } = useMyState();
     return (
         <>
-            <h4>Transactions</h4>
             {dataAccounts.map((dataAccount, index) => (
                 <MyTransactionProvider key={index}>
                     <AccountManager dataAccount={dataAccount} />
                 </MyTransactionProvider>
             ))}
             <br />
-            <button onClick={() => setBoolTransactions(false)}>Hide transactions</button>
+            <button onClick={() => setBoolTransactions(false)}>{`Hide transaction${
+                dataAccounts.length > 1 ? "s" : ""
+            }`}</button>
         </>
     );
 }

@@ -1,24 +1,12 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { myOverlay } from "@/redux/actions";
-import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import EditBuy from "./EditBuy";
 import Gas from "./Gas";
-import { ethers } from "ethers";
-import { addNonce } from "@/library/fonctions";
 
 export default function TransactionBuy() {
-    const { setMyAccount, myAccountERC20, myAccount, setMyAccountERC20 } = useMyTransaction();
-    const { dataERC20 } = useMyState();
-    const dispatch = useDispatch();
-    const [bool, setBool] = useState(false);
-
-    function activeEdit() {
-        setBool(true);
-        dispatch(myOverlay(true));
-    }
+    const { myAccount } = useMyTransaction();
 
     // function setTransaction(prop: "amount" | "slippagePercent" | "repeat", value: number) {
     //     setMyTransaction({ ...myTransaction, [prop]: value });
@@ -29,15 +17,7 @@ export default function TransactionBuy() {
         <div className="accounts-containers">
             <div className="items-header">
                 <Gas gas={myAccount.data.gasBuy} />
-                <div className="items">
-                    <div>Slippage</div>
-                    <output>{myAccount.data.slippagePercent} %</output>
-                </div>
             </div>
-            <button className="button" onClick={activeEdit}>
-                Edit
-            </button>
-            {bool && <EditBuy setBool={setBool} />}
         </div>
     );
 }

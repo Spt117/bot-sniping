@@ -1,5 +1,5 @@
 import { useMyState } from "@/context/ContextSniper";
-import { IDataAccount, IParamsSniper } from "@/library/interfaces";
+import { IParamsSniper } from "@/library/interfaces";
 import { myDisableSniper, myOverlay } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
 import { buyWithEth } from "@/sniper/uniswapV2";
@@ -9,7 +9,7 @@ import Close from "../Close";
 import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
-import ERC20 from "./Transactions/Transaction/ERC20";
+import ERC20 from "./Transactions/ERC20";
 import { majNonces } from "@/library/fonctions";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
@@ -71,13 +71,15 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                             dispatch(myOverlay(true));
                         }}
                     >
-                        Add Transaction
+                        Add Account
                     </button>
                     {dataAccounts.length > 0 && (
                         <>
                             {boolTransactions && <GeneratorTransaction />}
                             {!boolTransactions && (
-                                <button onClick={() => setBoolTransactions(true)}>Show Transactions</button>
+                                <button onClick={() => setBoolTransactions(true)}>{`Show Transaction${
+                                    dataAccounts.length > 1 ? "s" : ""
+                                }`}</button>
                             )}
                             <br />
                             {!dataERC20?.address && <Contrat />}

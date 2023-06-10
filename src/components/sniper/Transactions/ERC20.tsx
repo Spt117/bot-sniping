@@ -1,22 +1,7 @@
-import { useMyTransaction } from "@/context/ContextTransaction";
-import { ClassERC20 } from "@/library/class";
 import { useMyState } from "@/context/ContextSniper";
-import { useEffect } from "react";
 
 export default function ERC20() {
-    const { myAccount, setMyERC20 } = useMyTransaction();
     const { dataERC20 } = useMyState();
-
-    useEffect(() => {
-        setERC20();
-    }, [dataERC20?.address]);
-
-    async function setERC20() {
-        if (dataERC20?.address && myAccount) {
-            const erc20 = new ClassERC20(dataERC20?.address, myAccount.methods, myAccount.data);
-            setMyERC20(erc20);
-        }
-    }
 
     return (
         <div className="accounts-containers">
