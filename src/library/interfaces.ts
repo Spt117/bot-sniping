@@ -78,19 +78,19 @@ export interface ParamsTransaction {
 export interface IDataAccount {
     data: ParamsTransaction;
     methods: GetTransaction;
+    balance: number;
 }
 
 export interface IAccountERC20 {
     isSell: boolean;
     isBuy: boolean;
     isApproval: boolean;
-    tokenBalance: number;
 }
 
 export interface IERC20 {
     name: string;
     symbol: string;
-    decimals: number | undefined;
-    totalSupply: number | undefined;
+    decimals?: number;
+    totalSupply?: number;
     address: string;
 }

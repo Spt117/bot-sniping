@@ -45,6 +45,7 @@ export default function ChooseAddTransaction() {
                         const newDataAccount: IDataAccount = {
                             data: transactionWithNonce,
                             methods: new GetTransaction(account, paramsSniper),
+                            balance: 0,
                         };
                         setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, newDataAccount]);
                     }

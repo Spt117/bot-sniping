@@ -10,8 +10,9 @@ import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 import ERC20 from "./Transactions/ERC20";
-import { majNonces } from "@/library/fonctions";
+import { getBalancesToken, majNonces } from "@/library/fonctions";
 import Spinner from "../Spinner";
+import BalanceToken from "./Transactions/BalanceTokens";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -43,13 +44,22 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
 
     async function endBuy(result: []) {
         setResultSnipe(result);
-        setIsSniping(false);
         const newDatas = await majNonces(dataAccounts);
         setDataAccount(newDatas);
+
+        balanceToken();
+        setIsSniping(false);
+
         console.log("endbuy");
     }
 
-    async function test() {
+    function balanceToken() {
+        if (dataERC20) {
+            getBalancesToken(dataAccounts, dataERC20, setDataAccount);
+        }
+    }
+
+    async function buy() {
         if (dataERC20?.address) {
             setIsSniping(true);
             await buyWithEth(dataAccounts, dataERC20?.address, endBuy);
@@ -60,7 +70,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
 
     async function sell() {
         setIsSelling(true);
-        if (dataERC20?.address) await sellWithEth(dataAccounts, dataERC20?.address, 100);
+        if (dataERC20?.address) await sellWithEth(dataAccounts, dataERC20, 100);
+        balanceToken();
         setIsSelling(false);
         console.log("end sell");
     }
@@ -68,6 +79,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     return (
         <>
             <ManagerComponent />
+            <BalanceToken />
             <div className="contain-snipe">
                 <div className="contain-close">
                     <Close functionClose={disableSniper} data="Close this snipe" />
@@ -101,7 +113,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                     {!isSniping && dataERC20?.address && (
                         <>
                             <p>Contrat {dataERC20?.address}</p>
-                            <button id="test" onClick={test}>
+                            <button id="buy" onClick={buy}>
                                 Buy
                             </button>{" "}
                             <hr />

@@ -1,7 +1,7 @@
 import Spinner from "@/components/Spinner";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { addNonce } from "@/library/fonctions";
+import { addNonce, getBalancesToken } from "@/library/fonctions";
 import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { ethers } from "ethers";
 import { useEffect } from "react";
@@ -23,9 +23,9 @@ export default function Sell() {
 
     async function sell(percent: number = 100) {
         setMyAccountERC20({ ...myAccountERC20, isSell: true });
-        const amount = myAccountERC20.tokenBalance * 0.99999 * (percent / 100);
         if (myAccountERC20 && myAccount && dataERC20?.decimals) {
-            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20?.decimals);
+            const amount = myAccount.balance * 0.99999 * (percent / 100);
+            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
             const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
             const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
             const newAccount = { ...myAccount };
@@ -77,7 +77,7 @@ export default function Sell() {
                 <div className="items">
                     <div>Balance</div>
                     <output>
-                        {myAccountERC20.tokenBalance} {dataERC20?.symbol}
+                        {myAccount?.balance} {dataERC20?.symbol}
                     </output>
                 </div>
             </div>

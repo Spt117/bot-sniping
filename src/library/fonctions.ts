@@ -1,9 +1,9 @@
 import { networks, paramSniper, routers } from "./constantes";
-import { IDataAccount, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
+import { IDataAccount, IERC20, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
-import { GetTransaction } from "./class";
+import { ClassERC20, GetTransaction } from "./class";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -97,4 +97,17 @@ export async function majNonces(accounts: IDataAccount[]) {
         .filter((result) => result.status === "fulfilled")
         .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
     return successfulUpdates;
+}
+
+export async function getBalancesToken(accounts: IDataAccount[], ERC20: IERC20, callback: Function) {
+    const newAccounts: IDataAccount[] = await Promise.all(
+        accounts.map(async (account) => {
+            const newAccount = { ...account };
+            const newERC20 = new ClassERC20(ERC20.address, account.methods, account.data);
+            const balance = await newERC20.getBalance();
+            newAccount.balance = balance;
+            return newAccount;
+        })
+    );
+    callback(newAccounts);
 }

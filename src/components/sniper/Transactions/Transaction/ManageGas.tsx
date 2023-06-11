@@ -1,6 +1,5 @@
 import { useMyTransaction } from "@/context/ContextTransaction";
 import Gas from "./Gas";
-import TokenBalance from "./TokenBalance";
 
 export default function ManagerGas() {
     const { myAccount } = useMyTransaction();
@@ -8,7 +7,6 @@ export default function ManagerGas() {
     if (!myAccount) return null;
     return (
         <>
-            <TokenBalance />
             <div className="accounts-containers">
                 <div className="items-header">
                     <div className="items">Gas Buy</div>

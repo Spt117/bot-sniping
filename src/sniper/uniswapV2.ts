@@ -71,14 +71,12 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
     }
 }
 
-export async function sellWithEth(dataAccounts: IDataAccount[], tokenAdress: string, percent: number) {
+export async function sellWithEth(dataAccounts: IDataAccount[], dataERC20: IERC20, percent: number) {
     const promises = dataAccounts.map(async (dataAccount) => {
-        const ERC20 = new ClassERC20(tokenAdress, dataAccount.methods, dataAccount.data);
-        const balance = await ERC20.getBalance();
-        const decimals = await ERC20.getDecimals();
+        const balance = dataAccount.balance;
         const amount = balance * 0.99999 * (percent / 100);
-        const amountBigInt = ethers.parseUnits(amount.toString(), decimals);
-        await swapTokensForETHOnce(dataAccount, tokenAdress, amountBigInt);
+        const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
+        await swapTokensForETHOnce(dataAccount, dataERC20.address, amountBigInt);
     });
     const result = await Promise.allSettled(promises);
 }

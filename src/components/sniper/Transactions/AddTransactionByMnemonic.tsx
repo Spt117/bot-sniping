@@ -29,7 +29,7 @@ export default function AddTransactionByMnemonic() {
             const transactionWithNonce = await addNonce(new GetTransaction(account, paramsSniper), newTransaction);
             setDataAccount((oldDataAccount) => [
                 ...oldDataAccount,
-                { data: transactionWithNonce, methods: new GetTransaction(account, paramsSniper) },
+                { data: transactionWithNonce, methods: new GetTransaction(account, paramsSniper), balance: 0 },
             ]);
         }
     }

@@ -114,7 +114,6 @@ export const accountERC20: IAccountERC20 = {
     isBuy: false,
     isSell: false,
     isApproval: false,
-    tokenBalance: 0,
 };
 
 export const paramSniper: IParamsSniper = {
