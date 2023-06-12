@@ -26,11 +26,16 @@ export default function AddTransactionByMnemonic() {
             const account: Keys = { private: accounts[i].private, public: accounts[i].public };
             newTransaction.public = accounts[i].public;
             newTransaction.private = accounts[i].private;
-            const transactionWithNonce = await addNonce(new GetTransaction(account, paramsSniper), newTransaction);
-            setDataAccount((oldDataAccount) => [
-                ...oldDataAccount,
-                { data: transactionWithNonce, methods: new GetTransaction(account, paramsSniper), balance: 0 },
-            ]);
+            const dataAccount = {
+                data: newTransaction,
+                methods: new GetTransaction(account, paramsSniper),
+                balance: 0,
+                nonce: 0,
+                approved: false,
+                hasBuy: false,
+                hasSell: false,
+            };
+            setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         }
     }
 

@@ -50,7 +50,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         balanceToken();
         setIsSniping(false);
 
-        console.log("endbuy");
+        console.log("end buy");
     }
 
     function balanceToken() {

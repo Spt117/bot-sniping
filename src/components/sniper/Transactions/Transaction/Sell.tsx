@@ -11,14 +11,14 @@ export default function Sell() {
     const { setDataAccount, dataAccounts, dataERC20 } = useMyState();
 
     async function majDataAccounts() {
-        if (!myAccount) return;
-        const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
-        const newAccount = { ...myAccount };
-        newAccount.data = addNewNonce;
+        if (!myAccount || !dataERC20) return;
+        const addNewNonce = await addNonce(myAccount);
+        addNewNonce.hasSell = true;
         const newDataAccounts = [...dataAccounts];
-        const index = newDataAccounts.findIndex((item) => item.data.public === newAccount.data.public);
-        newDataAccounts[index] = newAccount;
+        const index = newDataAccounts.findIndex((item) => item.data.public === addNewNonce.data.public);
+        newDataAccounts[index] = addNewNonce;
         setDataAccount(newDataAccounts);
+        getBalancesToken(dataAccounts, dataERC20, setDataAccount);
     }
 
     async function sell(percent: number = 100) {
@@ -27,9 +27,7 @@ export default function Sell() {
             const amount = myAccount.balance * 0.99999 * (percent / 100);
             const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
             const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
-            const addNewNonce = await addNonce(myAccount.methods, myAccount.data);
-            const newAccount = { ...myAccount };
-            newAccount.data = addNewNonce;
+            console.log(receip);
             await majDataAccounts();
             setMyAccountERC20({ ...myAccountERC20, isSell: false });
             console.log("endSell");
@@ -50,7 +48,7 @@ export default function Sell() {
             const allowance = await myERC20.getAllowance(myAccount.methods.blockchain.router.address);
             if (allowance && allowance > 0) {
                 const newAccount = { ...myAccount };
-                newAccount.data.approved = true;
+                newAccount.approved = true;
                 setMyAccount(newAccount);
             }
         }
@@ -63,7 +61,7 @@ export default function Sell() {
     return (
         <div className="accounts-containers">
             <div className="items-header">
-                {!myAccount?.data.approved && (
+                {!myAccount?.approved && (
                     <div className="items">
                         <button id={`button-approve-${myAccount?.data.public}`} onClick={approve}>
                             Approve {myAccountERC20.isApproval === true && <Spinner />}
@@ -71,8 +69,8 @@ export default function Sell() {
                     </div>
                 )}
                 <div className="items">
-                    <div>Is Approval</div>
-                    <output>{myAccount?.data.approved ? "Yes" : "No"}</output>
+                    <div>Approved</div>
+                    <output>{myAccount?.approved ? "Yes" : "No"}</output>
                 </div>
                 <div className="items">
                     <div>Balance</div>

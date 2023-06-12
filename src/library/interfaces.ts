@@ -69,16 +69,18 @@ export interface ParamsTransaction {
     slippagePercent: number;
     amount: number;
     repeat: number;
-    nonce: number;
     secondsDelay?: number;
     useContract: boolean;
-    approved: boolean;
 }
 
 export interface IDataAccount {
     data: ParamsTransaction;
     methods: GetTransaction;
     balance: number;
+    nonce: number;
+    approved: boolean;
+    hasBuy: boolean;
+    hasSell: boolean;
 }
 
 export interface IAccountERC20 {

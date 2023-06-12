@@ -19,9 +19,17 @@ export default function AddTransactionManually() {
 
     async function addItem() {
         const account = { public: newTransaction.public, private: newTransaction.private };
-        const methods = new GetTransaction(account, paramsSniper);
-        const nonce = await addNonce(methods, newTransaction);
-        setDataAccount((oldDataAccount) => [...oldDataAccount, { data: nonce, methods, balance: 0 }]);
+        const dataAccount = {
+            data: newTransaction,
+            methods: new GetTransaction(account, paramsSniper),
+            balance: 0,
+            nonce: 0,
+            approved: false,
+            hasBuy: false,
+            hasSell: false,
+        };
+        const nonce = await addNonce(dataAccount);
+        setDataAccount((oldDataAccount) => [...oldDataAccount, nonce]);
         close();
     }
 

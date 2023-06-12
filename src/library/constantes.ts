@@ -105,9 +105,7 @@ export const paramTransaction: ParamsTransaction = {
     slippagePercent: 20,
     amount: 0.01,
     repeat: 1,
-    nonce: 0,
     useContract: false,
-    approved: false,
 };
 
 export const accountERC20: IAccountERC20 = {

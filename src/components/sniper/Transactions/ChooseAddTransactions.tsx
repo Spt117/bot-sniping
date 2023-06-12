@@ -41,13 +41,16 @@ export default function ChooseAddTransaction() {
                     const element: ParamsTransaction = result[i];
                     const account: Keys = { private: element.private, public: element.public };
                     if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper))) {
-                        const transactionWithNonce = await addNonce(new GetTransaction(account, paramsSniper), element);
-                        const newDataAccount: IDataAccount = {
-                            data: transactionWithNonce,
+                        const nonceAccount = await addNonce({
+                            data: element,
                             methods: new GetTransaction(account, paramsSniper),
                             balance: 0,
-                        };
-                        setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, newDataAccount]);
+                            nonce: 0,
+                            approved: false,
+                            hasBuy: false,
+                            hasSell: false,
+                        });
+                        setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, nonceAccount]);
                     }
                 }
             } else {

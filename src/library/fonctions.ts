@@ -79,18 +79,18 @@ export async function getAddresses(mnemonic: string, numAddresses: number) {
     return paires;
 }
 
-export async function addNonce(account: GetTransaction, transaction: ParamsTransaction) {
-    const newTransaction = { ...transaction };
-    const nonce = await account.getWallet()?.getNonce();
-    if (nonce) newTransaction.nonce = nonce;
-    return newTransaction;
+export async function addNonce(dataAccount: IDataAccount) {
+    const newAccount = { ...dataAccount };
+    const nonce = await dataAccount.methods.getWallet()?.getNonce();
+    if (nonce) newAccount.nonce = nonce;
+    return newAccount;
 }
 
 export async function majNonces(accounts: IDataAccount[]) {
     const majNonce = await Promise.allSettled(
-        accounts.map(async (dataAccounts) => {
-            const newData = await addNonce(dataAccounts.methods, dataAccounts.data);
-            return { ...dataAccounts, data: newData };
+        accounts.map(async (dataAccount) => {
+            const newData = await addNonce(dataAccount);
+            return newData;
         })
     );
     const successfulUpdates = majNonce
@@ -100,14 +100,16 @@ export async function majNonces(accounts: IDataAccount[]) {
 }
 
 export async function getBalancesToken(accounts: IDataAccount[], ERC20: IERC20, callback: Function) {
-    const newAccounts: IDataAccount[] = await Promise.all(
-        accounts.map(async (account) => {
-            const newAccount = { ...account };
-            const newERC20 = new ClassERC20(ERC20.address, account.methods, account.data);
-            const balance = await newERC20.getBalance();
-            newAccount.balance = balance;
-            return newAccount;
-        })
-    );
-    callback(newAccounts);
+    setTimeout(async () => {
+        const newAccounts: IDataAccount[] = await Promise.all(
+            accounts.map(async (account) => {
+                const newAccount = { ...account };
+                const newERC20 = new ClassERC20(ERC20.address, account.methods, account.data);
+                const balance = await newERC20.getBalance();
+                newAccount.balance = balance;
+                return newAccount;
+            })
+        );
+        callback(newAccounts);
+    }, 5000);
 }

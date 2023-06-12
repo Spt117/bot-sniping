@@ -15,7 +15,7 @@ export default function ManagerGas() {
                     <Gas gas={myAccount.data.gasBuy} />
                 </div>
             </div>
-            {!myAccount?.data.approved && (
+            {!myAccount?.approved && (
                 <div className="accounts-containers">
                     <div className="items-header">
                         <div className="items">Gas Approve</div>
