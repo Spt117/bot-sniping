@@ -81,6 +81,7 @@ export interface IDataAccount {
     approved: boolean;
     hasBuy: boolean;
     hasSell: boolean;
+    index: number;
 }
 
 export interface IAccountERC20 {

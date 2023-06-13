@@ -5,7 +5,7 @@ import { IDataAccount } from "@/library/interfaces";
 import { useEffect } from "react";
 import Account from "./Account";
 import EditTransaction from "./EditTransaction";
-import ManagerGas from "./ManageGas";
+import ManagerGas from "./ManagerGas";
 import Sell from "./Sell";
 import Close from "@/components/Close";
 
@@ -25,9 +25,9 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
     }, [isSniping, dataAccount, dataERC20]);
 
     function deleteAccount() {
+        if (!myAccount) return;
         const newArray = [...dataAccounts];
-        const index = newArray.findIndex((dataAccount) => dataAccount.data.public === myAccount?.data.public);
-        newArray.splice(index, 1);
+        newArray.splice(myAccount?.index, 1);
         setDataAccount(newArray);
     }
 

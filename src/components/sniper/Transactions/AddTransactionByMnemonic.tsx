@@ -2,7 +2,7 @@ import Close from "@/components/Close";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
-import { addNonce, getAddresses } from "@/library/fonctions";
+import { getAddresses } from "@/library/fonctions";
 import { Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 
 export default function AddTransactionByMnemonic() {
     const [mnemonic, setMnemonic] = useState({ myMnemonic: "", number: 0 });
-    const { setMyState, paramsSniper, setDataAccount } = useMyState();
+    const { setMyState, paramsSniper, setDataAccount, dataAccounts } = useMyState();
     const dispatch = useDispatch();
 
     function closeComponent() {
@@ -34,6 +34,7 @@ export default function AddTransactionByMnemonic() {
                 approved: false,
                 hasBuy: false,
                 hasSell: false,
+                index: dataAccounts.length + i,
             };
             setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         }
