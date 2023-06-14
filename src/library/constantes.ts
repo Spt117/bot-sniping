@@ -1,13 +1,13 @@
 import ethImage from "../assets/ethereum.png";
-import { IAccountERC20, INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
+import { INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
 
 export const networks: INetworkInfo[] = [
     {
         name: "Goerli Testnet",
         logo: ethImage,
         symbol: "ETH",
-        // connection: `https://ethereum-goerli-rpc.allthatnode.com`,
-        connection: process.env.ankrGoerli,
+        connection: `https://ethereum-goerli-rpc.allthatnode.com`,
+        // connection: process.env.ankrGoerli,
         chainId: 5,
         wrappedAddress: "0xB4FBF271143F4FBf7B91A5ded31805e42b2208d6",
         addressExplorer: "https://goerli.etherscan.io/",
@@ -106,12 +106,6 @@ export const paramTransaction: ParamsTransaction = {
     amount: 0.01,
     repeat: 1,
     useContract: false,
-};
-
-export const accountERC20: IAccountERC20 = {
-    isBuy: false,
-    isSell: false,
-    isApproval: false,
 };
 
 export const paramSniper: IParamsSniper = {

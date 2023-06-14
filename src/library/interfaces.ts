@@ -83,12 +83,6 @@ export interface IDataAccount {
     hasSell: boolean;
 }
 
-export interface IAccountERC20 {
-    isSell?: boolean;
-    isBuy?: boolean;
-    isApproval?: boolean;
-}
-
 export interface IERC20 {
     name: string;
     symbol: string;

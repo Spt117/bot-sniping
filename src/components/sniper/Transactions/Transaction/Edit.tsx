@@ -36,8 +36,12 @@ export default function Edit({ setBool }: { setBool: Function }) {
             <EditOther />
             <h5>Gas Buy</h5>
             <EditGas property="gasBuy" />
-            <h5>Gas Approve</h5>
-            <EditGas property="gasApprove" />
+            {!myAccount?.approved && (
+                <>
+                    <h5>Gas Approve</h5>
+                    <EditGas property="gasApprove" />
+                </>
+            )}
             <h5>Gas Sell</h5>
             <EditGas property="gasSell" />
             <br />

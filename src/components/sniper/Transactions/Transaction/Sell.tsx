@@ -4,41 +4,38 @@ import { useMyTransaction } from "@/context/ContextTransaction";
 import { addNonce, getBalancesToken } from "@/library/fonctions";
 import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { ethers } from "ethers";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export default function Sell() {
-    const { myAccount, myAccountERC20, setMyAccountERC20, myERC20 } = useMyTransaction();
+    const { myAccount, myERC20 } = useMyTransaction();
     const { setDataAccount, dataAccounts, dataERC20 } = useMyState();
+    const [bools, setBools] = useState({ isSell: false, isApproval: false });
 
-    async function afterBuy() {
+    async function afterSell() {
         if (!myAccount || !dataERC20) return;
+        const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
         const addNewNonce = await addNonce(myAccount);
         addNewNonce.hasSell = true;
-        const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
         dataAccounts[index] = addNewNonce;
         getBalancesToken(dataAccounts, dataERC20, setDataAccount);
     }
 
     async function sell(percent: number = 100) {
-        setMyAccountERC20({ ...myAccountERC20, isSell: true });
-        if (myAccountERC20 && myAccount && dataERC20?.decimals) {
-            const amount = myAccount.balance * 0.99999 * (percent / 100);
-            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
-            const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
-            console.log(receip);
-            await afterBuy();
-            setMyAccountERC20({ ...myAccountERC20, isSell: false });
-            console.log("endSell");
-        }
+        if (!myAccount || !dataERC20) return null;
+        setBools({ ...bools, isSell: true });
+        const amount = myAccount.balance * 0.99999 * (percent / 100);
+        const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
+        const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
+        console.log(receip);
+        await afterSell();
+        setBools({ ...bools, isSell: false });
+        console.log("endSell");
     }
 
     async function approve() {
-        setMyAccountERC20({ ...myAccountERC20, isApproval: true });
-        if (myERC20 && myAccount) {
-            await myERC20.approve(myAccount.methods.blockchain.router.address);
-            await isApproval();
-        }
-        setMyAccountERC20({ ...myAccountERC20, isApproval: false });
+        if (!myERC20 || !myAccount) return null;
+        await myERC20.approve(myAccount.methods.blockchain.router.address);
+        await isApproval();
     }
 
     async function isApproval() {
@@ -59,16 +56,16 @@ export default function Sell() {
     function data() {
         console.log(dataAccounts);
         console.log(myAccount);
-        console.log(myAccountERC20);
     }
 
+    if (!myAccount) return null;
     return (
         <div className="accounts-containers">
             <div className="items-header">
                 {!myAccount?.approved && (
                     <div className="items">
                         <button id={`button-approve-${myAccount?.data.public}`} onClick={approve}>
-                            Approve {myAccountERC20?.isApproval === true && <Spinner />}
+                            Approve {bools.isApproval === true && <Spinner />}
                         </button>
                     </div>
                 )}
@@ -83,7 +80,7 @@ export default function Sell() {
                     </output>
                 </div>
             </div>
-            <button onClick={() => sell()}>Sell {myAccountERC20?.isSell && <Spinner />} </button>
+            <button onClick={() => sell()}>Sell {bools.isSell && <Spinner />} </button>
             <button onClick={data}>Data</button>
         </div>
     );

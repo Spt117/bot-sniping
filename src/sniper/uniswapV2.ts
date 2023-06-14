@@ -1,7 +1,6 @@
-import { Numeric, ethers } from "ethers";
+import { IDataAccount, IERC20 } from "@/library/interfaces";
+import { ethers } from "ethers";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
-import { IAccountERC20, IDataAccount, IERC20 } from "@/library/interfaces";
-import { ClassERC20 } from "@/library/class";
 
 export async function buyWithEth(dataAccounts: IDataAccount[], tokenAdress: string, endBuy: Function) {
     const promises = dataAccounts.map((dataAccount) => swapEth(dataAccount, tokenAdress));
@@ -55,7 +54,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
             {
                 ...{
                     value: amountInWei,
-                    nonce: nonce,
+                    // nonce: nonce,
                     ...dataAccount.data.gasBuy,
                 },
             }
