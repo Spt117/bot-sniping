@@ -79,7 +79,7 @@ export async function getAddresses(mnemonic: string, numAddresses: number) {
     return paires;
 }
 
-export async function addNonce(dataAccount: IDataAccount) {
+export async function addNonce(dataAccount: IDataAccount): Promise<IDataAccount> {
     const newAccount = { ...dataAccount };
     const nonce = await dataAccount.methods.getWallet()?.getNonce();
     if (nonce) newAccount.nonce = nonce;
@@ -111,5 +111,5 @@ export async function getBalancesToken(accounts: IDataAccount[], ERC20: IERC20, 
             })
         );
         callback(newAccounts);
-    }, 5000);
+    }, 1000);
 }

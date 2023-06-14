@@ -27,7 +27,8 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
     function deleteAccount() {
         if (!myAccount) return;
         const newArray = [...dataAccounts];
-        newArray.splice(myAccount?.index, 1);
+        const index = newArray.findIndex((account) => account.data.public === myAccount.data.public);
+        newArray.splice(index, 1);
         setDataAccount(newArray);
     }
 

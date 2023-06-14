@@ -14,7 +14,8 @@ export default function Sell() {
         if (!myAccount || !dataERC20) return;
         const addNewNonce = await addNonce(myAccount);
         addNewNonce.hasSell = true;
-        dataAccounts[addNewNonce.index] = addNewNonce;
+        const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
+        dataAccounts[index] = addNewNonce;
         getBalancesToken(dataAccounts, dataERC20, setDataAccount);
     }
 
@@ -45,7 +46,8 @@ export default function Sell() {
             const allowance = await myERC20.getAllowance(myAccount.methods.blockchain.router.address);
             if (allowance && allowance > 0) {
                 myAccount.approved = true;
-                dataAccounts[myAccount.index] = myAccount;
+                const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
+                dataAccounts[index] = myAccount;
             }
         }
     }
@@ -57,6 +59,7 @@ export default function Sell() {
     function data() {
         console.log(dataAccounts);
         console.log(myAccount);
+        console.log(myAccountERC20);
     }
 
     return (
@@ -65,7 +68,7 @@ export default function Sell() {
                 {!myAccount?.approved && (
                     <div className="items">
                         <button id={`button-approve-${myAccount?.data.public}`} onClick={approve}>
-                            Approve {myAccountERC20.isApproval === true && <Spinner />}
+                            Approve {myAccountERC20?.isApproval === true && <Spinner />}
                         </button>
                     </div>
                 )}
@@ -80,7 +83,7 @@ export default function Sell() {
                     </output>
                 </div>
             </div>
-            <button onClick={() => sell()}>Sell {myAccountERC20.isSell && <Spinner />} </button>
+            <button onClick={() => sell()}>Sell {myAccountERC20?.isSell && <Spinner />} </button>
             <button onClick={data}>Data</button>
         </div>
     );

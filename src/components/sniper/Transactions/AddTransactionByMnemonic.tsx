@@ -3,7 +3,7 @@ import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { getAddresses } from "@/library/fonctions";
-import { Keys, ParamsTransaction } from "@/library/interfaces";
+import { IDataAccount, Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
@@ -26,7 +26,7 @@ export default function AddTransactionByMnemonic() {
             const account: Keys = { private: accounts[i].private, public: accounts[i].public };
             newTransaction.public = accounts[i].public;
             newTransaction.private = accounts[i].private;
-            const dataAccount = {
+            const dataAccount: IDataAccount = {
                 data: newTransaction,
                 methods: new GetTransaction(account, paramsSniper),
                 balance: 0,
@@ -34,7 +34,6 @@ export default function AddTransactionByMnemonic() {
                 approved: false,
                 hasBuy: false,
                 hasSell: false,
-                index: dataAccounts.length + i,
             };
             setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         }

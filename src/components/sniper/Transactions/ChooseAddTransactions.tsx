@@ -49,7 +49,6 @@ export default function ChooseAddTransaction() {
                             approved: false,
                             hasBuy: false,
                             hasSell: false,
-                            index: dataAccounts.length + i,
                         });
                         setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, nonceAccount]);
                     }

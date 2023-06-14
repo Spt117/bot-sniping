@@ -6,6 +6,7 @@ import { myOverlay } from "@/redux/actions";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../../Close";
+import { IDataAccount } from "@/library/interfaces";
 
 export default function AddTransactionManually() {
     const { setMyState, setDataAccount, paramsSniper, dataAccounts } = useMyState();
@@ -19,7 +20,7 @@ export default function AddTransactionManually() {
 
     async function addItem() {
         const account = { public: newTransaction.public, private: newTransaction.private };
-        const dataAccount = {
+        const dataAccount: IDataAccount = {
             data: newTransaction,
             methods: new GetTransaction(account, paramsSniper),
             balance: 0,
@@ -27,7 +28,6 @@ export default function AddTransactionManually() {
             approved: false,
             hasBuy: false,
             hasSell: false,
-            index: dataAccounts.length,
         };
         const nonce = await addNonce(dataAccount);
         setDataAccount((oldDataAccount) => [...oldDataAccount, nonce]);
