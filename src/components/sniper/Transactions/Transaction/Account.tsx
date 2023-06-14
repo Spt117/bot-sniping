@@ -30,7 +30,7 @@ export default function Account() {
                 </div>
                 <div className="items">
                     <div>Balance</div>
-                    <output>{`${balance} ${paramsSniper.blockchain.symbol}`}</output>
+                    <output>{`${balance.toFixed(3)} ${paramsSniper.blockchain.symbol}`}</output>
                 </div>
                 <div className="items">
                     <div>Amount To Spend</div>

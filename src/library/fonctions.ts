@@ -98,18 +98,3 @@ export async function majNonces(accounts: IDataAccount[]) {
         .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
     return successfulUpdates;
 }
-
-export async function getBalancesToken(accounts: IDataAccount[], ERC20: IERC20, callback: Function) {
-    setTimeout(async () => {
-        const newAccounts: IDataAccount[] = await Promise.all(
-            accounts.map(async (account) => {
-                const newAccount = { ...account };
-                const newERC20 = new ClassERC20(ERC20.address, account.methods, account.data);
-                const balance = await newERC20.getBalance();
-                newAccount.balance = balance;
-                return newAccount;
-            })
-        );
-        callback(newAccounts);
-    }, 1000);
-}

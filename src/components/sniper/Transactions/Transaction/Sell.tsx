@@ -1,7 +1,7 @@
 import Spinner from "@/components/Spinner";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { addNonce, getBalancesToken } from "@/library/fonctions";
+import { addNonce } from "@/library/fonctions";
 import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
@@ -13,17 +13,16 @@ export default function Sell() {
 
     async function afterSell() {
         if (!myAccount || !dataERC20) return;
+        const newArray = [...dataAccounts];
         const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
-        const addNewNonce = await addNonce(myAccount);
-        addNewNonce.hasSell = true;
-        dataAccounts[index] = addNewNonce;
-        getBalancesToken(dataAccounts, dataERC20, setDataAccount);
+        newArray[index].hasSell = true;
+        setDataAccount(newArray);
     }
 
     async function sell(percent: number = 100) {
-        if (!myAccount || !dataERC20) return null;
+        if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
         setBools({ ...bools, isSell: true });
-        const amount = myAccount.balance * 0.99999 * (percent / 100);
+        const amount = myAccount.balance * (percent / 100) * 0.99999;
         const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
         const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
         console.log(receip);
@@ -42,9 +41,11 @@ export default function Sell() {
         if (myERC20 && myAccount) {
             const allowance = await myERC20.getAllowance(myAccount.methods.blockchain.router.address);
             if (allowance && allowance > 0) {
+                const newArray = [...dataAccounts];
                 myAccount.approved = true;
                 const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
-                dataAccounts[index] = myAccount;
+                newArray[index] = myAccount;
+                setDataAccount(newArray);
             }
         }
     }
@@ -76,7 +77,7 @@ export default function Sell() {
                 <div className="items">
                     <div>Balance</div>
                     <output>
-                        {myAccount?.balance} {dataERC20?.symbol}
+                        {myAccount?.balance.toFixed(2)} {dataERC20?.symbol}
                     </output>
                 </div>
             </div>

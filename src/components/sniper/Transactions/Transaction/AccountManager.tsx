@@ -8,6 +8,7 @@ import EditTransaction from "./EditTransaction";
 import ManagerGas from "./ManagerGas";
 import Sell from "./Sell";
 import Close from "@/components/Close";
+import BalanceToken from "./BalanceERC20";
 
 export default function AccountManager({ dataAccount }: { dataAccount: IDataAccount }) {
     const { setMySymbol, setMyAccount, setMyERC20, myAccount } = useMyTransaction();
@@ -35,6 +36,7 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
     return (
         <div className="accounts">
             <Close functionClose={deleteAccount} data="Close this account" />
+            <BalanceToken />
             <Account />
             <ManagerGas />
             <EditTransaction />

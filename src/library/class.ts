@@ -117,7 +117,7 @@ export class GetTransaction {
         const provider = this.getProvider();
         try {
             const balance = await provider.getBalance(this.account.public);
-            return Number(Number(ethers.formatEther(balance)).toFixed(4));
+            return Number(Number(ethers.formatEther(balance)));
         } catch (e) {
             console.log(e);
         }
@@ -141,7 +141,7 @@ export class ClassERC20 {
         try {
             const balance = await this.contract.balanceOf(this.account.account.public);
             const decimals = (await this.getDecimals()) as number;
-            return Number((Number(balance) / 10 ** decimals).toFixed(2));
+            return Number(Number(balance) / 10 ** decimals);
         } catch (e) {
             console.log(e);
             return 0;
