@@ -34,25 +34,12 @@ export default function Sell() {
     async function approve() {
         if (!myERC20 || !myAccount) return null;
         await myERC20.approve(myAccount.methods.blockchain.router.address);
-        await isApproval();
+        const newArray = [...dataAccounts];
+        myAccount.approved = true;
+        const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
+        newArray[index] = myAccount;
+        setDataAccount(newArray);
     }
-
-    async function isApproval() {
-        if (myERC20 && myAccount) {
-            const allowance = await myERC20.getAllowance(myAccount.methods.blockchain.router.address);
-            if (allowance && allowance > 0) {
-                const newArray = [...dataAccounts];
-                myAccount.approved = true;
-                const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
-                newArray[index] = myAccount;
-                setDataAccount(newArray);
-            }
-        }
-    }
-
-    useEffect(() => {
-        isApproval();
-    }, [myERC20]);
 
     function data() {
         console.log(dataAccounts);

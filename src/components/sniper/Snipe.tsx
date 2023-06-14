@@ -100,10 +100,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                     <br />
                     {!isSniping && dataERC20?.address && (
                         <>
-                            <p>Contrat {dataERC20?.address}</p>
                             <button id="buy" onClick={buy}>
                                 Buy
-                            </button>{" "}
+                            </button>
                             <hr />
                             <button onClick={sell}>Sell All {isSelling && <Spinner />} </button>
                         </>
