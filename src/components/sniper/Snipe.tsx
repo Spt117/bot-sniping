@@ -1,8 +1,8 @@
 import { useMyState } from "@/context/ContextSniper";
 import { IParamsSniper } from "@/library/interfaces";
-import { myDisableSniper, myOverlay } from "@/redux/actions";
+import { myAccount, myDisableSniper, myOverlay } from "@/redux/actions";
 import { scanMempool } from "@/sniper/mempool";
-import { buyWithEth, sellWithEth } from "@/sniper/uniswapV2";
+import calculAmountOut, { buyWithEth, sellWithEth } from "@/sniper/uniswapV2";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
