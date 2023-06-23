@@ -7,9 +7,8 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 
 export default function Sell() {
-    const { myAccount, myERC20 } = useMyTransaction();
+    const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
     const { setDataAccount, dataAccounts, dataERC20 } = useMyState();
-    const [bools, setBools] = useState({ isSell: false, isApproval: false });
 
     async function afterSell() {
         if (!myAccount || !dataERC20) return;
@@ -21,13 +20,13 @@ export default function Sell() {
 
     async function sell(percent: number = 100) {
         if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
-        setBools({ ...bools, isSell: true });
+        setBoolsTransaction({ ...boolsTransaction, isSell: true });
         const amount = myAccount.balance * (percent / 100) * 0.99999;
         const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
         const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
         console.log(receip);
         await afterSell();
-        setBools({ ...bools, isSell: false });
+        setBoolsTransaction({ ...boolsTransaction, isSell: false });
         console.log("endSell");
     }
 
@@ -53,7 +52,7 @@ export default function Sell() {
                 {!myAccount?.approved && (
                     <div className="items">
                         <button id={`button-approve-${myAccount?.data.public}`} onClick={approve}>
-                            Approve {bools.isApproval === true && <Spinner />}
+                            Approve {boolsTransaction.isApprove === true && <Spinner />}
                         </button>
                     </div>
                 )}
@@ -68,7 +67,7 @@ export default function Sell() {
                     </output>
                 </div>
             </div>
-            <button onClick={() => sell()}>Sell {bools.isSell && <Spinner />} </button>
+            <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
             <button onClick={data}>Data</button>
         </div>
     );

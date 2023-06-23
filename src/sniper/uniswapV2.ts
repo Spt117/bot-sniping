@@ -125,7 +125,10 @@ export async function getPaire(dataAccount: IDataAccount, tokenAdress: string) {
         dataAccount.methods.getWallet()
     );
 
-    const pair = await factoryContract.getPair(tokenAdress, dataAccount.methods.blockchain.blockchain.wrappedAddress);
+    const pair: string = await factoryContract.getPair(
+        tokenAdress,
+        dataAccount.methods.blockchain.blockchain.wrappedAddress
+    );
     return pair;
 }
 

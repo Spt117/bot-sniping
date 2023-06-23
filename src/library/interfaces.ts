@@ -90,3 +90,9 @@ export interface IERC20 {
     totalSupply?: number;
     address: string;
 }
+
+export interface ITransaction {
+    isSell: boolean;
+    isApprove: boolean;
+    isBuy: boolean;
+}

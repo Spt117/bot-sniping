@@ -1,5 +1,5 @@
 import ethImage from "../assets/ethereum.png";
-import { INetworkInfo, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
+import { INetworkInfo, IParamsSniper, IRouterDetails, ITransaction, ParamsTransaction } from "./interfaces";
 
 export const networks: INetworkInfo[] = [
     {
@@ -124,6 +124,12 @@ export const paramSniper: IParamsSniper = {
     },
     id: 0,
     disable: false,
+};
+
+export const initBoolsTransaction: ITransaction = {
+    isSell: false,
+    isApprove: false,
+    isBuy: false,
 };
 
 export const myModel = `

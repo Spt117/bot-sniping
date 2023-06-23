@@ -1,5 +1,6 @@
 import { ClassERC20, GetTransaction } from "@/library/class";
-import { IDataAccount, ParamsTransaction } from "@/library/interfaces";
+import { initBoolsTransaction } from "@/library/constantes";
+import { IDataAccount, ITransaction, ParamsTransaction } from "@/library/interfaces";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
@@ -10,6 +11,8 @@ interface IContextTransaction {
     setMyAccount: React.Dispatch<React.SetStateAction<IDataAccount | null>>;
     myERC20: ClassERC20 | null;
     setMyERC20: React.Dispatch<React.SetStateAction<ClassERC20 | null>>;
+    boolsTransaction: ITransaction;
+    setBoolsTransaction: React.Dispatch<React.SetStateAction<ITransaction>>;
 }
 const MyTransaction = createContext<IContextTransaction>({
     mySymbol: "",
@@ -18,6 +21,8 @@ const MyTransaction = createContext<IContextTransaction>({
     setMyAccount: () => {},
     myERC20: null,
     setMyERC20: () => {},
+    boolsTransaction: initBoolsTransaction,
+    setBoolsTransaction: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -29,6 +34,7 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
     const [mySymbol, setMySymbol] = useState<string>("");
     const [myERC20, setMyERC20] = useState<ClassERC20 | null>(null);
     const [myAccount, setMyAccount] = useState<IDataAccount | null>(null);
+    const [boolsTransaction, setBoolsTransaction] = useState<ITransaction>(initBoolsTransaction);
 
     return (
         <MyTransaction.Provider
@@ -39,6 +45,8 @@ export const MyTransactionProvider = ({ children }: myTransactionProviderProps) 
                 setMyAccount,
                 myERC20,
                 setMyERC20,
+                boolsTransaction,
+                setBoolsTransaction,
             }}
         >
             {children}

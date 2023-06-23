@@ -5,8 +5,8 @@ import calculAmountOut from "@/sniper/uniswapV2";
 import { useEffect, useState } from "react";
 
 export default function Account() {
-    const { setMySymbol, myAccount, mySymbol } = useMyTransaction();
-    const { paramsSniper, isSniping, dataERC20 } = useMyState();
+    const { setMySymbol, myAccount, mySymbol, boolsTransaction } = useMyTransaction();
+    const { paramsSniper, isSniping, dataERC20, isSelling } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
     useEffect(() => {
@@ -15,7 +15,7 @@ export default function Account() {
             setMySymbol("tokens");
         }
         getBalance();
-    }, [isSniping, myAccount]);
+    }, [isSniping, myAccount, isSelling, boolsTransaction]);
 
     async function getBalance() {
         const balance = await myAccount?.methods.getBalance();

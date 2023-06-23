@@ -4,11 +4,11 @@ import { useEffect } from "react";
 
 export default function BalanceToken() {
     const { dataAccounts, dataERC20, setDataAccount, isSniping, isSelling } = useMyState();
-    const { myAccount, myERC20 } = useMyTransaction();
+    const { myAccount, myERC20, boolsTransaction } = useMyTransaction();
 
     useEffect(() => {
         if (!isSniping && !isSelling) balanceERC20();
-    }, [dataERC20, isSniping, isSelling, dataAccounts]);
+    }, [dataERC20, isSniping, isSelling, dataAccounts, boolsTransaction]);
 
     useEffect(() => {
         isApproval();
