@@ -103,7 +103,7 @@ export const paramTransaction: ParamsTransaction = {
     },
     amountIsToken: false,
     slippagePercent: 20,
-    amount: 0.01,
+    amount: 0.001,
     repeat: 1,
     useContract: false,
 };

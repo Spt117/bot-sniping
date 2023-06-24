@@ -40,11 +40,6 @@ export default function Sell() {
         setDataAccount(newArray);
     }
 
-    function data() {
-        console.log(myAccount);
-        console.log(dataAccounts);
-    }
-
     if (!myAccount) return null;
     return (
         <div className="accounts-containers">
@@ -76,7 +71,6 @@ export default function Sell() {
                 )}
             </div>
             <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
-            <button onClick={data}>Data</button>
         </div>
     );
 }

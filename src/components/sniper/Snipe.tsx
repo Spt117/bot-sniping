@@ -10,7 +10,7 @@ import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 import ERC20 from "./Transactions/ERC20";
-import { majDataAccount, majNonces } from "@/library/fonctions";
+import { majDataAccount } from "@/library/fonctions";
 import Spinner from "../Spinner";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
@@ -33,6 +33,10 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
 
     useEffect(() => {
         setMyParamSniper(sniper);
+        if (dataAccounts.length === 0) {
+            setMyState(1);
+            dispatch(myOverlay(true));
+        }
     }, []);
 
     function disableSniper() {

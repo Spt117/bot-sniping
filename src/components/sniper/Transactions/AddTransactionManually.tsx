@@ -32,8 +32,7 @@ export default function AddTransactionManually() {
             resultSell: [],
             amountSpendETH: 0,
         };
-        const nonce = await addNonce(dataAccount);
-        setDataAccount((oldDataAccount) => [...oldDataAccount, nonce]);
+        setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         close();
     }
 

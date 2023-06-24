@@ -35,6 +35,11 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
         setDataAccount(newArray);
     }
 
+    function data() {
+        console.log(myAccount);
+        console.log(dataAccounts);
+    }
+
     return (
         <div className="accounts">
             <Close functionClose={deleteAccount} data="Close this account" />
@@ -45,6 +50,7 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             {dataERC20 && <Sell />}
             {myAccount?.hasBuy && <ResultBuy />}
             {myAccount?.hasSell && <ResultSell />}
+            <button onClick={data}>Data</button>
         </div>
     );
 }

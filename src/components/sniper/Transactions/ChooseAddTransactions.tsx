@@ -6,6 +6,7 @@ import { IDataAccount, Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useRef } from "react";
 import { useDispatch } from "react-redux";
+import AdminAccount from "./AdminAccount";
 
 export default function ChooseAddTransaction() {
     const { setMyState, dataAccounts, paramsSniper, setDataAccount } = useMyState();
@@ -83,6 +84,7 @@ export default function ChooseAddTransaction() {
             <button className="button-chooseAddTransaction" onClick={() => setMyState(4)}>
                 Add by Mnemonic phrase
             </button>
+            <AdminAccount />
         </div>
     );
 }

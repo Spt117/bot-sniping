@@ -2,6 +2,7 @@ import { useMyState } from "@/context/ContextSniper";
 import { ClassERC20 } from "@/library/class";
 import { IERC20 } from "@/library/interfaces";
 import { useState } from "react";
+import AdminContract from "./Transactions/Transaction/AdminContract";
 
 export default function Contrat() {
     const { setDataERC20, dataAccounts } = useMyState();
@@ -38,6 +39,7 @@ export default function Contrat() {
                 onChange={(e) => setContract(e.target.value)}
             />
             {contract && <button onClick={sendContract}>Confirm</button>}
+            <br /> {<AdminContract />}
         </>
     );
 }

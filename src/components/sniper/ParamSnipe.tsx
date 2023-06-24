@@ -5,6 +5,7 @@ import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Close from "../Close";
+import Admin from "./Admin";
 
 export default function ParamSnipe() {
     const dispatch = useDispatch();
@@ -96,6 +97,7 @@ export default function ParamSnipe() {
                     <button onClick={addComposantSnipe}>Valider</button>
                 </>
             )}
+            <Admin />
         </div>
     );
 }
