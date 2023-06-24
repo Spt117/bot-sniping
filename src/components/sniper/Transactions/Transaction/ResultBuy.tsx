@@ -2,7 +2,7 @@ import { useMyState } from "@/context/ContextSniper";
 import { ITransactionResult } from "@/library/interfaces";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
-import abiUniswapV2Pair from "../../../../web3/abis/UniswapV2Pair.json";
+import abiUniswapV2Pair from "../../../../web3/abis/uniswapV2Pair.json";
 import { useMyTransaction } from "@/context/ContextTransaction";
 
 export default function ResultBuy() {
