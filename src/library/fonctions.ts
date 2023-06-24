@@ -105,16 +105,20 @@ export function majDataAccount(
     account: IDataAccount,
     type: "hasBuy" | "hasSell" | "approved",
     setter: Function,
-    transaction?: TransactionReceipt
+    transaction?: TransactionReceipt[]
 ) {
     const newDataAccounts = [...dataAccounts];
     const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
     newDataAccounts[index][type] = true;
     if (type === "hasBuy" && transaction) {
-        newDataAccounts[index].resultBuy.push(transaction);
+        newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...transaction];
+        console.log(transaction);
+        console.log(newDataAccounts[index]);
+
+        console.log(newDataAccounts[index].resultBuy, "hasBuy");
     }
     if (type === "hasSell" && transaction) {
-        newDataAccounts[index].resultSell.push(transaction);
+        newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...transaction];
     }
     setter(newDataAccounts);
 }

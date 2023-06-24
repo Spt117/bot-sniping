@@ -5,35 +5,36 @@ import { useEffect, useState } from "react";
 import abiUniswapV2Pair from "../../../../web3/abis/UniswapV2Pair.json";
 import { useMyTransaction } from "@/context/ContextTransaction";
 
-export default function ResultSell() {
-    const { dataAccounts } = useMyState();
+export default function ResultBuy() {
+    const { dataAccounts, dataERC20 } = useMyState();
     const { myAccount } = useMyTransaction();
-    const [eth, setEth] = useState<ITransactionResult[]>([]);
+    const [buys, setBuys] = useState<ITransactionResult[]>([]);
 
     useEffect(() => {
-        getSell();
+        getBuy();
     }, [dataAccounts]);
 
-    function getSell() {
+    function getBuy() {
         const iface = new ethers.Interface(abiUniswapV2Pair.abi);
-        let newEth: ITransactionResult[] = [];
-        for (let i = 0; i < myAccount!.resultSell.length; i++) {
-            myAccount?.resultSell[i].logs.forEach((log) => {
+        let newBuys: ITransactionResult[] = [];
+        for (let i = 0; i < myAccount!.resultBuy.length; i++) {
+            myAccount?.resultBuy[i].logs.forEach((log) => {
                 try {
                     const logCopy = { ...log, topics: [...log.topics] };
                     const parsedLog = iface.parseLog(logCopy);
 
                     if (parsedLog?.name === "Swap") {
-                        const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1Out);
+                        const amountToken = ethers.formatEther(parsedLog.args.amount0Out);
+                        const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1In);
                         // const amountTokenSwapped = ethers.formatEther(parsedLog.args.amount0In);
                         // console.log(`Montant d'ETH échangé : ${amountEthSwapped}`);
                         // console.log(`Montant de tokens échangé : ${amountTokenSwapped}`);
-                        const isInArray = newEth.find((item) => item.hash === myAccount.resultSell[i].hash);
+                        const isInArray = newBuys.find((item) => item.hash === myAccount.resultBuy[i].hash);
                         if (!isInArray) {
-                            newEth.push({
+                            newBuys.push({
                                 amountETH: Number(amountEthSwapped),
-                                amountToken: 0,
-                                hash: myAccount.resultSell[i].hash,
+                                amountToken: Number(amountToken),
+                                hash: myAccount.resultBuy[i].hash,
                             });
                         }
                     }
@@ -42,31 +43,38 @@ export default function ResultSell() {
                 }
             });
             if (myAccount?.resultSell[i].status === 0) {
-                newEth.push({
+                newBuys.push({
                     amountETH: 0,
                     amountToken: 0,
                     hash: myAccount.resultSell[i].hash,
                 });
             }
         }
-        setEth(newEth);
+        setBuys(newBuys);
     }
 
     return (
         <div className="accounts-containers">
-            {eth.map((transaction) => (
+            {buys.map((transaction) => (
                 <div className="items-header" key={transaction.hash}>
                     {transaction.amountETH !== 0 && (
-                        <div className="items">
-                            <div>Eth win with sold</div>
-                            <output>{transaction.amountETH.toFixed(4)} ETH</output>
-                        </div>
+                        <>
+                            <div className="items">
+                                <div>Tokens win with sold</div>
+                                <output>
+                                    {transaction.amountToken.toFixed(4)} {dataERC20?.symbol}
+                                </output>
+                            </div>
+                            <div className="items">
+                                <div>Spent</div>
+                                <output>
+                                    {transaction.amountETH.toFixed(4)} {myAccount?.methods.blockchain.blockchain.symbol}
+                                </output>
+                            </div>
+                        </>
                     )}
                     <div className="items">
-                        <div>
-                            Check
-                            {transaction.amountETH === 0 && " failed"} Transaction
-                        </div>
+                        <div>Check{transaction.amountETH === 0 && " failed "}Transaction</div>
                         <output>
                             <a
                                 title="Check Transaction"

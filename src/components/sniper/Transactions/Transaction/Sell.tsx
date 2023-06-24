@@ -11,7 +11,7 @@ export default function Sell() {
 
     async function afterSell(receipt: TransactionReceipt | null | undefined) {
         if (!myAccount || !dataERC20 || !receipt) return null;
-        majDataAccount(dataAccounts, myAccount, "hasSell", setDataAccount, receipt);
+        majDataAccount(dataAccounts, myAccount, "hasSell", setDataAccount, [receipt]);
         // const newArray = [...dataAccounts];
         // const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
         // newArray[index].hasSell = true;

@@ -27,7 +27,7 @@ async function swapEth(
     if (nonce === undefined) return null;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce);
-        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, txReceipt);
+        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, [txReceipt]);
         return txReceipt;
     } else {
         const promises = [];
@@ -35,6 +35,7 @@ async function swapEth(
             promises.push(swapETHForTokensOnce(dataAccount, tokenAdress, nonce + i));
         }
         const txReceipt = await Promise.all(promises);
+        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, txReceipt);
         return txReceipt;
     }
 }
@@ -59,7 +60,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
         // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
         const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
         // Exécutez le swap
-        const tx = await UniswapRouterV2Contract.swapExactETHForTokens(
+        const tx: TransactionResponse = await UniswapRouterV2Contract.swapExactETHForTokens(
             amountOutMin,
             path,
             dataAccount.data.public,
@@ -67,7 +68,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
             {
                 ...{
                     value: amountInWei,
-                    // nonce: nonce,
+                    nonce: nonce,
                     ...dataAccount.data.gasBuy,
                 },
             }
@@ -76,7 +77,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
         // console.log("Transaction : " + JSON.stringify(tx, null, 2));
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
-        console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
+        console.log("Transaction confirmée dans le bloc " + receipt!.blockNumber);
         return receipt;
     } catch (error) {
         console.log(error);
@@ -93,6 +94,7 @@ export async function sellWithEth(dataAccounts: IDataAccount[], dataERC20: IERC2
         }
     });
     const result = await Promise.allSettled(promises);
+    return result;
 }
 
 export async function swapTokensForETHOnce(dataAccount: IDataAccount, tokenAdress: string, amount: bigint) {

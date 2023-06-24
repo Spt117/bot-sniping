@@ -101,6 +101,7 @@ export interface ITransaction {
 }
 
 export interface ITransactionResult {
-    amount: number;
+    amountETH: number;
+    amountToken: number;
     hash: string;
 }
