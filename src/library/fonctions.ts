@@ -4,6 +4,7 @@ import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
 import { ClassERC20, GetTransaction } from "./class";
+import { TransactionReceipt } from "ethers";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -97,4 +98,23 @@ export async function majNonces(accounts: IDataAccount[]) {
         .filter((result) => result.status === "fulfilled")
         .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
     return successfulUpdates;
+}
+
+export function majDataAccount(
+    dataAccounts: IDataAccount[],
+    account: IDataAccount,
+    type: "hasBuy" | "hasSell" | "approved",
+    setter: Function,
+    transaction?: TransactionReceipt
+) {
+    const newDataAccounts = [...dataAccounts];
+    const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
+    newDataAccounts[index][type] = true;
+    if (type === "hasBuy" && transaction) {
+        newDataAccounts[index].resultBuy.push(transaction);
+    }
+    if (type === "hasSell" && transaction) {
+        newDataAccounts[index].resultSell.push(transaction);
+    }
+    setter(newDataAccounts);
 }

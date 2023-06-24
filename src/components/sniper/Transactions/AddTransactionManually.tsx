@@ -28,6 +28,8 @@ export default function AddTransactionManually() {
             approved: false,
             hasBuy: false,
             hasSell: false,
+            resultBuy: [],
+            resultSell: [],
         };
         const nonce = await addNonce(dataAccount);
         setDataAccount((oldDataAccount) => [...oldDataAccount, nonce]);

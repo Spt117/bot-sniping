@@ -15,14 +15,16 @@ export default function ManagerGas() {
                         <Gas gas={myAccount.data.gasBuy} />
                     </div>
                 </div>
-                <div className="accounts-containers">
-                    <div className="items-header">
-                        <div className="items">Gas Approve</div>
+                {!myAccount?.approved && (
+                    <div className="accounts-containers">
+                        <div className="items-header">
+                            <div className="items">Gas Approve</div>
+                        </div>
+                        <div className="items-header">
+                            <Gas gas={myAccount.data.gasApprove} />
+                        </div>
                     </div>
-                    <div className="items-header">
-                        <Gas gas={myAccount.data.gasApprove} />
-                    </div>
-                </div>
+                )}
                 <div className="accounts-containers">
                     <div className="items-header">
                         <div className="items">Gas Sell</div>

@@ -1,21 +1,33 @@
 import { IDataAccount, IERC20 } from "@/library/interfaces";
-import { ethers } from "ethers";
+import { TransactionResponse, ethers } from "ethers";
 import AbiUniswapV2Factory from "../web3/abis/uniswapV2Factory.json";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
 
-export async function buyWithEth(dataAccounts: IDataAccount[], tokenAdress: string, endBuy: Function) {
-    const promises = dataAccounts.map((dataAccount) => swapEth(dataAccount, tokenAdress));
-    const result = await Promise.allSettled(promises);
-    endBuy(result);
+export async function buyWithEth(
+    dataAccounts: IDataAccount[],
+    tokenAdress: string,
+    majDataAccount: Function,
+    setDataAccount: Function
+) {
+    const promises = dataAccounts.map((dataAccount) =>
+        swapEth(dataAccount, tokenAdress, dataAccounts, majDataAccount, setDataAccount)
+    );
+    await Promise.allSettled(promises);
 }
 
-async function swapEth(dataAccount: IDataAccount, tokenAdress: string) {
+async function swapEth(
+    dataAccount: IDataAccount,
+    tokenAdress: string,
+    dataAccounts: IDataAccount[],
+    majDataAccount: Function,
+    setDataAccount: Function
+) {
     const number = dataAccount.data.repeat;
-    // const nonce = dataAccount.data.nonce;
     const nonce = await dataAccount.methods.getWallet()?.getNonce();
     if (nonce === undefined) return null;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce);
+        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, txReceipt);
         return txReceipt;
     } else {
         const promises = [];
@@ -100,7 +112,7 @@ export async function swapTokensForETHOnce(dataAccount: IDataAccount, tokenAdres
         // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
         const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
         // Exécutez le swap
-        const tx = await UniswapRouterV2Contract.swapExactTokensForETH(
+        const tx: TransactionResponse = await UniswapRouterV2Contract.swapExactTokensForETH(
             amount,
             amountOutMin,
             path,
@@ -111,7 +123,7 @@ export async function swapTokensForETHOnce(dataAccount: IDataAccount, tokenAdres
         // console.log("Transaction : " + JSON.stringify(tx, null, 2));
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
-        console.log("Transaction confirmée dans le bloc " + receipt.blockNumber);
+        console.log("Transaction confirmée dans le bloc " + receipt?.blockNumber);
         return receipt;
     } catch (error) {
         console.log(error);

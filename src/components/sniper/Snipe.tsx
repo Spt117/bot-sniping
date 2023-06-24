@@ -10,7 +10,7 @@ import GeneratorTransaction from "./Transactions/GeneratorTransaction";
 import ManagerComponent from "./ManagerComponent";
 import Contrat from "./Contrat";
 import ERC20 from "./Transactions/ERC20";
-import { majNonces } from "@/library/fonctions";
+import { majDataAccount, majNonces } from "@/library/fonctions";
 import Spinner from "../Spinner";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
@@ -26,11 +26,9 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         setBoolTransactions,
         dataERC20,
         isSniping,
-        setResultSnipe,
         setIsSniping,
         setIsSelling,
         isSelling,
-        resultSnipe,
     } = useMyState();
 
     useEffect(() => {
@@ -41,10 +39,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         dispatch(myDisableSniper(sniper));
     }
 
-    async function endBuy(result: []) {
-        setResultSnipe(result);
-        const newDatas = await majNonces(dataAccounts);
-        setDataAccount(newDatas);
+    async function endBuy() {
         setIsSniping(false);
         console.log("end buy");
     }
@@ -52,7 +47,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
     async function buy() {
         if (dataERC20?.address) {
             setIsSniping(true);
-            await buyWithEth(dataAccounts, dataERC20?.address, endBuy);
+            await buyWithEth(dataAccounts, dataERC20?.address, majDataAccount, setDataAccount);
+            endBuy();
 
             // await scanMempool(myTransactions, dataERC20?.address, buyWithEth, endBuy);
         }

@@ -9,6 +9,7 @@ import ManagerGas from "./ManagerGas";
 import Sell from "./Sell";
 import Close from "@/components/Close";
 import BalanceToken from "./BalanceERC20";
+import ResultSell from "./ResultSell";
 
 export default function AccountManager({ dataAccount }: { dataAccount: IDataAccount }) {
     const { setMySymbol, setMyAccount, setMyERC20, myAccount } = useMyTransaction();
@@ -41,6 +42,7 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             <ManagerGas />
             <EditTransaction />
             {dataERC20 && <Sell />}
+            {myAccount?.hasSell && <ResultSell />}
         </div>
     );
 }

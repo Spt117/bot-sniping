@@ -1,5 +1,6 @@
 import { StaticImageData } from "next/image";
 import { GetTransaction } from "./class";
+import { TransactionReceipt } from "ethers";
 
 declare global {
     interface Window {
@@ -81,6 +82,8 @@ export interface IDataAccount {
     approved: boolean;
     hasBuy: boolean;
     hasSell: boolean;
+    resultBuy: TransactionReceipt[];
+    resultSell: TransactionReceipt[];
 }
 
 export interface IERC20 {
@@ -95,4 +98,9 @@ export interface ITransaction {
     isSell: boolean;
     isApprove: boolean;
     isBuy: boolean;
+}
+
+export interface ITransactionResult {
+    amount: number;
+    hash: string;
 }

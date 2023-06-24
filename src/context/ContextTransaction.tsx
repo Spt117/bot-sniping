@@ -1,7 +1,8 @@
-import { ClassERC20, GetTransaction } from "@/library/class";
+import { ClassERC20 } from "@/library/class";
 import { initBoolsTransaction } from "@/library/constantes";
-import { IDataAccount, ITransaction, ParamsTransaction } from "@/library/interfaces";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { IDataAccount, ITransaction } from "@/library/interfaces";
+import { TransactionReceipt } from "ethers";
+import React, { ReactNode, createContext, useContext, useState } from "react";
 
 // Création du contexte
 interface IContextTransaction {

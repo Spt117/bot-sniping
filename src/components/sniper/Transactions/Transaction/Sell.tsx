@@ -1,21 +1,22 @@
 import Spinner from "@/components/Spinner";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import { addNonce } from "@/library/fonctions";
+import { majDataAccount } from "@/library/fonctions";
 import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { TransactionReceipt, ethers } from "ethers";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
     const { setDataAccount, dataAccounts, dataERC20 } = useMyState();
 
-    async function afterSell() {
-        if (!myAccount || !dataERC20) return;
-        const newArray = [...dataAccounts];
-        const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
-        newArray[index].hasSell = true;
-        setDataAccount(newArray);
+    async function afterSell(receipt: TransactionReceipt | null | undefined) {
+        if (!myAccount || !dataERC20 || !receipt) return null;
+        majDataAccount(dataAccounts, myAccount, "hasSell", setDataAccount, receipt);
+        // const newArray = [...dataAccounts];
+        // const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
+        // newArray[index].hasSell = true;
+        // newArray[index].resultSell = receipt;
+        // setDataAccount(newArray);
     }
 
     async function sell(percent: number = 100) {
@@ -23,9 +24,8 @@ export default function Sell() {
         setBoolsTransaction({ ...boolsTransaction, isSell: true });
         const amount = myAccount.balance * (percent / 100) * 0.99999;
         const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
-        const receip = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
-        console.log(receip);
-        await afterSell();
+        const receipt = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
+        await afterSell(receipt);
         setBoolsTransaction({ ...boolsTransaction, isSell: false });
         console.log("endSell");
     }
@@ -41,8 +41,8 @@ export default function Sell() {
     }
 
     function data() {
-        console.log(dataAccounts);
         console.log(myAccount);
+        console.log(dataAccounts);
     }
 
     if (!myAccount) return null;
