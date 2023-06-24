@@ -7,11 +7,11 @@ import { TransactionReceipt, ethers } from "ethers";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
-    const { setDataAccount, dataAccounts, dataERC20 } = useMyState();
+    const { setDataAccount, dataAccounts, dataERC20, paramsSniper } = useMyState();
 
     async function afterSell(receipt: TransactionReceipt | null | undefined) {
         if (!myAccount || !dataERC20 || !receipt) return null;
-        majDataAccount(dataAccounts, myAccount, "hasSell", setDataAccount, [receipt]);
+        majDataAccount(dataAccounts, myAccount, setDataAccount, "hasSell", [receipt]);
         // const newArray = [...dataAccounts];
         // const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
         // newArray[index].hasSell = true;
@@ -66,6 +66,14 @@ export default function Sell() {
                         {myAccount?.balance.toFixed(2)} {dataERC20?.symbol}
                     </output>
                 </div>
+                {myAccount?.amountSpendETH > 0 && (
+                    <div className="items">
+                        <div>Total Spent</div>
+                        <output>
+                            {myAccount?.amountSpendETH.toFixed(4)} {paramsSniper.blockchain.symbol}
+                        </output>
+                    </div>
+                )}
             </div>
             <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
             <button onClick={data}>Data</button>

@@ -6,7 +6,7 @@ import abiUniswapV2Pair from "../../../../web3/abis/uniswapV2Pair.json";
 import { useMyTransaction } from "@/context/ContextTransaction";
 
 export default function ResultSell() {
-    const { dataAccounts } = useMyState();
+    const { dataAccounts, paramsSniper } = useMyState();
     const { myAccount } = useMyTransaction();
     const [eth, setEth] = useState<ITransactionResult[]>([]);
 
@@ -71,7 +71,7 @@ export default function ResultSell() {
                             <a
                                 title="Check Transaction"
                                 target="_blank"
-                                href={`${myAccount?.methods.blockchain.blockchain.addressExplorer}tx/${transaction.hash}`}
+                                href={`${paramsSniper.blockchain.addressExplorer}tx/${transaction.hash}`}
                             >
                                 Explorer
                             </a>

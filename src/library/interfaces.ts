@@ -84,6 +84,7 @@ export interface IDataAccount {
     hasSell: boolean;
     resultBuy: TransactionReceipt[];
     resultSell: TransactionReceipt[];
+    amountSpendETH: number;
 }
 
 export interface IERC20 {

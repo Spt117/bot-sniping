@@ -51,6 +51,7 @@ export default function ChooseAddTransaction() {
                             hasSell: false,
                             resultBuy: [],
                             resultSell: [],
+                            amountSpendETH: 0,
                         });
                         setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, nonceAccount]);
                     }

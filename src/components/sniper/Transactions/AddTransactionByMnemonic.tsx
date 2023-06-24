@@ -36,6 +36,7 @@ export default function AddTransactionByMnemonic() {
                 hasSell: false,
                 resultBuy: [],
                 resultSell: [],
+                amountSpendETH: 0,
             };
             setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         }

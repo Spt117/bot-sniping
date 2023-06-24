@@ -103,22 +103,20 @@ export async function majNonces(accounts: IDataAccount[]) {
 export function majDataAccount(
     dataAccounts: IDataAccount[],
     account: IDataAccount,
-    type: "hasBuy" | "hasSell" | "approved",
     setter: Function,
-    transaction?: TransactionReceipt[]
+    type?: "hasBuy" | "hasSell" | "approved",
+    transaction?: TransactionReceipt[],
+    amount?: number
 ) {
     const newDataAccounts = [...dataAccounts];
     const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
-    newDataAccounts[index][type] = true;
+    if (type) newDataAccounts[index][type] = true;
     if (type === "hasBuy" && transaction) {
         newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...transaction];
-        console.log(transaction);
-        console.log(newDataAccounts[index]);
-
-        console.log(newDataAccounts[index].resultBuy, "hasBuy");
     }
     if (type === "hasSell" && transaction) {
         newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...transaction];
     }
+    if (amount) newDataAccounts[index].amountSpendETH = amount;
     setter(newDataAccounts);
 }

@@ -4,9 +4,10 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import abiUniswapV2Pair from "../../../../web3/abis/uniswapV2Pair.json";
 import { useMyTransaction } from "@/context/ContextTransaction";
+import { majDataAccount } from "@/library/fonctions";
 
 export default function ResultBuy() {
-    const { dataAccounts, dataERC20 } = useMyState();
+    const { dataAccounts, dataERC20, setDataAccount, paramsSniper } = useMyState();
     const { myAccount } = useMyTransaction();
     const [buys, setBuys] = useState<ITransactionResult[]>([]);
 
@@ -42,7 +43,7 @@ export default function ResultBuy() {
                     // Pas un log d'événement Uniswap, ignore
                 }
             });
-            if (myAccount?.resultSell[i].status === 0) {
+            if (myAccount?.resultBuy[i].status === 0) {
                 newBuys.push({
                     amountETH: 0,
                     amountToken: 0,
@@ -51,6 +52,19 @@ export default function ResultBuy() {
             }
         }
         setBuys(newBuys);
+    }
+
+    useEffect(() => {
+        setAmountspentEth();
+        console.log("buys", buys);
+    }, [buys.length]);
+
+    function setAmountspentEth() {
+        let amountspentEth = 0;
+        for (let i = 0; i < buys.length; i++) {
+            amountspentEth += buys[i].amountETH;
+        }
+        majDataAccount(dataAccounts, myAccount!, setDataAccount, undefined, undefined, amountspentEth);
     }
 
     return (
@@ -68,7 +82,7 @@ export default function ResultBuy() {
                             <div className="items">
                                 <div>Spent</div>
                                 <output>
-                                    {transaction.amountETH.toFixed(4)} {myAccount?.methods.blockchain.blockchain.symbol}
+                                    {transaction.amountETH.toFixed(4)} {paramsSniper.blockchain.symbol}
                                 </output>
                             </div>
                         </>

@@ -27,7 +27,7 @@ async function swapEth(
     if (nonce === undefined) return null;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce);
-        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, [txReceipt]);
+        majDataAccount(dataAccounts, dataAccount, setDataAccount, "hasBuy", [txReceipt]);
         return txReceipt;
     } else {
         const promises = [];
@@ -35,7 +35,7 @@ async function swapEth(
             promises.push(swapETHForTokensOnce(dataAccount, tokenAdress, nonce + i));
         }
         const txReceipt = await Promise.all(promises);
-        majDataAccount(dataAccounts, dataAccount, "hasBuy", setDataAccount, txReceipt);
+        majDataAccount(dataAccounts, dataAccount, setDataAccount, "hasBuy", txReceipt);
         return txReceipt;
     }
 }
