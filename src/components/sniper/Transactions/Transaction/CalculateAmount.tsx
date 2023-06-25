@@ -35,11 +35,17 @@ export default function CalculateAmount() {
 
     if (!myAccount?.hasBuy) return null;
     return (
-        <div className="items">
-            <div>If sell in block {block + 1}</div>
-            <output>
-                {myAccount?.amountCalculate.toFixed(4)} {paramsSniper.blockchain.symbol}
-            </output>
-        </div>
+        <>
+            <div className="items">
+                <div>If sell in block {block + 1}</div>
+                <output>
+                    {myAccount?.amountCalculate.toFixed(4)} {paramsSniper.blockchain.symbol}
+                </output>
+            </div>
+            <div className="items">
+                <div>Multiple</div>
+                <output>X {(myAccount?.amountCalculate / myAccount.amountSpendETH).toFixed(4)}</output>
+            </div>
+        </>
     );
 }
