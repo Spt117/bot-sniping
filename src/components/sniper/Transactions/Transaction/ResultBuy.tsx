@@ -88,7 +88,7 @@ export default function ResultBuy() {
                         </>
                     )}
                     <div className="items">
-                        <div>Check{transaction.amountETH === 0 && " failed "}Transaction</div>
+                        <div>Check{transaction.amountETH === 0 && " failed "} Transaction</div>
                         <output>
                             <a
                                 title="Check Transaction"

@@ -1,14 +1,13 @@
 import { useMyState } from "@/context/ContextSniper";
-import { ClassERC20, GetTransaction } from "@/library/class";
+import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
-import { IDataAccount, IERC20, Keys } from "@/library/interfaces";
+import { IDataAccount, Keys } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function AdminAccount() {
     const account = useSelector((state: any) => state.account);
-    const { setMyState, setDataAccount, paramsSniper, dataAccounts, setDataERC20 } = useMyState();
+    const { setMyState, setDataAccount, paramsSniper } = useMyState();
     const dispatch = useDispatch();
 
     function close() {
@@ -18,7 +17,7 @@ export default function AdminAccount() {
     async function addItem() {
         const account1: Keys = { public: "0x17CE990896154e4312a8970EF0Ef0d909A51296a", private: process.env.private1! };
         const dataAccount1: IDataAccount = {
-            data: paramTransaction,
+            data: { ...paramTransaction },
             methods: new GetTransaction(account1, paramsSniper),
             balance: 0,
             nonce: 0,
@@ -31,7 +30,7 @@ export default function AdminAccount() {
         };
         const account2: Keys = { public: "0x14Bdb366654600B81d13256b9dae08C109Fb1229", private: process.env.private2! };
         const dataAccount2: IDataAccount = {
-            data: paramTransaction,
+            data: { ...paramTransaction },
             methods: new GetTransaction(account2, paramsSniper),
             balance: 0,
             nonce: 0,
@@ -46,8 +45,7 @@ export default function AdminAccount() {
         dataAccount2.data.private = account2.private;
         dataAccount1.data.public = account1.public;
         dataAccount1.data.private = account1.private;
-        setDataAccount([dataAccount1, dataAccount2]);
-
+        setDataAccount((prevDataAccounts) => [...prevDataAccounts, dataAccount1, dataAccount2]);
         close();
     }
 

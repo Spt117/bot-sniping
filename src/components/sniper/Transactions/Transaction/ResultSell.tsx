@@ -12,6 +12,7 @@ export default function ResultSell() {
 
     useEffect(() => {
         getSell();
+        getTransactionCost();
     }, [dataAccounts]);
 
     function getSell() {
@@ -50,6 +51,16 @@ export default function ResultSell() {
             }
         }
         setEth(newEth);
+    }
+
+    function getTransactionCost() {
+        let result = 0;
+        for (let i = 0; i < myAccount!.resultBuy.length; i++) {
+            const transaction = myAccount?.resultBuy[i];
+            const cost = transaction!.gasPrice * transaction!.gasUsed;
+            result += Number(ethers.formatEther(cost));
+        }
+        console.log(`Frais de transaction : ${result.toFixed(4)} ${paramsSniper.blockchain.symbol}`);
     }
 
     return (
