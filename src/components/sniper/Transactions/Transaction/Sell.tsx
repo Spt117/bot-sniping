@@ -4,6 +4,7 @@ import { useMyTransaction } from "@/context/ContextTransaction";
 import { majDataAccount } from "@/library/fonctions";
 import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { TransactionReceipt, ethers } from "ethers";
+import CalculateAmount from "./CalculateAmount";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
@@ -69,6 +70,7 @@ export default function Sell() {
                         </output>
                     </div>
                 )}
+                <CalculateAmount />
             </div>
             <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
         </div>

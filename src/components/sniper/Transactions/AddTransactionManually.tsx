@@ -31,6 +31,7 @@ export default function AddTransactionManually() {
             resultBuy: [],
             resultSell: [],
             amountSpendETH: 0,
+            amountCalculate: 0,
         };
         setDataAccount((oldDataAccount) => [...oldDataAccount, dataAccount]);
         close();

@@ -12,7 +12,7 @@ export default function ResultSell() {
 
     useEffect(() => {
         getSell();
-        getTransactionCost();
+        // getTransactionCost();
     }, [dataAccounts]);
 
     function getSell() {

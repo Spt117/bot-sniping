@@ -56,7 +56,6 @@ export default function ResultBuy() {
 
     useEffect(() => {
         setAmountspentEth();
-        console.log("buys", buys);
     }, [buys.length]);
 
     function setAmountspentEth() {

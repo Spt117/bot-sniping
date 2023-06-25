@@ -167,6 +167,5 @@ export default async function calculAmountOut(dataAccount: IDataAccount, dataERC
     const numerator = inputAmountWithFee * BigInt(outputReserve);
     const denominator = inputReserve * BigInt(1000) + BigInt(inputAmountWithFee);
     const outputAmount = numerator / BigInt(denominator);
-
-    console.log(amount, ` ${ethers.formatEther(outputAmount)} WETH`);
+    return Number(ethers.formatEther(outputAmount));
 }

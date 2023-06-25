@@ -1,12 +1,11 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { truncateAddr } from "@/library/fonctions";
-import calculAmountOut from "@/sniper/uniswapV2";
 import { useEffect, useState } from "react";
 
 export default function Account() {
     const { setMySymbol, myAccount, mySymbol, boolsTransaction } = useMyTransaction();
-    const { paramsSniper, isSniping, dataERC20, isSelling } = useMyState();
+    const { paramsSniper, isSniping, isSelling } = useMyState();
     const [balance, setBalance] = useState<number>(0);
 
     useEffect(() => {
@@ -20,10 +19,6 @@ export default function Account() {
     async function getBalance() {
         const balance = await myAccount?.methods.getBalance();
         if (balance) setBalance(balance);
-    }
-
-    async function calcul() {
-        if (myAccount && dataERC20) await calculAmountOut(myAccount, dataERC20, myAccount.balance);
     }
 
     return (
@@ -52,7 +47,6 @@ export default function Account() {
                     <output>{myAccount?.data.slippagePercent} %</output>
                 </div>
             </div>
-            <button onClick={calcul}>Calcul</button>
         </div>
     );
 }

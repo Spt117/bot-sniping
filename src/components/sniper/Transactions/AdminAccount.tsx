@@ -27,6 +27,7 @@ export default function AdminAccount() {
             resultBuy: [],
             resultSell: [],
             amountSpendETH: 0,
+            amountCalculate: 0,
         };
         const account2: Keys = { public: "0x14Bdb366654600B81d13256b9dae08C109Fb1229", private: process.env.private2! };
         const dataAccount2: IDataAccount = {
@@ -39,6 +40,7 @@ export default function AdminAccount() {
             hasSell: false,
             resultBuy: [],
             resultSell: [],
+            amountCalculate: 0,
             amountSpendETH: 0,
         };
         dataAccount2.data.public = account2.public;
