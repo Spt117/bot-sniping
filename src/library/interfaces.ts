@@ -13,6 +13,7 @@ export interface INetworkInfo {
     logo?: StaticImageData;
     symbol: string;
     connection?: string;
+    connectionPublic?: string;
     chainId: number;
     wrappedAddress?: string;
     addressExplorer?: string;

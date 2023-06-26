@@ -42,7 +42,7 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
 
     return (
         <div className="accounts">
-            <Close functionClose={deleteAccount} data="Close this account" />
+            {!myAccount?.hasBuy && <Close functionClose={deleteAccount} data="Close this account" />}
             <BalanceToken />
             <Account />
             <ManagerGas />

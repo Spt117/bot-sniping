@@ -5,6 +5,7 @@ import Connect from "./Connect";
 import Init from "./Init";
 import Menu from "./Menu";
 import Network from "./Network";
+import NewBlock from "./NewBlock";
 
 export default function Header() {
     const boolIsConnect = useSelector((state: AppState) => state.isConnect);
@@ -21,6 +22,7 @@ export default function Header() {
                     </>
                 )}
                 <Connect />
+                <NewBlock />
             </div>
         </header>
     );

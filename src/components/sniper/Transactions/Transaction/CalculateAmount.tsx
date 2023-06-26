@@ -11,7 +11,7 @@ export default function CalculateAmount() {
     const intervalRef = useRef<NodeJS.Timeout>(); // Nous utilisons useRef pour stocker l'ID de l'intervalle
 
     async function calcul() {
-        if (myAccount && dataERC20) {
+        if (myAccount && dataERC20 && !myAccount?.hasSell) {
             const amount = await calculAmountOut(myAccount, dataERC20, myAccount.balance);
             const newDataAccounts = [...dataAccounts];
             const index = newDataAccounts.findIndex((e) => e.data.public === myAccount.data.public);
@@ -22,11 +22,12 @@ export default function CalculateAmount() {
         }
         if (myAccount?.hasSell) {
             clearInterval(intervalRef.current);
+            console.log("calcul " + myAccount?.data.public);
         }
     }
 
     function interval() {
-        if (myAccount?.hasBuy) intervalRef.current = setInterval(calcul, 5000);
+        if (myAccount?.hasBuy) intervalRef.current = setInterval(calcul, 3000);
     }
 
     useEffect(() => {
@@ -44,7 +45,7 @@ export default function CalculateAmount() {
             </div>
             <div className="items">
                 <div>Multiple</div>
-                <output>X {(myAccount?.amountCalculate / myAccount.amountSpendETH).toFixed(4)}</output>
+                <output>X {(myAccount?.amountCalculate / myAccount.amountSpendETH).toFixed(2)}</output>
             </div>
         </>
     );

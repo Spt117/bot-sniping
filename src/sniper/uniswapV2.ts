@@ -26,7 +26,7 @@ async function swapEth(
     const nonce = await dataAccount.methods.getWallet()?.getNonce();
     if (nonce === undefined) return null;
     if (number === 1) {
-        const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce);
+        const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce + 1);
         majDataAccount(dataAccounts, dataAccount, setDataAccount, "hasBuy", [txReceipt]);
         return txReceipt;
     } else {
@@ -58,7 +58,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
         const path = [dataAccount.methods.blockchain.blockchain.wrappedAddress, tokenAdress]; // Remplacez par les adresses réelles
         // Le timestamp du deadline
         // Dans cet exemple, nous fixons le deadline à 1 heure dans le futur
-        const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
+        const deadline = Math.floor(Date.now() / 1000) + 60 * 2;
         // Exécutez le swap
         const tx: TransactionResponse = await UniswapRouterV2Contract.swapExactETHForTokens(
             amountOutMin,
