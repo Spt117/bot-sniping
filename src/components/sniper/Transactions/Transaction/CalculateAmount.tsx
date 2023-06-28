@@ -22,7 +22,7 @@ export default function CalculateAmount() {
         }
         if (myAccount?.hasSell) {
             clearInterval(intervalRef.current);
-            console.log("calcul " + myAccount?.data.public);
+            console.log("Clear calcul");
         }
     }
 

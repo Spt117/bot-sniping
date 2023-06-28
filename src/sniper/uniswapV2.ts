@@ -70,7 +70,7 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
             {
                 ...{
                     value: amountInWei,
-                    nonce: nonce,
+                    // nonce: nonce,
                     ...dataAccount.data.gasBuy,
                 },
             }

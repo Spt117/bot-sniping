@@ -7,6 +7,7 @@ const nextConfig = {
         ankrGoerli: process.env.ankrGoerli,
         private1: process.env.private1,
         private2: process.env.private2,
+        infuraGoerli: process.env.infuraGoerli,
     },
 };
 

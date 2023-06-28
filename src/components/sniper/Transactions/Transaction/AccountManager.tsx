@@ -48,8 +48,8 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             <ManagerGas />
             <EditTransaction />
             {dataERC20 && <Sell />}
-            {/* {myAccount?.hasBuy && <ResultBuy />} */}
-            {/* {myAccount?.hasSell && <ResultSell />} */}
+            {myAccount?.hasBuy && <ResultBuy />}
+            {myAccount?.hasSell && <ResultSell />}
             <button onClick={data}>Data</button>
         </div>
     );

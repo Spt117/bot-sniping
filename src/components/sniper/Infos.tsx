@@ -37,7 +37,7 @@ export default function Infos() {
         <>
             <div>{paramsSniper.blockchain.name}</div>
             <div>{paramsSniper.router.name}</div>
-            {blockNumber && <div>Current Block {blockNumber}</div>}
+            {blockNumber && <div>Block {blockNumber}</div>}
         </>
     );
 }

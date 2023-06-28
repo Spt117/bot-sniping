@@ -1,10 +1,10 @@
 import { useMyState } from "@/context/ContextSniper";
+import { useMyTransaction } from "@/context/ContextTransaction";
+import { majDataAccount } from "@/library/fonctions";
 import { ITransactionResult } from "@/library/interfaces";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import abiUniswapV2Pair from "../../../../web3/abis/uniswapV2Pair.json";
-import { useMyTransaction } from "@/context/ContextTransaction";
-import { majDataAccount } from "@/library/fonctions";
 
 export default function ResultBuy() {
     const { dataAccounts, dataERC20, setDataAccount, paramsSniper } = useMyState();

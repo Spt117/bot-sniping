@@ -6,6 +6,11 @@ header {
     padding: 0.5rem;
     color: white;
     font-weight: bold;
+    /* 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+ */
 }
 
 p {

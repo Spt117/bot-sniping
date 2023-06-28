@@ -1,7 +1,6 @@
 import Close from "@/components/Close";
 import { useMyState } from "@/context/ContextSniper";
 import { GetTransaction } from "@/library/class";
-import { addNonce } from "@/library/fonctions";
 import { IDataAccount, Keys, ParamsTransaction } from "@/library/interfaces";
 import { myOverlay } from "@/redux/actions";
 import { useRef } from "react";
@@ -42,7 +41,7 @@ export default function ChooseAddTransaction() {
                     const element: ParamsTransaction = result[i];
                     const account: Keys = { private: element.private, public: element.public };
                     if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper))) {
-                        const nonceAccount = await addNonce({
+                        const nonceAccount = {
                             data: element,
                             methods: new GetTransaction(account, paramsSniper),
                             balance: 0,
@@ -54,7 +53,7 @@ export default function ChooseAddTransaction() {
                             resultSell: [],
                             amountSpendETH: 0,
                             amountCalculate: 0,
-                        });
+                        };
                         setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, nonceAccount]);
                     }
                 }

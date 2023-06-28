@@ -30,7 +30,6 @@ export default function AddTransactionByMnemonic() {
                 data: newTransaction,
                 methods: new GetTransaction(account, paramsSniper),
                 balance: 0,
-                nonce: 0,
                 approved: false,
                 hasBuy: false,
                 hasSell: false,

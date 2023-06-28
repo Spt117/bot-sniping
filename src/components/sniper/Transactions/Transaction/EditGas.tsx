@@ -19,20 +19,22 @@ export default function EditGas({ property }: { property: "gasBuy" | "gasApprove
                 placeholder="Gaslimit"
                 onChange={(e) => setGas("gasLimit", Number(e.target.value))}
             />
-            <br />
+            <p>{myAccount?.data[property].gasLimit}</p>
             <input
                 type="number"
                 name="maxFeePerGas"
                 placeholder="MaxFeePerGas in Gwei"
                 onChange={(e) => setGas("maxFeePerGas", Number(e.target.value))}
             />
-            <br />
+            <p>{myAccount?.data[property].maxFeePerGas} Gwei</p>
+
             <input
                 type="number"
                 name="maxPriorityFeePerGas"
                 placeholder="MaxPriorityFeePerGas in Gwei"
                 onChange={(e) => setGas("maxPriorityFeePerGas", Number(e.target.value))}
             />
+            <p>{myAccount?.data[property].maxPriorityFeePerGas} Gwei</p>
         </>
     );
 }

@@ -1,39 +1,46 @@
+import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
-import Gas from "./Gas";
+import { Gas } from "@/library/interfaces";
+import { ethers } from "ethers";
 
 export default function ManagerGas() {
     const { myAccount } = useMyTransaction();
+    const { paramsSniper } = useMyState();
+
+    function calculMaxGasFees(gas: Gas) {
+        return Number(ethers.formatEther((gas.gasLimit * gas.maxFeePerGas).toString()));
+    }
 
     if (myAccount)
         return (
-            <>
-                <div className="accounts-containers">
-                    <div className="items-header">
-                        <div className="items">Gas Buy</div>
+            <div className="accounts-containers">
+                <div className="items-header">
+                    <div className="items">
+                        <div>MaxGas To Buy</div>
+                        <output>
+                            {calculMaxGasFees(myAccount.data.gasBuy)} {paramsSniper.blockchain.symbol}
+                        </output>
                     </div>
-                    <div className="items-header">
-                        <Gas gas={myAccount.data.gasBuy} />
+                </div>
+                <div className="items-header">
+                    <div className="items">
+                        <div>MaxGas To Sell</div>
+                        <output>
+                            {calculMaxGasFees(myAccount.data.gasSell)} {paramsSniper.blockchain.symbol}
+                        </output>
                     </div>
                 </div>
                 {!myAccount?.approved && (
-                    <div className="accounts-containers">
-                        <div className="items-header">
-                            <div className="items">Gas Approve</div>
-                        </div>
-                        <div className="items-header">
-                            <Gas gas={myAccount.data.gasApprove} />
+                    <div className="items-header">
+                        <div className="items">
+                            <div>MaxGas To Approve</div>
+                            <output>
+                                {calculMaxGasFees(myAccount.data.gasApprove)} {paramsSniper.blockchain.symbol}
+                            </output>
                         </div>
                     </div>
                 )}
-                <div className="accounts-containers">
-                    <div className="items-header">
-                        <div className="items">Gas Sell</div>
-                    </div>
-                    <div className="items-header">
-                        <Gas gas={myAccount.data.gasSell} />
-                    </div>
-                </div>
-            </>
+            </div>
         );
     else return null;
 }

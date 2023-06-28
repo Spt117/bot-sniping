@@ -80,26 +80,6 @@ export async function getAddresses(mnemonic: string, numAddresses: number) {
     return paires;
 }
 
-export async function addNonce(dataAccount: IDataAccount): Promise<IDataAccount> {
-    const newAccount = { ...dataAccount };
-    const nonce = await dataAccount.methods.getWallet()?.getNonce();
-    if (nonce) newAccount.nonce = nonce;
-    return newAccount;
-}
-
-export async function majNonces(accounts: IDataAccount[]) {
-    const majNonce = await Promise.allSettled(
-        accounts.map(async (dataAccount) => {
-            const newData = await addNonce(dataAccount);
-            return newData;
-        })
-    );
-    const successfulUpdates = majNonce
-        .filter((result) => result.status === "fulfilled")
-        .map((result) => (result as PromiseFulfilledResult<IDataAccount>).value);
-    return successfulUpdates;
-}
-
 export function majDataAccount(
     dataAccounts: IDataAccount[],
     account: IDataAccount,

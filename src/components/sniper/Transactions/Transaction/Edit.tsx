@@ -1,32 +1,17 @@
 import Close from "@/components/Close";
-import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { myOverlay } from "@/redux/actions";
-import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import EditGas from "./EditGas";
 import EditOther from "./EditOther";
 
 export default function Edit({ setBool }: { setBool: Function }) {
-    const { paramsSniper } = useMyState();
-    const { setMySymbol, myAccount } = useMyTransaction();
+    const { myAccount } = useMyTransaction();
     const dispatch = useDispatch();
 
     function closeEdit() {
         setBool(false);
         dispatch(myOverlay(false));
-    }
-
-    useEffect(() => {
-        getSymbol();
-    }, [myAccount?.data.amountIsToken]);
-
-    function getSymbol() {
-        if (myAccount?.data.amountIsToken) {
-            setMySymbol("tokens");
-        } else {
-            setMySymbol(paramsSniper.blockchain.symbol);
-        }
     }
 
     return (

@@ -1,6 +1,6 @@
 import { StaticImageData } from "next/image";
 import { GetTransaction } from "./class";
-import { JsonRpcProvider, TransactionReceipt } from "ethers";
+import { TransactionReceipt } from "ethers";
 
 declare global {
     interface Window {
@@ -78,7 +78,6 @@ export interface IDataAccount {
     data: ParamsTransaction;
     methods: GetTransaction;
     balance: number;
-    nonce: number;
     approved: boolean;
     hasBuy: boolean;
     hasSell: boolean;

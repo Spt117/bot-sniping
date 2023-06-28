@@ -1,6 +1,7 @@
 import { networks, paramSniper, routers } from "@/library/constantes";
 import { AppState } from "@/library/interfaces";
 import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function Admin() {
@@ -17,7 +18,7 @@ export default function Admin() {
         let copyParams = { ...paramSniper };
         copyParams.blockchain = networks[4];
         copyParams.router = routers[1];
-        copyParams.node = process.env.ankrGoerli;
+        copyParams.node = process.env.infuraGoerli;
         copyParams.id = id;
         dispatch(myComposantSniper(copyParams));
         close();
