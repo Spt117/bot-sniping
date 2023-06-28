@@ -24,6 +24,8 @@ async function swapEth(
 ) {
     const number = dataAccount.data.repeat;
     const nonce = await dataAccount.methods.getWallet()?.getNonce();
+    console.log("nonce : " + nonce);
+
     if (nonce === undefined) return null;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce + 1);

@@ -10,11 +10,11 @@ export default function NewBlock() {
     const network = useSelector((state: AppState) => state.network);
 
     useEffect(() => {
-        if (network.connectionPublic) listenNewBlock();
+        if (network.connection) listenNewBlock();
     }, [network]);
 
     function listenNewBlock() {
-        const provider = new ethers.JsonRpcProvider(network.connectionPublic);
+        const provider = new ethers.JsonRpcProvider(network.connection);
         const wallet = new Wallet(window.ethereum);
         provider.on("block", async () => {
             const balance = await wallet.getBalance();

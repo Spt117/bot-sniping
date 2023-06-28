@@ -12,7 +12,7 @@ export default function ResultBuy() {
     const [buys, setBuys] = useState<ITransactionResult[]>([]);
 
     useEffect(() => {
-        getBuy();
+        if (myAccount && myAccount.resultBuy.length > 0) getBuy();
     }, [dataAccounts]);
 
     function getBuy() {
