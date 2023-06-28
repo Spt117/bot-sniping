@@ -12,6 +12,7 @@ import Contrat from "./Contrat";
 import ERC20 from "./Transactions/ERC20";
 import { majDataAccount } from "@/library/fonctions";
 import Spinner from "../Spinner";
+import Infos from "./Infos";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -71,18 +72,18 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             <div className="contain-snipe">
                 <div className="contain-close">
                     <Close functionClose={disableSniper} data="Close this snipe" />
-
-                    <div>{paramsSniper.blockchain.name}</div>
-                    <div>{paramsSniper.router.name}</div>
-                    <button
-                        className="button"
-                        onClick={() => {
-                            setMyState(1);
-                            dispatch(myOverlay(true));
-                        }}
-                    >
-                        Add Account
-                    </button>
+                    <div className="contain-button">
+                        <button
+                            className="button"
+                            onClick={() => {
+                                setMyState(1);
+                                dispatch(myOverlay(true));
+                            }}
+                        >
+                            Add Account
+                        </button>
+                    </div>
+                    <Infos />
                     {dataAccounts.length > 0 && (
                         <>
                             {boolTransactions && <GeneratorTransaction />}
@@ -95,6 +96,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                             {!dataERC20?.address && <Contrat />}
                         </>
                     )}
+
                     <br />
                     {dataERC20?.address && <ERC20 />}
                     <br />

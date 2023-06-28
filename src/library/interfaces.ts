@@ -1,6 +1,6 @@
 import { StaticImageData } from "next/image";
 import { GetTransaction } from "./class";
-import { TransactionReceipt } from "ethers";
+import { JsonRpcProvider, TransactionReceipt } from "ethers";
 
 declare global {
     interface Window {
@@ -13,7 +13,6 @@ export interface INetworkInfo {
     logo?: StaticImageData;
     symbol: string;
     connection?: string;
-    connectionPublic?: string;
     chainId: number;
     wrappedAddress?: string;
     addressExplorer?: string;

@@ -125,21 +125,25 @@ export class GetTransaction {
 }
 
 export class ClassERC20 {
-    contract: ethers.Contract;
+    setterContract: ethers.Contract;
+    getterContract: ethers.Contract;
     account: GetTransaction;
     transactions: ParamsTransaction;
     wallet: ethers.Wallet | undefined;
+    publicProvider: ethers.JsonRpcProvider | undefined;
 
     constructor(token: string, account: GetTransaction, transactions: ParamsTransaction) {
         this.account = account;
         this.wallet = this.account.getWallet();
-        this.contract = new ethers.Contract(token, abiERC20, this.wallet);
+        this.setterContract = new ethers.Contract(token, abiERC20, this.wallet);
         this.transactions = transactions;
+        this.publicProvider = new ethers.JsonRpcProvider(this.account.blockchain.blockchain.connection);
+        this.getterContract = new ethers.Contract(token, abiERC20, this.publicProvider);
     }
 
     async getBalance() {
         try {
-            const balance = await this.contract.balanceOf(this.account.account.public);
+            const balance = await this.getterContract.balanceOf(this.account.account.public);
             const decimals = (await this.getDecimals()) as number;
             return Number(Number(balance) / 10 ** decimals);
         } catch (e) {
@@ -150,7 +154,7 @@ export class ClassERC20 {
 
     async getDecimals() {
         try {
-            const decimals = await this.contract.decimals();
+            const decimals = await this.getterContract.decimals();
             return Number(decimals);
         } catch (e) {
             console.log(e);
@@ -159,7 +163,7 @@ export class ClassERC20 {
 
     async getSymbol() {
         try {
-            const symbol = await this.contract.symbol();
+            const symbol = await this.getterContract.symbol();
             return symbol;
         } catch (e) {
             console.log(e);
@@ -168,7 +172,7 @@ export class ClassERC20 {
 
     async getName() {
         try {
-            const name = await this.contract.name();
+            const name = await this.getterContract.name();
             return name;
         } catch (e) {
             console.log(e);
@@ -177,7 +181,7 @@ export class ClassERC20 {
 
     async getTotalSupply() {
         try {
-            const totalSupply = await this.contract.totalSupply();
+            const totalSupply = await this.getterContract.totalSupply();
             return Number(Number(ethers.formatEther(totalSupply)));
         } catch (e) {
             console.log(e);
@@ -186,7 +190,7 @@ export class ClassERC20 {
 
     async getAllowance(address: string) {
         try {
-            const allowance = await this.contract.allowance(this.account.account.public, address);
+            const allowance = await this.getterContract.allowance(this.account.account.public, address);
             return Number(Number(ethers.formatEther(allowance)));
         } catch (e) {
             console.log(e);
@@ -199,7 +203,7 @@ export class ClassERC20 {
             const decimals = await this.getDecimals();
             if (!totalSupply || !decimals) return;
             const amount = ethers.parseUnits(totalSupply.toString(), decimals);
-            const contract = this.contract;
+            const contract = this.setterContract;
             const approve = await contract.approve(address, amount, this.transactions.gasApprove);
             const receipt = await approve.wait();
             return receipt;
@@ -210,7 +214,7 @@ export class ClassERC20 {
 
     async transfer(address: string, amount: number) {
         try {
-            const contract = this.contract;
+            const contract = this.setterContract;
             const transfer = await contract.transfer(address, amount);
             return transfer;
         } catch (e) {
@@ -220,7 +224,7 @@ export class ClassERC20 {
 
     async transferFrom(address: string, amount: number) {
         try {
-            const contract = this.contract;
+            const contract = this.setterContract;
             const transferFrom = await contract.transferFrom(this.account.account.public, address, amount);
             return transferFrom;
         } catch (e) {
