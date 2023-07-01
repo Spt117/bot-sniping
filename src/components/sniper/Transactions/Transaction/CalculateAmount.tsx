@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from "react";
 
 export default function CalculateAmount() {
     const { myAccount } = useMyTransaction();
-    const { paramsSniper, dataERC20, dataAccounts, setDataAccount } = useMyState();
+    const { paramsSniper, dataERC20, dataAccounts, setDataAccount, provider } = useMyState();
     const [block, setBlock] = useState<number>(0);
 
     const intervalRef = useRef<NodeJS.Timeout>(); // Nous utilisons useRef pour stocker l'ID de l'intervalle
@@ -16,7 +16,7 @@ export default function CalculateAmount() {
             const newDataAccounts = [...dataAccounts];
             const index = newDataAccounts.findIndex((e) => e.data.public === myAccount.data.public);
             newDataAccounts[index].amountCalculate = amount;
-            const blockNumber = await myAccount.methods.getProvider().getBlockNumber();
+            const blockNumber = await provider!.getBlockNumber();
             setBlock(blockNumber);
             setDataAccount(newDataAccounts);
         }

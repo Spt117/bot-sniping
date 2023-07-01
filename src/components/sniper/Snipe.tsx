@@ -1,18 +1,18 @@
 import { useMyState } from "@/context/ContextSniper";
+import { majDataAccount } from "@/library/fonctions";
 import { IParamsSniper } from "@/library/interfaces";
-import { myAccount, myDisableSniper, myOverlay } from "@/redux/actions";
-import { scanMempool } from "@/sniper/mempool";
-import calculAmountOut, { buyWithEth, sellWithEth } from "@/sniper/uniswapV2";
+import { myDisableSniper, myOverlay } from "@/redux/actions";
+import { buyWithEth, sellWithEth } from "@/sniper/uniswapV2";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Close from "../Close";
-import GeneratorTransaction from "./Transactions/GeneratorTransaction";
-import ManagerComponent from "./ManagerComponent";
-import Contrat from "./Contrat";
-import ERC20 from "./Transactions/ERC20";
-import { majDataAccount } from "@/library/fonctions";
 import Spinner from "../Spinner";
+import Contrat from "./Contrat";
 import Infos from "./Infos";
+import ManagerComponent from "./ManagerComponent";
+import ERC20 from "./Transactions/ERC20";
+import GeneratorTransaction from "./Transactions/GeneratorTransaction";
+import { ethers } from "ethers";
 // "0x3138A27982b4567c36277aAbf7EEFdE10A6b8080"
 
 export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
@@ -30,6 +30,7 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
         setIsSniping,
         setIsSelling,
         isSelling,
+        setProvider,
     } = useMyState();
 
     useEffect(() => {
@@ -38,6 +39,15 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
             setMyState(1);
             dispatch(myOverlay(true));
         }
+        if (sniper.node) {
+            let provider;
+            if (sniper.node.startsWith("ws://") || sniper.node.startsWith("wss://")) {
+                provider = new ethers.WebSocketProvider(sniper.node);
+            } else {
+                provider = new ethers.JsonRpcProvider(sniper.node);
+            }
+            setProvider(provider);
+        } else setProvider(new ethers.JsonRpcProvider(sniper.blockchain.connection));
     }, []);
 
     function disableSniper() {

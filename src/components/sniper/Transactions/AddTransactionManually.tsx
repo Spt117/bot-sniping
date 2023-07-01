@@ -9,7 +9,7 @@ import Close from "../../Close";
 import { IDataAccount } from "@/library/interfaces";
 
 export default function AddTransactionManually() {
-    const { setMyState, setDataAccount, paramsSniper, dataAccounts } = useMyState();
+    const { setMyState, setDataAccount, paramsSniper, dataAccounts, provider } = useMyState();
     const dispatch = useDispatch();
     const [newTransaction, setNewTransaction] = useState(paramTransaction);
 
@@ -22,7 +22,7 @@ export default function AddTransactionManually() {
         const account = { public: newTransaction.public, private: newTransaction.private };
         const dataAccount: IDataAccount = {
             data: newTransaction,
-            methods: new GetTransaction(account, paramsSniper),
+            methods: new GetTransaction(account, paramsSniper, provider!),
             balance: 0,
             approved: false,
             hasBuy: false,

@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 
 export default function AddTransactionByMnemonic() {
     const [mnemonic, setMnemonic] = useState({ myMnemonic: "", number: 0 });
-    const { setMyState, paramsSniper, setDataAccount, dataAccounts } = useMyState();
+    const { setMyState, paramsSniper, setDataAccount, dataAccounts, provider } = useMyState();
     const dispatch = useDispatch();
 
     function closeComponent() {
@@ -28,7 +28,7 @@ export default function AddTransactionByMnemonic() {
             newTransaction.private = accounts[i].private;
             const dataAccount: IDataAccount = {
                 data: newTransaction,
-                methods: new GetTransaction(account, paramsSniper),
+                methods: new GetTransaction(account, paramsSniper, provider!),
                 balance: 0,
                 approved: false,
                 hasBuy: false,

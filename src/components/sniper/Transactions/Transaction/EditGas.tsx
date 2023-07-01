@@ -27,7 +27,6 @@ export default function EditGas({ property }: { property: "gasBuy" | "gasApprove
                 onChange={(e) => setGas("maxFeePerGas", Number(e.target.value))}
             />
             <p>{myAccount?.data[property].maxFeePerGas} Gwei</p>
-
             <input
                 type="number"
                 name="maxPriorityFeePerGas"

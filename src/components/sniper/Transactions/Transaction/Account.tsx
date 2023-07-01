@@ -28,47 +28,39 @@ export default function Account() {
         if (balance) setBalance(balance);
     }
 
+    if (!myAccount) return null;
     return (
-        <div className="accounts-containers">
-            <div className="items-header">
-                <div className="items">
-                    <div>Account</div>
-                    <output name="adress">
-                        <a
-                            title="Check Account"
-                            target="_blank"
-                            href={`${myAccount?.methods.blockchain.blockchain.addressExplorer}address/${myAccount?.data.public}`}
-                        >
-                            {truncateAddr(myAccount?.data.public)}
-                        </a>
-                    </output>
-                </div>
-                <div className="items">
-                    <div>Balance</div>
-                    <output>{`${balance.toFixed(3)} ${paramsSniper.blockchain.symbol}`}</output>
-                </div>
-                <div className="items">
-                    <div>Amount{myAccount?.data.amountIsToken ? " To Buy" : " To Spend"}</div>
-                    <output>
-                        {myAccount?.data.amount} {mySymbol}
-                    </output>
-                </div>
-                <div className="items">
-                    <div>Repeat</div>
-                    <output>{myAccount?.data.repeat}</output>
-                </div>
-                <div className="items">
-                    <div>Slippage</div>
-                    <output>{myAccount?.data.slippagePercent} %</output>
-                </div>
+        <div className="items-header">
+            <div className="items">
+                <div>Account</div>
+                <output name="adress">
+                    <a
+                        title="Check Account"
+                        target="_blank"
+                        href={`${myAccount.methods.blockchain.blockchain.addressExplorer}address/${myAccount.data.public}`}
+                    >
+                        {truncateAddr(myAccount.data.public)}
+                    </a>
+                </output>
             </div>
-            <button
-                onClick={() => {
-                    console.log(mySymbol);
-                }}
-            >
-                Clic
-            </button>
+            <div className="items">
+                <div>Balance</div>
+                <output>{`${balance.toFixed(3)} ${paramsSniper.blockchain.symbol}`}</output>
+            </div>
+            <div className="items">
+                <div>Amount{myAccount.data.amountIsToken ? " To Buy" : " To Spend"}</div>
+                <output>
+                    {myAccount.data.amount} {mySymbol}
+                </output>
+            </div>
+            <div className="items">
+                <div>Repeat</div>
+                <output>{myAccount.data.repeat}</output>
+            </div>
+            <div className="items">
+                <div>Slippage</div>
+                <output>{myAccount.data.slippagePercent} %</output>
+            </div>
         </div>
     );
 }

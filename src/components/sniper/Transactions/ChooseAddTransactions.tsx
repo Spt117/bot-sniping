@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import AdminAccount from "./AdminAccount";
 
 export default function ChooseAddTransaction() {
-    const { setMyState, dataAccounts, paramsSniper, setDataAccount } = useMyState();
+    const { setMyState, dataAccounts, paramsSniper, setDataAccount, provider } = useMyState();
     const dispatch = useDispatch();
     const fileInput = useRef<HTMLInputElement>(null);
 
@@ -40,10 +40,10 @@ export default function ChooseAddTransaction() {
                 for (let i = 0; i < result.length; i++) {
                     const element: ParamsTransaction = result[i];
                     const account: Keys = { private: element.private, public: element.public };
-                    if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper))) {
+                    if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper, provider!))) {
                         const nonceAccount = {
                             data: element,
-                            methods: new GetTransaction(account, paramsSniper),
+                            methods: new GetTransaction(account, paramsSniper, provider!),
                             balance: 0,
                             nonce: 0,
                             approved: false,

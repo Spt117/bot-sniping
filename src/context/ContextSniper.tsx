@@ -1,6 +1,7 @@
 import { GetTransaction } from "@/library/class";
 import { paramSniper } from "@/library/constantes";
 import { IDataAccount, IERC20, IParamsSniper } from "@/library/interfaces";
+import { ethers } from "ethers";
 import React, { createContext, useContext, useState, ReactNode } from "react";
 
 // Création du contexte
@@ -21,6 +22,8 @@ interface IMyStateContext {
     setDataERC20: React.Dispatch<React.SetStateAction<IERC20 | null>>;
     dataAccounts: IDataAccount[];
     setDataAccount: React.Dispatch<React.SetStateAction<IDataAccount[]>>;
+    provider: ethers.WebSocketProvider | ethers.JsonRpcProvider | null;
+    setProvider: React.Dispatch<React.SetStateAction<ethers.WebSocketProvider | ethers.JsonRpcProvider | null>>;
 }
 const MyState = createContext<IMyStateContext>({
     paramsSniper: paramSniper,
@@ -39,6 +42,8 @@ const MyState = createContext<IMyStateContext>({
     setDataERC20: () => {},
     dataAccounts: [],
     setDataAccount: () => {},
+    provider: null,
+    setProvider: () => {},
 });
 
 // Composant fournisseur de contexte
@@ -55,6 +60,7 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [resultSnipe, setResultSnipe] = useState<[]>([]);
     const [dataAccounts, setDataAccount] = useState<IDataAccount[]>([]);
     const [isSelling, setIsSelling] = useState<boolean>(false);
+    const [provider, setProvider] = useState<ethers.WebSocketProvider | ethers.JsonRpcProvider | null>(null);
 
     return (
         <MyState.Provider
@@ -75,6 +81,8 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setDataAccount,
                 isSelling,
                 setIsSelling,
+                provider,
+                setProvider,
             }}
         >
             {children}

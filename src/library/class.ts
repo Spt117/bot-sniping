@@ -88,25 +88,20 @@ export class Wallet {
 export class GetTransaction {
     account: Keys;
     blockchain: IParamsSniper;
-    constructor(account: Keys, blockchainRouter: IParamsSniper) {
+    provider: ethers.JsonRpcProvider | ethers.WebSocketProvider;
+    constructor(
+        account: Keys,
+        blockchainRouter: IParamsSniper,
+        provider: ethers.JsonRpcProvider | ethers.WebSocketProvider
+    ) {
         this.account = account;
         this.blockchain = blockchainRouter;
-    }
-
-    getProvider() {
-        if (this.blockchain.node) {
-            const provider = new ethers.JsonRpcProvider(this.blockchain.node);
-            return provider;
-        } else {
-            const provider = new ethers.JsonRpcProvider(this.blockchain.blockchain.connection);
-            return provider;
-        }
+        this.provider = provider;
     }
 
     getWallet() {
         try {
-            const provider = this.getProvider();
-            const wallet = new ethers.Wallet(this.account.private, provider);
+            const wallet = new ethers.Wallet(this.account.private, this.provider);
             return wallet;
         } catch (e) {
             console.log(e);
@@ -114,9 +109,8 @@ export class GetTransaction {
     }
 
     async getBalance() {
-        const provider = this.getProvider();
         try {
-            const balance = await provider.getBalance(this.account.public);
+            const balance = await this.provider.getBalance(this.account.public);
             return Number(Number(ethers.formatEther(balance)));
         } catch (e) {
             console.log(e);
