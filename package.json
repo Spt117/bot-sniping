@@ -28,9 +28,11 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
+    "react-table": "^7.8.0",
     "typescript": "5.0.4"
   },
   "devDependencies": {
+    "@types/react-table": "^7.7.14",
     "hardhat": "^2.14.0"
   }
 }

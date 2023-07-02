@@ -1,10 +1,11 @@
-import { networks, paramSniper, routers } from "./constantes";
-import { IDataAccount, IERC20, IParamsSniper, IRouterDetails, ParamsTransaction } from "./interfaces";
-import { hdkey } from "ethereumjs-wallet";
 import { mnemonicToSeed } from "bip39";
 import { toChecksumAddress } from "ethereumjs-util";
-import { ClassERC20, GetTransaction } from "./class";
-import { TransactionReceipt } from "ethers";
+import { hdkey } from "ethereumjs-wallet";
+import { TransactionReceipt, ethers } from "ethers";
+import { networks, paramSniper, routers } from "./constantes";
+import { IDataAccount, IParamsSniper, IRouterDetails, ITransactionResult, ParamsTransaction } from "./interfaces";
+import { myAccount } from "@/redux/actions";
+import abiUniswapV2Pair from "@/web3/abis/uniswapV2Pair.json";
 
 export async function getData() {
     const response = await fetch("api/data");
@@ -92,11 +93,75 @@ export function majDataAccount(
     const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
     if (type) newDataAccounts[index][type] = true;
     if (type === "hasBuy" && transaction) {
-        newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...transaction];
+        const dataTransaction = getBuy(transaction);
+        newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...dataTransaction];
     }
     if (type === "hasSell" && transaction) {
-        newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...transaction];
+        const dataTransaction = getSell(transaction);
+        newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...dataTransaction];
     }
     if (amount) newDataAccounts[index].amountSpendETH = amount;
     setter(newDataAccounts);
+}
+
+function getBuy(transactions: TransactionReceipt[]) {
+    const iface = new ethers.Interface(abiUniswapV2Pair.abi);
+    let newBuys: ITransactionResult[] = [];
+
+    for (let i = 0; i < transactions.length; i++) {
+        transactions[i].logs.forEach((log) => {
+            const logCopy = { ...log, topics: [...log.topics] };
+            const parsedLog = iface.parseLog(logCopy);
+
+            if (transactions[i].status === 0) {
+                newBuys.push({
+                    amountETH: 0,
+                    amountToken: 0,
+                    hash: transactions[i].hash,
+                });
+            } else if (parsedLog?.name === "Swap") {
+                const amountToken = ethers.formatEther(parsedLog.args.amount0Out);
+                const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1In);
+                const isInArray = newBuys.find((item) => item.hash === transactions[i].hash);
+                if (!isInArray) {
+                    newBuys.push({
+                        amountETH: Number(amountEthSwapped),
+                        amountToken: Number(amountToken),
+                        hash: transactions[i].hash,
+                    });
+                }
+            }
+        });
+    }
+    return newBuys;
+}
+
+function getSell(transactions: TransactionReceipt[]) {
+    const iface = new ethers.Interface(abiUniswapV2Pair.abi);
+    let newSell: ITransactionResult[] = [];
+    for (let i = 0; i < transactions.length; i++) {
+        transactions[i].logs.forEach((log) => {
+            const logCopy = { ...log, topics: [...log.topics] };
+            const parsedLog = iface.parseLog(logCopy);
+
+            if (transactions[i].status === 0) {
+                newSell.push({
+                    amountETH: 0,
+                    amountToken: 0,
+                    hash: transactions[i].hash,
+                });
+            } else if (parsedLog?.name === "Swap") {
+                const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1Out);
+                const isInArray = newSell.find((item) => item.hash === transactions[i].hash);
+                if (!isInArray) {
+                    newSell.push({
+                        amountETH: Number(amountEthSwapped),
+                        amountToken: 0,
+                        hash: transactions[i].hash,
+                    });
+                }
+            }
+        });
+    }
+    return newSell;
 }

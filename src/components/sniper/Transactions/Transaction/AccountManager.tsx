@@ -8,9 +8,10 @@ import Account from "./Account";
 import BalanceToken from "./BalanceERC20";
 import EditTransaction from "./EditTransaction";
 import ManagerGas from "./ManagerGas";
+import ResultBuy from "./ResultBuy";
 import ResultSell from "./ResultSell";
 import Sell from "./Sell";
-import ResultBuy from "./ResultBuy";
+import TransactionTable from "./Transactions";
 
 export default function AccountManager({ dataAccount }: { dataAccount: IDataAccount }) {
     const { setMySymbol, setMyAccount, setMyERC20, myAccount } = useMyTransaction();
@@ -48,9 +49,8 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             <ManagerGas />
             <EditTransaction />
             {dataERC20 && <Sell />}
-            {myAccount?.hasBuy && <ResultBuy />}
-            {myAccount?.hasSell && <ResultSell />}
             <button onClick={data}>Data</button>
+            {myAccount?.hasBuy && <TransactionTable />}
         </div>
     );
 }

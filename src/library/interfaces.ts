@@ -81,8 +81,8 @@ export interface IDataAccount {
     approved: boolean;
     hasBuy: boolean;
     hasSell: boolean;
-    resultBuy: TransactionReceipt[];
-    resultSell: TransactionReceipt[];
+    resultBuy: ITransactionResult[];
+    resultSell: ITransactionResult[];
     amountSpendETH: number;
     amountCalculate: number;
 }
