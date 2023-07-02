@@ -8,8 +8,6 @@ import Account from "./Account";
 import BalanceToken from "./BalanceERC20";
 import EditTransaction from "./EditTransaction";
 import ManagerGas from "./ManagerGas";
-import ResultBuy from "./ResultBuy";
-import ResultSell from "./ResultSell";
 import Sell from "./Sell";
 import TransactionTable from "./Transactions";
 

@@ -1,7 +1,8 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
+import { majDataAccount } from "@/library/fonctions";
 import calculAmountOut from "@/sniper/uniswapV2";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function CalculateAmount() {
     const { myAccount } = useMyTransaction();
@@ -28,6 +29,19 @@ export default function CalculateAmount() {
 
     function interval() {
         if (myAccount?.hasBuy) intervalRef.current = setInterval(calcul, 3000);
+    }
+
+    useEffect(() => {
+        setAmountspentEth();
+    }, [myAccount?.resultBuy.length]);
+
+    function setAmountspentEth() {
+        let amountspentEth = 0;
+        if (!myAccount) return;
+        for (let i = 0; i < myAccount.resultBuy.length; i++) {
+            amountspentEth += myAccount.resultBuy[i].amount1in;
+        }
+        majDataAccount(dataAccounts, myAccount!, setDataAccount, undefined, undefined, amountspentEth);
     }
 
     useEffect(() => {

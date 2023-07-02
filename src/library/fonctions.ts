@@ -93,18 +93,18 @@ export function majDataAccount(
     const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
     if (type) newDataAccounts[index][type] = true;
     if (type === "hasBuy" && transaction) {
-        const dataTransaction = getBuy(transaction);
+        const dataTransaction = getTransactions(transaction);
         newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...dataTransaction];
     }
     if (type === "hasSell" && transaction) {
-        const dataTransaction = getSell(transaction);
+        const dataTransaction = getTransactions(transaction);
         newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...dataTransaction];
     }
     if (amount) newDataAccounts[index].amountSpendETH = amount;
     setter(newDataAccounts);
 }
 
-function getBuy(transactions: TransactionReceipt[]) {
+function getTransactions(transactions: TransactionReceipt[]) {
     const iface = new ethers.Interface(abiUniswapV2Pair.abi);
     let newBuys: ITransactionResult[] = [];
 
@@ -115,18 +115,24 @@ function getBuy(transactions: TransactionReceipt[]) {
 
             if (transactions[i].status === 0) {
                 newBuys.push({
-                    amountETH: 0,
-                    amountToken: 0,
                     hash: transactions[i].hash,
+                    amount0in: 0,
+                    amount0out: 0,
+                    amount1in: 0,
+                    amount1out: 0,
                 });
             } else if (parsedLog?.name === "Swap") {
-                const amountToken = ethers.formatEther(parsedLog.args.amount0Out);
-                const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1In);
+                const amount0out = ethers.formatEther(parsedLog.args.amount0Out);
+                const amount0in = ethers.formatEther(parsedLog.args.amount0In);
+                const amount1out = ethers.formatEther(parsedLog.args.amount1Out);
+                const amount1in = ethers.formatEther(parsedLog.args.amount1In);
                 const isInArray = newBuys.find((item) => item.hash === transactions[i].hash);
                 if (!isInArray) {
                     newBuys.push({
-                        amountETH: Number(amountEthSwapped),
-                        amountToken: Number(amountToken),
+                        amount0in: Number(amount0in),
+                        amount0out: Number(amount0out),
+                        amount1in: Number(amount1in),
+                        amount1out: Number(amount1out),
                         hash: transactions[i].hash,
                     });
                 }
@@ -136,32 +142,16 @@ function getBuy(transactions: TransactionReceipt[]) {
     return newBuys;
 }
 
-function getSell(transactions: TransactionReceipt[]) {
-    const iface = new ethers.Interface(abiUniswapV2Pair.abi);
-    let newSell: ITransactionResult[] = [];
-    for (let i = 0; i < transactions.length; i++) {
-        transactions[i].logs.forEach((log) => {
-            const logCopy = { ...log, topics: [...log.topics] };
-            const parsedLog = iface.parseLog(logCopy);
-
-            if (transactions[i].status === 0) {
-                newSell.push({
-                    amountETH: 0,
-                    amountToken: 0,
-                    hash: transactions[i].hash,
-                });
-            } else if (parsedLog?.name === "Swap") {
-                const amountEthSwapped = ethers.formatEther(parsedLog.args.amount1Out);
-                const isInArray = newSell.find((item) => item.hash === transactions[i].hash);
-                if (!isInArray) {
-                    newSell.push({
-                        amountETH: Number(amountEthSwapped),
-                        amountToken: 0,
-                        hash: transactions[i].hash,
-                    });
-                }
-            }
-        });
-    }
-    return newSell;
+export function getNot0(amount1: number, amount2: number) {
+    return amount1 > 0 ? amount1 : amount2;
 }
+
+// function getTransactionCost() {
+//     let result = 0;
+//     for (let i = 0; i < myAccount!.resultBuy.length; i++) {
+//         const transaction = myAccount?.resultBuy[i];
+//         const cost = transaction!.gasPrice * transaction!.gasUsed;
+//         result += Number(ethers.formatEther(cost));
+//     }
+//     console.log(`Frais de transaction : ${result.toFixed(4)} ${paramsSniper.blockchain.symbol}`);
+// }
