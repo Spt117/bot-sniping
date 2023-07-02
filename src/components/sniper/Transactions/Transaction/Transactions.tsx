@@ -29,15 +29,15 @@ export default function TransactionTable() {
 
             {
                 Header: paramsSniper.blockchain.symbol,
-                accessor: "amdf" as keyof ITransactionResult,
+                accessor: "amount1" as keyof ITransactionResult,
                 Cell: ({ row }: { row: any }) =>
-                    row.original.amount1in > 0 ? row.original.amount1in : row.original.amount1out,
+                    (row.original.amount1in > 0 ? row.original.amount1in : row.original.amount1out).toFixed(4),
             },
             {
                 Header: "Tokens " + dataERC20?.symbol,
-                accessor: "am" as keyof ITransactionResult,
+                accessor: "amount0" as keyof ITransactionResult,
                 Cell: ({ row }: { row: any }) =>
-                    row.original.amount0out > 0 ? row.original.amount0out : row.original.amount0in,
+                    (row.original.amount0out > 0 ? row.original.amount0out : row.original.amount0in).toFixed(4),
             },
         ],
         []
