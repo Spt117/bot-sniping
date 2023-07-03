@@ -48,7 +48,6 @@ export default function CalculateAmount() {
         interval();
     }, [myAccount?.hasBuy]);
 
-    if (!myAccount?.hasBuy) return null;
     return (
         <>
             <div className="items">
@@ -57,10 +56,12 @@ export default function CalculateAmount() {
                     {myAccount?.amountCalculate.toFixed(4)} {paramsSniper.blockchain.symbol}
                 </output>
             </div>
-            <div className="items">
-                <div>Multiple</div>
-                <output>X {(myAccount?.amountCalculate / myAccount.amountSpendETH).toFixed(2)}</output>
-            </div>
+            {myAccount && (
+                <div className="items">
+                    <div>Profit</div>
+                    <output>X {(myAccount.amountCalculate / myAccount.amountSpendETH).toFixed(2)}</output>
+                </div>
+            )}
         </>
     );
 }

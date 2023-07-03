@@ -28,24 +28,24 @@ export default function AdminAccount() {
             amountSpendETH: 0,
             amountCalculate: 0,
         };
-        const account2: Keys = { public: "0x14Bdb366654600B81d13256b9dae08C109Fb1229", private: process.env.private2! };
-        const dataAccount2: IDataAccount = {
-            data: { ...paramTransaction },
-            methods: new GetTransaction(account2, paramsSniper, provider!),
-            balance: 0,
-            approved: false,
-            hasBuy: false,
-            hasSell: false,
-            resultBuy: [],
-            resultSell: [],
-            amountCalculate: 0,
-            amountSpendETH: 0,
-        };
-        dataAccount2.data.public = account2.public;
-        dataAccount2.data.private = account2.private;
+        // const account2: Keys = { public: "0x14Bdb366654600B81d13256b9dae08C109Fb1229", private: process.env.private2! };
+        // const dataAccount2: IDataAccount = {
+        //     data: { ...paramTransaction },
+        //     methods: new GetTransaction(account2, paramsSniper, provider!),
+        //     balance: 0,
+        //     approved: false,
+        //     hasBuy: false,
+        //     hasSell: false,
+        //     resultBuy: [],
+        //     resultSell: [],
+        //     amountCalculate: 0,
+        //     amountSpendETH: 0,
+        // };
+        // dataAccount2.data.public = account2.public;
+        // dataAccount2.data.private = account2.private;
         dataAccount1.data.public = account1.public;
         dataAccount1.data.private = account1.private;
-        setDataAccount((prevDataAccounts) => [...prevDataAccounts, dataAccount1, dataAccount2]);
+        setDataAccount((prevDataAccounts) => [...prevDataAccounts, dataAccount1]);
         close();
     }
 
