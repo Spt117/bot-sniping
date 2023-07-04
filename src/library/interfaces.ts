@@ -107,4 +107,5 @@ export interface ITransactionResult {
     amount1in: number;
     amount1out: number;
     hash: string;
+    transactionFees: number;
 }

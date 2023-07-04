@@ -39,6 +39,13 @@ export default function TransactionTable() {
                 Cell: ({ row }: { row: any }) =>
                     (row.original.amount0out > 0 ? row.original.amount0out : row.original.amount0in).toFixed(4),
             },
+
+            {
+                Header: "Transaction Fees",
+                accessor: "transactionFees" as keyof ITransactionResult,
+                Cell: ({ row }: { row: any }) =>
+                    Number(row.original.transactionFees).toFixed(6) + " " + paramsSniper.blockchain.symbol,
+            },
         ],
         []
     ) as Column<ITransactionResult>[];

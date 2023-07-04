@@ -109,6 +109,7 @@ function getTransactions(transactions: TransactionReceipt[]) {
     let newBuys: ITransactionResult[] = [];
 
     for (let i = 0; i < transactions.length; i++) {
+        const transactionFees = transactions[i].gasUsed * transactions[i].gasPrice;
         transactions[i].logs.forEach((log) => {
             const logCopy = { ...log, topics: [...log.topics] };
             const parsedLog = iface.parseLog(logCopy);
@@ -120,6 +121,7 @@ function getTransactions(transactions: TransactionReceipt[]) {
                     amount0out: 0,
                     amount1in: 0,
                     amount1out: 0,
+                    transactionFees: Number(ethers.formatEther(transactionFees)),
                 });
             } else if (parsedLog?.name === "Swap") {
                 const amount0out = ethers.formatEther(parsedLog.args.amount0Out);
@@ -134,6 +136,7 @@ function getTransactions(transactions: TransactionReceipt[]) {
                         amount1in: Number(amount1in),
                         amount1out: Number(amount1out),
                         hash: transactions[i].hash,
+                        transactionFees: Number(ethers.formatEther(transactionFees)),
                     });
                 }
             }
