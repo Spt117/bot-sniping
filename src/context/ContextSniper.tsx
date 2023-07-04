@@ -16,15 +16,14 @@ interface IMyStateContext {
     setIsSniping: React.Dispatch<React.SetStateAction<boolean>>;
     isSelling: boolean;
     setIsSelling: React.Dispatch<React.SetStateAction<boolean>>;
-    resultSnipe: [];
-    setResultSnipe: React.Dispatch<React.SetStateAction<[]>>;
     dataERC20: IERC20 | null;
     setDataERC20: React.Dispatch<React.SetStateAction<IERC20 | null>>;
     dataAccounts: IDataAccount[];
     setDataAccount: React.Dispatch<React.SetStateAction<IDataAccount[]>>;
-    provider: ethers.WebSocketProvider | ethers.JsonRpcProvider | null;
-    setProvider: React.Dispatch<React.SetStateAction<ethers.WebSocketProvider | ethers.JsonRpcProvider | null>>;
+    provider: ethers.WebSocketProvider | ethers.JsonRpcProvider;
+    setProvider: React.Dispatch<React.SetStateAction<ethers.WebSocketProvider | ethers.JsonRpcProvider>>;
 }
+
 const MyState = createContext<IMyStateContext>({
     paramsSniper: paramSniper,
     setMyParamSniper: () => {},
@@ -36,13 +35,11 @@ const MyState = createContext<IMyStateContext>({
     setIsSniping: () => {},
     isSelling: false,
     setIsSelling: () => {},
-    resultSnipe: [],
-    setResultSnipe: () => {},
     dataERC20: null,
     setDataERC20: () => {},
     dataAccounts: [],
     setDataAccount: () => {},
-    provider: null,
+    provider: new ethers.JsonRpcProvider(paramSniper.blockchain.connection),
     setProvider: () => {},
 });
 
@@ -57,10 +54,11 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
     const [boolTransactions, setBoolTransactions] = useState<boolean>(true);
     const [dataERC20, setDataERC20] = useState<IERC20 | null>(null);
     const [isSniping, setIsSniping] = useState<boolean>(false);
-    const [resultSnipe, setResultSnipe] = useState<[]>([]);
     const [dataAccounts, setDataAccount] = useState<IDataAccount[]>([]);
     const [isSelling, setIsSelling] = useState<boolean>(false);
-    const [provider, setProvider] = useState<ethers.WebSocketProvider | ethers.JsonRpcProvider | null>(null);
+    const [provider, setProvider] = useState<ethers.WebSocketProvider | ethers.JsonRpcProvider>(
+        new ethers.JsonRpcProvider(paramSniper.blockchain.connection)
+    );
 
     return (
         <MyState.Provider
@@ -73,8 +71,6 @@ export const MyStateProvider = ({ children }: myStateProviderProps) => {
                 setBoolTransactions,
                 isSniping,
                 setIsSniping,
-                resultSnipe,
-                setResultSnipe,
                 dataERC20,
                 setDataERC20,
                 dataAccounts,

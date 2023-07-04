@@ -17,7 +17,7 @@ export default function CalculateAmount() {
             const newDataAccounts = [...dataAccounts];
             const index = newDataAccounts.findIndex((e) => e.data.public === myAccount.data.public);
             newDataAccounts[index].amountCalculate = amount;
-            const blockNumber = await provider!.getBlockNumber();
+            const blockNumber = await provider.getBlockNumber();
             setBlock(blockNumber);
             setDataAccount(newDataAccounts);
         }
