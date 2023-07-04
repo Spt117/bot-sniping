@@ -23,9 +23,9 @@ async function swapEth(
     setDataAccount: Function
 ) {
     const number = dataAccount.data.repeat;
-    const nonce = await dataAccount.methods.getWallet()?.getNonce();
-    console.log("nonce : " + nonce);
-
+    // const nonce = await dataAccount.methods.getWallet()?.getNonce();
+    // console.log("nonce : " + nonce);
+    const nonce = 1;
     if (nonce === undefined) return null;
     if (number === 1) {
         const txReceipt = await swapETHForTokensOnce(dataAccount, tokenAdress, nonce + 1);
@@ -148,7 +148,7 @@ export async function getPaire(dataAccount: IDataAccount, tokenAdress: string) {
     return pair;
 }
 
-export default async function calculAmountOut(dataAccount: IDataAccount, dataERC20: IERC20, amount: number) {
+export async function calculAmountOut(dataAccount: IDataAccount, dataERC20: IERC20, amount: number) {
     // Remplacez par l'adresse de contrat de votre paire de tokens
     const pairAddress = await getPaire(dataAccount, dataERC20.address);
 
@@ -170,4 +170,35 @@ export default async function calculAmountOut(dataAccount: IDataAccount, dataERC
     const denominator = inputReserve * BigInt(1000) + BigInt(inputAmountWithFee);
     const outputAmount = numerator / BigInt(denominator);
     return Number(ethers.formatEther(outputAmount));
+}
+
+export async function simulateSwapTokensForETHOnce(dataAccount: IDataAccount, tokenAdress: string, amount: bigint) {
+    const wallet = dataAccount.methods.getWallet();
+    const UniswapRouterV2Contract = new ethers.Contract(
+        dataAccount.methods.blockchain.router.address,
+        AbiUniswapV2Router,
+        wallet
+    );
+
+    const amountOutMin = 0;
+    const path = [tokenAdress, dataAccount.methods.blockchain.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
+    const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
+    try {
+        const tx = await UniswapRouterV2Contract.swapExactTokensForETH.staticCall(
+            amount,
+            amountOutMin,
+            path,
+            dataAccount.data.public,
+            deadline
+        );
+        console.log(tx);
+
+        const amountSell = ethers.formatEther(tx[0]);
+        console.log("Montant envoyé en tokens :", amountSell);
+        const amountBuy = ethers.formatEther(tx[1]);
+        console.log("Montant minimal attendu en ETH :", amountBuy);
+        return tx;
+    } catch {
+        console.log("Erreur de calcul");
+    }
 }

@@ -1,7 +1,7 @@
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { majDataAccount } from "@/library/fonctions";
-import calculAmountOut from "@/sniper/uniswapV2";
+import { calculAmountOut } from "@/sniper/uniswapV2";
 import { useEffect, useRef, useState } from "react";
 
 export default function CalculateAmount() {

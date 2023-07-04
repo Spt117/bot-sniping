@@ -2,7 +2,7 @@ import Spinner from "@/components/Spinner";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { majDataAccount } from "@/library/fonctions";
-import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
+import { simulateSwapTokensForETHOnce, swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { TransactionReceipt, ethers } from "ethers";
 import CalculateAmount from "./CalculateAmount";
 
@@ -13,11 +13,6 @@ export default function Sell() {
     async function afterSell(receipt: TransactionReceipt | null | undefined) {
         if (!myAccount || !dataERC20 || !receipt) return null;
         majDataAccount(dataAccounts, myAccount, setDataAccount, "hasSell", [receipt]);
-        // const newArray = [...dataAccounts];
-        // const index = dataAccounts.findIndex((account) => account.data.public === myAccount.data.public);
-        // newArray[index].hasSell = true;
-        // newArray[index].resultSell = receipt;
-        // setDataAccount(newArray);
     }
 
     async function sell(percent: number = 100) {
@@ -29,6 +24,17 @@ export default function Sell() {
         await afterSell(receipt);
         setBoolsTransaction({ ...boolsTransaction, isSell: false });
         console.log("endSell");
+    }
+
+    async function simulate() {
+        if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
+        try {
+            const amount = myAccount.balance * 0.9999;
+            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
+            await simulateSwapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async function approve() {
@@ -73,6 +79,7 @@ export default function Sell() {
                 <CalculateAmount />
             </div>
             <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
+            <button onClick={() => simulate()}>Simulate Sell</button>
         </div>
     );
 }
