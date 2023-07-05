@@ -2,7 +2,7 @@ import { useMyState } from "@/context/ContextSniper";
 import { ClassERC20 } from "@/library/class";
 import { IERC20 } from "@/library/interfaces";
 import { useState } from "react";
-import AdminContract from "./Transactions/Transaction/AdminContract";
+import AdminContract from "./Transactions/Account/AdminContract";
 
 export default function Contrat() {
     const { setDataERC20, dataAccounts } = useMyState();

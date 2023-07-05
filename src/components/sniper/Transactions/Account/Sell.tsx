@@ -6,6 +6,7 @@ import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
 import { ethers } from "ethers";
 import CalculateAmount from "./CalculateAmount";
 import { useEffect, useState } from "react";
+import ButtonSell from "./ButtonSell";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
@@ -15,7 +16,7 @@ export default function Sell() {
     async function sell(percent: number) {
         if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
         setBoolsTransaction({ ...boolsTransaction, isSell: true });
-        const amount = myAccount.balance * (percent / 100);
+        const amount = myAccount.balance * (percent / 100) * 0.9999;
         const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
         const receipt = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
         if (receipt) majDataAccount(dataAccounts, myAccount, setDataAccount, "hasSell", [receipt], undefined, percent);
@@ -75,20 +76,17 @@ export default function Sell() {
                 <CalculateAmount />
             </div>
             <div className="items">
-                <h4>Sell</h4>
-                <button disabled={disabled} className="button-sell" onClick={() => sell(100)}>
-                    100%
-                </button>
-                <button disabled={disabled} className="button-sell" onClick={() => sell(75)}>
-                    75%
-                </button>
-                <button disabled={disabled} className="button-sell" onClick={() => sell(50)}>
-                    50%
-                </button>
-                <button disabled={disabled} className="button-sell" onClick={() => sell(25)}>
-                    25%
-                </button>
-                {boolsTransaction.isSell && <Spinner />}
+                <h5>Sell</h5>
+                {boolsTransaction.isSell && (
+                    <>
+                        <Spinner />
+                        <br />
+                    </>
+                )}
+                <ButtonSell sell={sell} amount={100} />
+                <ButtonSell sell={sell} amount={75} />
+                <ButtonSell sell={sell} amount={50} />
+                <ButtonSell sell={sell} amount={25} />
             </div>
         </div>
     );

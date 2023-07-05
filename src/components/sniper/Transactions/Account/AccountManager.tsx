@@ -48,8 +48,8 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
             <ManagerGas />
             <EditTransaction />
             {dataERC20 && <Sell />}
-            <button onClick={data}>Data</button>
             {myAccount.resultSell.length + myAccount.resultBuy.length > 0 && <TransactionTable />}
+            <button onClick={data}>Data</button>
         </div>
     );
 }
