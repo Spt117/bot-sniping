@@ -39,16 +39,17 @@ export default function AccountManager({ dataAccount }: { dataAccount: IDataAcco
         console.log(dataAccounts);
     }
 
+    if (!myAccount) return null;
     return (
         <div className="accounts">
-            {!myAccount?.hasBuy && <Close functionClose={deleteAccount} data="Close this account" />}
+            {myAccount.hasBuy && <Close functionClose={deleteAccount} data="Close this account" />}
             <BalanceToken />
             <Account />
             <ManagerGas />
             <EditTransaction />
             {dataERC20 && <Sell />}
             <button onClick={data}>Data</button>
-            {myAccount?.hasBuy && <TransactionTable />}
+            {myAccount.resultSell.length + myAccount.resultBuy.length > 0 && <TransactionTable />}
         </div>
     );
 }

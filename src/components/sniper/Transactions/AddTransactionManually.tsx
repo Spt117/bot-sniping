@@ -22,7 +22,7 @@ export default function AddTransactionManually() {
         const account = { public: newTransaction.public, private: newTransaction.private };
         const dataAccount: IDataAccount = {
             data: newTransaction,
-            methods: new GetTransaction(account, paramsSniper, provider!),
+            methods: new GetTransaction(account, paramsSniper, provider),
             balance: 0,
             approved: false,
             hasBuy: false,

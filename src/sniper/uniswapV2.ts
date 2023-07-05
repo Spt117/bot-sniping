@@ -1,7 +1,13 @@
 import { IDataAccount, IERC20 } from "@/library/interfaces";
-import { TransactionResponse, ethers } from "ethers";
+import { TransactionReceipt, TransactionResponse, ethers } from "ethers";
 import AbiUniswapV2Factory from "../web3/abis/uniswapV2Factory.json";
 import AbiUniswapV2Router from "../web3/abis/uniswapV2Rrouter.json";
+
+function confirmTransaction(transaction: TransactionReceipt) {
+    if (transaction.status === 0) {
+        console.log("transaction failed in block " + transaction.blockNumber);
+    } else console.log("transaction success in block " + transaction.blockNumber);
+}
 
 export async function buyWithEth(
     dataAccounts: IDataAccount[],
@@ -79,7 +85,8 @@ async function swapETHForTokensOnce(dataAccount: IDataAccount, tokenAdress: stri
         // console.log("Transaction : " + JSON.stringify(tx, null, 2));
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
-        console.log("Transaction confirmée dans le bloc " + receipt!.blockNumber);
+
+        confirmTransaction(receipt!);
         return receipt;
     } catch (error) {
         console.log(error);
@@ -127,7 +134,7 @@ export async function swapTokensForETHOnce(dataAccount: IDataAccount, tokenAdres
         // console.log("Transaction : " + JSON.stringify(tx, null, 2));
         // Attendre la confirmation de la transaction
         const receipt = await tx.wait();
-        console.log("Transaction confirmée dans le bloc " + receipt?.blockNumber);
+        if (receipt) confirmTransaction(receipt);
         return receipt;
     } catch (error) {
         console.log(error);
@@ -180,8 +187,10 @@ export async function calculAmountOut(dataAccount: IDataAccount, dataERC20: IERC
         console.log(error);
     }
 }
-export async function simulateSwapTokensForETHOnce(dataAccount: IDataAccount, tokenAdress: string, amount: bigint) {
+export async function simulateSwapTokensForETHOnce(dataAccount: IDataAccount, dataERC20: IERC20, amount: number) {
     const wallet = dataAccount.methods.getWallet();
+    const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
+
     const UniswapRouterV2Contract = new ethers.Contract(
         dataAccount.methods.blockchain.router.address,
         AbiUniswapV2Router,
@@ -189,24 +198,22 @@ export async function simulateSwapTokensForETHOnce(dataAccount: IDataAccount, to
     );
 
     const amountOutMin = 0;
-    const path = [tokenAdress, dataAccount.methods.blockchain.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
+    const path = [dataERC20.address, dataAccount.methods.blockchain.blockchain.wrappedAddress]; // Remplacez par les adresses réelles
     const deadline = Math.floor(Date.now() / 1000) + 60 * 60;
     try {
         const tx = await UniswapRouterV2Contract.swapExactTokensForETH.staticCall(
-            amount,
+            amountBigInt,
             amountOutMin,
             path,
             dataAccount.data.public,
             deadline
         );
-        console.log(tx);
-
-        const amountSell = ethers.formatEther(tx[0]);
-        console.log("Montant envoyé en tokens :", amountSell);
-        const amountBuy = ethers.formatEther(tx[1]);
-        console.log("Montant minimal attendu en ETH :", amountBuy);
-        return tx;
-    } catch {
-        console.log("Erreur de calcul");
+        // const amountSend = Number(ethers.formatEther(tx[0]));
+        // console.log("Montant envoyé en tokens :", amountSend);
+        const amountReceive = Number(ethers.formatEther(tx[1]));
+        // console.log("Montant minimal attendu en ETH :", amountReceive);
+        return amountReceive;
+    } catch (error) {
+        console.log(error);
     }
 }

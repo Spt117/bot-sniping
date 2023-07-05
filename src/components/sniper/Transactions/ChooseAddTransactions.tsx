@@ -40,10 +40,10 @@ export default function ChooseAddTransaction() {
                 for (let i = 0; i < result.length; i++) {
                     const element: ParamsTransaction = result[i];
                     const account: Keys = { private: element.private, public: element.public };
-                    if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper, provider!))) {
+                    if (checkTransactionWithPublicAdress(new GetTransaction(account, paramsSniper, provider))) {
                         const nonceAccount = {
                             data: element,
-                            methods: new GetTransaction(account, paramsSniper, provider!),
+                            methods: new GetTransaction(account, paramsSniper, provider),
                             balance: 0,
                             nonce: 0,
                             approved: false,
@@ -52,6 +52,7 @@ export default function ChooseAddTransaction() {
                             resultBuy: [],
                             resultSell: [],
                             amountSpendETH: 0,
+                            amountReceive: 0,
                             amountCalculate: 0,
                         };
                         setDataAccount((oldDataAccount: IDataAccount[]) => [...oldDataAccount, nonceAccount]);

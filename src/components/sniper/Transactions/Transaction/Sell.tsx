@@ -2,39 +2,25 @@ import Spinner from "@/components/Spinner";
 import { useMyState } from "@/context/ContextSniper";
 import { useMyTransaction } from "@/context/ContextTransaction";
 import { majDataAccount } from "@/library/fonctions";
-import { simulateSwapTokensForETHOnce, swapTokensForETHOnce } from "@/sniper/uniswapV2";
-import { TransactionReceipt, ethers } from "ethers";
+import { swapTokensForETHOnce } from "@/sniper/uniswapV2";
+import { ethers } from "ethers";
 import CalculateAmount from "./CalculateAmount";
+import { useEffect, useState } from "react";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
-    const { setDataAccount, dataAccounts, dataERC20, paramsSniper } = useMyState();
+    const { setDataAccount, dataAccounts, dataERC20, paramsSniper, isSniping } = useMyState();
+    const [disabled, setDisabled] = useState<boolean>(false);
 
-    async function afterSell(receipt: TransactionReceipt | null | undefined) {
-        if (!myAccount || !dataERC20 || !receipt) return null;
-        majDataAccount(dataAccounts, myAccount, setDataAccount, "hasSell", [receipt]);
-    }
-
-    async function sell(percent: number = 100) {
+    async function sell(percent: number) {
         if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
         setBoolsTransaction({ ...boolsTransaction, isSell: true });
-        const amount = myAccount.balance * (percent / 100) * 0.99999;
+        const amount = myAccount.balance * (percent / 100);
         const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
         const receipt = await swapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
-        await afterSell(receipt);
+        if (receipt) majDataAccount(dataAccounts, myAccount, setDataAccount, "hasSell", [receipt], undefined, percent);
         setBoolsTransaction({ ...boolsTransaction, isSell: false });
         console.log("endSell");
-    }
-
-    async function simulate() {
-        if (!myAccount || !dataERC20 || !dataERC20.decimals) return null;
-        try {
-            const amount = myAccount.balance * 0.9999;
-            const amountBigInt = ethers.parseUnits(amount.toString(), dataERC20.decimals);
-            await simulateSwapTokensForETHOnce(myAccount, dataERC20?.address, amountBigInt);
-        } catch (error) {
-            console.log(error);
-        }
     }
 
     async function approve() {
@@ -46,6 +32,16 @@ export default function Sell() {
         newArray[index] = myAccount;
         setDataAccount(newArray);
     }
+
+    function disabledButtons() {
+        if (boolsTransaction.isSell || isSniping) setDisabled(true);
+        else if (myAccount?.hasSell) setDisabled(true);
+        else setDisabled(false);
+    }
+
+    useEffect(() => {
+        disabledButtons();
+    }, [boolsTransaction.isSell, myAccount?.hasSell, isSniping]);
 
     if (!myAccount) return null;
     return (
@@ -78,8 +74,22 @@ export default function Sell() {
                 )}
                 <CalculateAmount />
             </div>
-            <button onClick={() => sell()}>Sell {boolsTransaction.isSell && <Spinner />} </button>
-            <button onClick={() => simulate()}>Simulate Sell</button>
+            <div className="items">
+                <h4>Sell</h4>
+                <button disabled={disabled} className="button-sell" onClick={() => sell(100)}>
+                    100%
+                </button>
+                <button disabled={disabled} className="button-sell" onClick={() => sell(75)}>
+                    75%
+                </button>
+                <button disabled={disabled} className="button-sell" onClick={() => sell(50)}>
+                    50%
+                </button>
+                <button disabled={disabled} className="button-sell" onClick={() => sell(25)}>
+                    25%
+                </button>
+                {boolsTransaction.isSell && <Spinner />}
+            </div>
         </div>
     );
 }

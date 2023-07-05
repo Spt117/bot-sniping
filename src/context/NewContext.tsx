@@ -22,7 +22,6 @@ type Action =
     | { type: "SET_BOOL_TRANSACTIONS"; payload: boolean }
     | { type: "SET_DATA_ERC20"; payload: IERC20 | null }
     | { type: "SET_IS_SNIPING"; payload: boolean }
-    | { type: "SET_RESULT_SNIPE"; payload: any[] }
     | { type: "SET_DATA_ACCOUNT"; payload: IDataAccount[] }
     | { type: "SET_IS_SELLING"; payload: boolean }
     | { type: "SET_PROVIDER"; payload: ethers.WebSocketProvider | ethers.JsonRpcProvider };
@@ -93,10 +92,6 @@ export const MyStateProvider = ({ children }: MyStateProviderProps) => {
         dispatch({ type: "SET_IS_SNIPING", payload: value });
     };
 
-    const setResultSnipe = (value: any[]) => {
-        dispatch({ type: "SET_RESULT_SNIPE", payload: value });
-    };
-
     const setDataAccount = (value: IDataAccount[]) => {
         dispatch({ type: "SET_DATA_ACCOUNT", payload: value });
     };
@@ -124,7 +119,6 @@ export const MyStateProvider = ({ children }: MyStateProviderProps) => {
             setBoolTransactions,
             setDataERC20,
             setIsSniping,
-            setResultSnipe,
             setDataAccount,
             setIsSelling,
             setProvider,

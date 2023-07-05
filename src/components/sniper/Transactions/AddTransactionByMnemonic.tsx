@@ -28,7 +28,7 @@ export default function AddTransactionByMnemonic() {
             newTransaction.private = accounts[i].private;
             const dataAccount: IDataAccount = {
                 data: newTransaction,
-                methods: new GetTransaction(account, paramsSniper, provider!),
+                methods: new GetTransaction(account, paramsSniper, provider),
                 balance: 0,
                 approved: false,
                 hasBuy: false,

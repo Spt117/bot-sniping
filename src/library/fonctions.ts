@@ -87,19 +87,23 @@ export function majDataAccount(
     setter: Function,
     type?: "hasBuy" | "hasSell" | "approved",
     transaction?: TransactionReceipt[],
-    amount?: number
+    amount?: number,
+    percent?: number
 ) {
     const newDataAccounts = [...dataAccounts];
     const index = newDataAccounts.findIndex((e) => e.data.public === account.data.public);
-    if (type) newDataAccounts[index][type] = true;
     if (type === "hasBuy" && transaction) {
         const dataTransaction = getTransactions(transaction);
         newDataAccounts[index].resultBuy = [...newDataAccounts[index].resultBuy, ...dataTransaction];
+        newDataAccounts[index].hasBuy = true;
+        newDataAccounts[index].hasSell = false;
     }
     if (type === "hasSell" && transaction) {
+        if (percent === 100) newDataAccounts[index].hasSell = true;
         const dataTransaction = getTransactions(transaction);
         newDataAccounts[index].resultSell = [...newDataAccounts[index].resultSell, ...dataTransaction];
     }
+    if (type === "approved") newDataAccounts[index].approved = true;
     if (amount) newDataAccounts[index].amountSpendETH = amount;
     setter(newDataAccounts);
 }
@@ -109,38 +113,41 @@ function getTransactions(transactions: TransactionReceipt[]) {
     let newBuys: ITransactionResult[] = [];
 
     for (let i = 0; i < transactions.length; i++) {
-        const transactionFees = transactions[i].gasUsed * transactions[i].gasPrice;
-        transactions[i].logs.forEach((log) => {
-            const logCopy = { ...log, topics: [...log.topics] };
-            const parsedLog = iface.parseLog(logCopy);
+        const transactionFees = getTransactionFees(transactions[i]);
 
-            if (transactions[i].status === 0) {
-                newBuys.push({
-                    hash: transactions[i].hash,
-                    amount0in: 0,
-                    amount0out: 0,
-                    amount1in: 0,
-                    amount1out: 0,
-                    transactionFees: Number(ethers.formatEther(transactionFees)),
-                });
-            } else if (parsedLog?.name === "Swap") {
-                const amount0out = ethers.formatEther(parsedLog.args.amount0Out);
-                const amount0in = ethers.formatEther(parsedLog.args.amount0In);
-                const amount1out = ethers.formatEther(parsedLog.args.amount1Out);
-                const amount1in = ethers.formatEther(parsedLog.args.amount1In);
-                const isInArray = newBuys.find((item) => item.hash === transactions[i].hash);
-                if (!isInArray) {
-                    newBuys.push({
-                        amount0in: Number(amount0in),
-                        amount0out: Number(amount0out),
-                        amount1in: Number(amount1in),
-                        amount1out: Number(amount1out),
-                        hash: transactions[i].hash,
-                        transactionFees: Number(ethers.formatEther(transactionFees)),
-                    });
+        if (transactions[i].status === 0) {
+            newBuys.push({
+                hash: transactions[i].hash,
+                amount0in: 0,
+                amount0out: 0,
+                amount1in: 0,
+                amount1out: 0,
+                transactionFees: transactionFees,
+            });
+        } else {
+            transactions[i].logs.forEach((log) => {
+                const logCopy = { ...log, topics: [...log.topics] };
+                const parsedLog = iface.parseLog(logCopy);
+
+                if (parsedLog?.name === "Swap") {
+                    const amount0out = ethers.formatEther(parsedLog.args.amount0Out);
+                    const amount0in = ethers.formatEther(parsedLog.args.amount0In);
+                    const amount1out = ethers.formatEther(parsedLog.args.amount1Out);
+                    const amount1in = ethers.formatEther(parsedLog.args.amount1In);
+                    const isInArray = newBuys.find((item) => item.hash === transactions[i].hash);
+                    if (!isInArray) {
+                        newBuys.push({
+                            amount0in: Number(amount0in),
+                            amount0out: Number(amount0out),
+                            amount1in: Number(amount1in),
+                            amount1out: Number(amount1out),
+                            hash: transactions[i].hash,
+                            transactionFees: transactionFees,
+                        });
+                    }
                 }
-            }
-        });
+            });
+        }
     }
     return newBuys;
 }
@@ -149,12 +156,6 @@ export function getNot0(amount1: number, amount2: number) {
     return amount1 > 0 ? amount1 : amount2;
 }
 
-// function getTransactionCost() {
-//     let result = 0;
-//     for (let i = 0; i < myAccount!.resultBuy.length; i++) {
-//         const transaction = myAccount?.resultBuy[i];
-//         const cost = transaction!.gasPrice * transaction!.gasUsed;
-//         result += Number(ethers.formatEther(cost));
-//     }
-//     console.log(`Frais de transaction : ${result.toFixed(4)} ${paramsSniper.blockchain.symbol}`);
-// }
+function getTransactionFees(transaction: TransactionReceipt) {
+    return Number(ethers.formatEther(transaction.gasUsed * transaction.gasPrice));
+}

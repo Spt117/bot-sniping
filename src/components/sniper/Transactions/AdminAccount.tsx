@@ -19,7 +19,7 @@ export default function AdminAccount() {
         const account1: Keys = { public: "0x17CE990896154e4312a8970EF0Ef0d909A51296a", private: process.env.private1! };
         const dataAccount1: IDataAccount = {
             data: { ...paramTransaction },
-            methods: new GetTransaction(account1, paramsSniper, provider!),
+            methods: new GetTransaction(account1, paramsSniper, provider),
             balance: 0,
             approved: false,
             hasBuy: false,
@@ -32,7 +32,7 @@ export default function AdminAccount() {
         // const account2: Keys = { public: "0x14Bdb366654600B81d13256b9dae08C109Fb1229", private: process.env.private2! };
         // const dataAccount2: IDataAccount = {
         //     data: { ...paramTransaction },
-        //     methods: new GetTransaction(account2, paramsSniper, provider!),
+        //     methods: new GetTransaction(account2, paramsSniper, provider),
         //     balance: 0,
         //     approved: false,
         //     hasBuy: false,
