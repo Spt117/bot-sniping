@@ -12,18 +12,22 @@ export default function CalculateAmount() {
     const intervalRef = useRef<NodeJS.Timeout>(); // Nous utilisons useRef pour stocker l'ID de l'intervalle
 
     async function calcul() {
-        if (myAccount && dataERC20 && !myAccount?.hasSell) {
-            const amount = await calculAmountOut(myAccount, dataERC20, myAccount.balance);
-            const newDataAccounts = [...dataAccounts];
-            const index = newDataAccounts.findIndex((e) => e.data.public === myAccount.data.public);
-            newDataAccounts[index].amountCalculate = amount;
-            const blockNumber = await provider.getBlockNumber();
-            setBlock(blockNumber);
-            setDataAccount(newDataAccounts);
-        }
-        if (myAccount?.hasSell) {
-            clearInterval(intervalRef.current);
-            console.log("Clear calcul");
+        try {
+            if (myAccount && dataERC20 && !myAccount?.hasSell) {
+                const amount = await calculAmountOut(myAccount, dataERC20, myAccount.balance);
+                const newDataAccounts = [...dataAccounts];
+                const index = newDataAccounts.findIndex((e) => e.data.public === myAccount.data.public);
+                if (amount) newDataAccounts[index].amountCalculate = amount;
+                const blockNumber = await provider.getBlockNumber();
+                setBlock(blockNumber);
+                setDataAccount(newDataAccounts);
+            }
+            if (myAccount?.hasSell) {
+                clearInterval(intervalRef.current);
+                console.log("Clear calcul");
+            }
+        } catch (e) {
+            console.log(e);
         }
     }
 

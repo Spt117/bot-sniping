@@ -140,38 +140,46 @@ export async function getPaire(dataAccount: IDataAccount, tokenAdress: string) {
         AbiUniswapV2Factory.abi,
         dataAccount.methods.getWallet()
     );
-
-    const pair: string = await factoryContract.getPair(
-        tokenAdress,
-        dataAccount.methods.blockchain.blockchain.wrappedAddress
-    );
-    return pair;
+    try {
+        const pair: string = await factoryContract.getPair(
+            tokenAdress,
+            dataAccount.methods.blockchain.blockchain.wrappedAddress
+        );
+        return pair;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 export async function calculAmountOut(dataAccount: IDataAccount, dataERC20: IERC20, amount: number) {
-    // Remplacez par l'adresse de contrat de votre paire de tokens
-    const pairAddress = await getPaire(dataAccount, dataERC20.address);
+    try {
+        // Remplacez par l'adresse de contrat de votre paire de tokens
+        const pairAddress = await getPaire(dataAccount, dataERC20.address);
 
-    // Créez une instance du contrat de la paire de tokens
-    const pairAbi = [
-        "function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)",
-    ];
-    const pairContract = new ethers.Contract(pairAddress, pairAbi, dataAccount.methods.getWallet());
+        // Créez une instance du contrat de la paire de tokens
+        const pairAbi = [
+            "function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)",
+        ];
+        if (pairAddress) {
+            const pairContract = new ethers.Contract(pairAddress, pairAbi, dataAccount.methods.getWallet());
 
-    // Obtenez les réserves de la paire de tokens
-    const reserves = await pairContract.getReserves();
-    const inputReserve = reserves[0]; // Réserve de token
-    const outputReserve = reserves[1]; // Réserve de WETH
+            // Obtenez les réserves de la paire de tokens
+            const reserves = await pairContract.getReserves();
+            const inputReserve = reserves[0]; // Réserve de token
+            const outputReserve = reserves[1]; // Réserve de WETH
 
-    // Calculez le montant de sortie pour un swap de amount token vers WETH
-    const inputAmount = ethers.parseUnits(amount.toString(), dataERC20.decimals);
-    const inputAmountWithFee = inputAmount * BigInt(997);
-    const numerator = inputAmountWithFee * BigInt(outputReserve);
-    const denominator = inputReserve * BigInt(1000) + BigInt(inputAmountWithFee);
-    const outputAmount = numerator / BigInt(denominator);
-    return Number(ethers.formatEther(outputAmount));
+            // Calculez le montant de sortie pour un swap de amount token vers WETH
+            const inputAmount = ethers.parseUnits(amount.toString(), dataERC20.decimals);
+            const inputAmountWithFee = inputAmount * BigInt(997);
+            const numerator = inputAmountWithFee * BigInt(outputReserve);
+            const denominator = inputReserve * BigInt(1000) + BigInt(inputAmountWithFee);
+            const outputAmount = numerator / BigInt(denominator);
+            return Number(ethers.formatEther(outputAmount));
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
-
 export async function simulateSwapTokensForETHOnce(dataAccount: IDataAccount, tokenAdress: string, amount: bigint) {
     const wallet = dataAccount.methods.getWallet();
     const UniswapRouterV2Contract = new ethers.Contract(
