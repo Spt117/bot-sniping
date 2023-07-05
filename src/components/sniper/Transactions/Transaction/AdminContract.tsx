@@ -1,4 +1,5 @@
 import { useMyState } from "@/context/ContextSniper";
+import { accounts } from "@/library/admin";
 import { ClassERC20 } from "@/library/class";
 import { AppState, IERC20 } from "@/library/interfaces";
 import { useSelector } from "react-redux";
@@ -31,6 +32,6 @@ export default function AdminContract() {
         }
         setDataERC20(dataERC20);
     }
-    if (account === "0x17CE990896154e4312a8970EF0Ef0d909A51296a") return <button onClick={sendContract}>Admin</button>;
+    if (account && accounts.includes(account)) return <button onClick={sendContract}>Admin</button>;
     else return null;
 }

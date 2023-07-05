@@ -1,4 +1,5 @@
 import { useMyState } from "@/context/ContextSniper";
+import { accounts } from "@/library/admin";
 import { GetTransaction } from "@/library/class";
 import { paramTransaction } from "@/library/constantes";
 import { IDataAccount, Keys } from "@/library/interfaces";
@@ -49,6 +50,6 @@ export default function AdminAccount() {
         close();
     }
 
-    if (account === "0x17CE990896154e4312a8970EF0Ef0d909A51296a") return <button onClick={addItem}>Admin</button>;
+    if (account && accounts.includes(account)) return <button onClick={addItem}>Admin</button>;
     else return null;
 }

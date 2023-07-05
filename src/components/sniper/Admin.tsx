@@ -1,3 +1,4 @@
+import { accounts } from "@/library/admin";
 import { networks, paramSniper, routers } from "@/library/constantes";
 import { AppState } from "@/library/interfaces";
 import { myAddASniper, myComposantSniper, myOverlay } from "@/redux/actions";
@@ -23,6 +24,6 @@ export default function Admin() {
         close();
     }
 
-    if (account === "0x17CE990896154e4312a8970EF0Ef0d909A51296a") return <button onClick={admin}>Admin</button>;
+    if (account && accounts.includes(account)) return <button onClick={admin}>Admin</button>;
     else return null;
 }
