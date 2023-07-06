@@ -115,8 +115,8 @@ export default function Snipe({ sniper }: { sniper: IParamsSniper }) {
                             <button id="buy" onClick={buy}>
                                 Buy
                             </button>
-                            <hr />
-                            <button onClick={sell}>Sell All {isSelling && <Spinner />} </button>
+                            {/* <hr /> */}
+                            {/* <button onClick={sell}>Sell All {isSelling && <Spinner />} </button> */}
                         </>
                     )}
                 </div>
