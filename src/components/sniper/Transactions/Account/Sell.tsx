@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import CalculateAmount from "./CalculateAmount";
 import { useEffect, useState } from "react";
 import ButtonSell from "./ButtonSell";
+import StopLoss from "./StopLoss";
+import AutoSell from "./AutoSell";
 
 export default function Sell() {
     const { myAccount, myERC20, boolsTransaction, setBoolsTransaction } = useMyTransaction();
@@ -87,6 +89,8 @@ export default function Sell() {
                 <ButtonSell sell={sell} amount={75} />
                 <ButtonSell sell={sell} amount={50} />
                 <ButtonSell sell={sell} amount={25} />
+                <AutoSell sell={sell} />
+                <StopLoss sell={sell} />
             </div>
         </div>
     );
