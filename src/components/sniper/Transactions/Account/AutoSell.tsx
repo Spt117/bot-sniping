@@ -7,8 +7,8 @@ export default function AutoSell({ sell }: { sell: (amount: number) => void }) {
     const [bool, setBool] = useState(false);
 
     async function sellWithAutoSell() {
-        if (!myAccount?.amountCalculate) return null;
-        if (myAccount?.amountSpendETH * autoSell <= myAccount?.amountCalculate) {
+        if (!myAccount) return null;
+        if (myAccount.amountSpendETH * autoSell <= myAccount.amountCalculate) {
             sell(100);
         }
     }

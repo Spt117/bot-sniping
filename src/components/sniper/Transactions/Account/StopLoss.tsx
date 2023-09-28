@@ -7,8 +7,8 @@ export default function StopLoss({ sell }: { sell: (amount: number) => void }) {
     const [bool, setBool] = useState(false);
 
     async function sellWithStopLoss() {
-        if (!myAccount?.amountCalculate) return null;
-        if ((myAccount?.amountSpendETH * (100 - loss)) / 100 > myAccount?.amountCalculate) {
+        if (!myAccount) return null;
+        if ((myAccount.amountSpendETH * (100 - loss)) / 100 > myAccount.amountCalculate) {
             sell(100);
         }
     }
