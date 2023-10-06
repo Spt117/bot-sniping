@@ -11,7 +11,7 @@ export default function Account() {
     useEffect(() => {
         getBalance();
         getSymbol();
-    }, [myAccount?.resultBuy.length, myAccount?.resultSell.length, dataERC20]);
+    }, [myAccount?.resultBuy.length, myAccount?.resultSell.length, dataERC20, myAccount?.data.amountIsToken]);
 
     function getSymbol() {
         if (myAccount?.data.amountIsToken && dataERC20) {
